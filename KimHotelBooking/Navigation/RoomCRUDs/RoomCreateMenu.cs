@@ -3,6 +3,7 @@ using KimHotelBooking.Models;
 using KimHotelBooking.Service;
 using KimHotelBooking.Tools;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace KimHotelBooking.Navigation.RoomCRUDs
 {
@@ -31,6 +32,8 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
             switch (createSelectedIndex)
             {
                 case 0: // Save changes.
+                    CheckCorrectBedsType(Room);
+                    CheckCorrectBedsSquareMeters(Room);
                     var createNewRoom = new RoomService(dbContext);
                     createNewRoom.Create(Room);
 
@@ -190,6 +193,35 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
             }
 
             return beds;
+        }
+
+        public static void CheckCorrectBedsType(Room room)
+        {
+            if (room.Type == "Single" && room.Beds > 1)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\nDu kan inte ha mer än 1 säng i 'Single' rum.");
+                Console.ResetColor();
+                Utility.WaitForKeyPress();
+            }
+        }
+
+        public static void CheckCorrectBedsSquareMeters(Room room)
+        {
+            if (room.SquareMeters < 40 && room.Beds == 3)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\nDu kan inte ha mer än 2 sängar under 40 m2.");
+                Console.ResetColor();
+                Utility.WaitForKeyPress();
+            }
+            else if (room.SquareMeters < 30 && room.Beds == 2)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\nDu kan inte ha mer än 1 säng under 30 m2.");
+                Console.ResetColor();
+                Utility.WaitForKeyPress();
+            }
         }
 
         public static void TEST(ApplicationDbContext dbContext)

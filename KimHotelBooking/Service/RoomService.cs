@@ -16,6 +16,7 @@ namespace KimHotelBooking.Service
         //{
         //    Room = room;
         //}
+
         // Create Room
         public RoomService(ApplicationDbContext context)
         {

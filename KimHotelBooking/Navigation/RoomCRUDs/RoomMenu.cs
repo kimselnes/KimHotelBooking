@@ -33,6 +33,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     RoomCreateMenu.Run(dbContext);
                     break;
                 case 1:
+                    RoomReadMenu.Run(dbContext);
                     // Show rooms.
                     break;
                 case 2:

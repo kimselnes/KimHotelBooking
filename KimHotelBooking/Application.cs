@@ -34,11 +34,11 @@ namespace KimHotelBooking
 
             using var dbContext = buildApp.BuildApp();
 
-            using (dbContext)
-            {
-                var dataInitiaizer = new DataInitializer();
-                dataInitiaizer.MigrateAndSeed(dbContext);
-            }
+            //using (dbContext)
+            //{
+            //    var dataInitiaizer = new DataInitializer();
+            //    dataInitiaizer.MigrateAndSeed(dbContext);
+            //}
 
 
             MainMenu.Run(dbContext);

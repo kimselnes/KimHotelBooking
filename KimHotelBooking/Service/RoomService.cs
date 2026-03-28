@@ -14,12 +14,12 @@ namespace KimHotelBooking.Service
         //    Room = room;
         //}
 
-        // Create Room
         public RoomService(ApplicationDbContext context)
         {
             DbContext = context;
         }
 
+        // Create Room
         public void Create(Room room)
         {
             var price = DeterminePricePerNight(room);

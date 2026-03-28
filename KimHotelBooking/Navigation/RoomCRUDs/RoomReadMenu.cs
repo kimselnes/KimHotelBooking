@@ -15,17 +15,30 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 
         public void Run()
         {
+            //Console.WriteLine("Här är alla rum i hotellet.");
+
+            //foreach (var room in DbContext.Room.Select(r => r))
+            //{
+            //    Console.WriteLine($"{room.Type} rum\n" +
+            //        $"{room.SquareMeters} kvadratmeter\n" +
+            //        $"{room.Beds} sängar");
+            //    Console.WriteLine("- - - - - - - - - - - - - - -");
+            //}
+
+            //Utility.WaitForKeyPress();
+        }
+
+        public void ReadAllRooms()
+        {
             Console.WriteLine("Här är alla rum i hotellet.");
 
             foreach (var room in DbContext.Room.Select(r => r))
             {
-                Console.WriteLine($"{room.Type} rum\n" +
+                Console.WriteLine($"{room.Type}-rum\n" +
                     $"{room.SquareMeters} kvadratmeter\n" +
                     $"{room.Beds} sängar");
-                Console.WriteLine("- - - - - - - - - - - - - - -");
+                Console.WriteLine("\n- - - - - - - - - - - - - - -\n");
             }
-
-            Utility.WaitForKeyPress();
         }
     }
 }

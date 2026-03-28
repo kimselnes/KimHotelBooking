@@ -38,7 +38,8 @@ namespace KimHotelBooking.Navigation
                     break;
                 case 1:
                     // CRUD rooms.
-                    //RoomMenu.Run(dbContext);
+                    var roomMenu = new RoomMenu(DbContext);
+                    roomMenu.Run();
                     break;
                 case 2:
                     // CRUD customers.
@@ -52,9 +53,11 @@ namespace KimHotelBooking.Navigation
                     break;
                 case 5: // TA BORT EFTER ATT APPEN ÄR KLAR!!!
                     // Test
-                    //RoomCreateMenu.Run(dbContext);
-                    var roomReadMenu = new RoomReadMenu(DbContext);
-                    roomReadMenu.Run();
+                    //var roomReadMenu = new RoomReadMenu(DbContext);
+                    //roomReadMenu.Run();
+                    // - - - - - -  - - - - - - 
+                    var roomCreateMenu = new RoomCreateMenu(DbContext);
+                    roomCreateMenu.Run();
                     break;
             }
 

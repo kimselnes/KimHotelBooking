@@ -10,12 +10,14 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
     public class RoomCreateMenu
     {
         public static Room Room { get; set; } = new Room();
-        //public ApplicationDbContext DbContext { get; set; }
+        public ApplicationDbContext DbContext { get; set; }
+        public RoomCreateMenu(ApplicationDbContext context)
+        {
+            DbContext = context;
+        }
 
-        public static void Run(ApplicationDbContext dbContext)
-        {            
-            //var newRoom = new Room();
-
+        public void Run()
+        { 
             var createPrompt = "Skapa nytt rum";
             List<string> createOptions =
             [
@@ -34,13 +36,14 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                 case 0: // Save changes.
                     CheckCorrectBedsType(Room);
                     CheckCorrectBedsSquareMeters(Room);
-                    var createNewRoom = new RoomService(dbContext);
+                    var createNewRoom = new RoomService(DbContext);
                     createNewRoom.Create(Room);
 
                     break;
 
                 case 1: // Go back.
-                    RoomMenu.Run(dbContext);
+                    var roomMenu = new RoomMenu(DbContext);
+                    roomMenu.Run();
                     break;
 
                 case 2: // Type
@@ -51,7 +54,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     //newRoom.Type = SetType();
                     // - - - - - - - - - - - -
                     Room.Type = SetType();
-                    Run(dbContext);
+                    Run();
                     break;
 
                 case 3: // SquareMeter
@@ -61,7 +64,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     // - - - - - - - - - - - -
                     Room.SquareMeters = SetSquareMeters();
 
-                    Run(dbContext);
+                    Run();
                     break;
 
                 case 4: // Beds
@@ -71,7 +74,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     // - - - - - - - - - - - -
                     Room.Beds = SetBeds();
 
-                    Run(dbContext);
+                    Run();
                     break;
 
             }
@@ -224,13 +227,14 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
             }
         }
 
-        public static void TEST(ApplicationDbContext dbContext)
+        public void TEST()
         {
             Room.Type = "Single";
             Room.SquareMeters = 22;
             Room.Beds = 1;
 
-            Run(dbContext);
+            var roomCreateMenu = new RoomCreateMenu(DbContext);
+            roomCreateMenu.Run();
         }
     }
 }

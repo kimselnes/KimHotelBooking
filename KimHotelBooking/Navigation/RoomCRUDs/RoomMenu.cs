@@ -1,16 +1,18 @@
-﻿using Azure.Core;
-using KimHotelBooking.Data;
+﻿using KimHotelBooking.Data;
 using KimHotelBooking.Tools;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace KimHotelBooking.Navigation.RoomCRUDs
 {
-    public static class RoomMenu
+    public class RoomMenu
     {
-        public static void Run(ApplicationDbContext dbContext)
+        public ApplicationDbContext DbContext { get; set; }
+
+        public RoomMenu(ApplicationDbContext context)
+        {
+            DbContext = context;
+        }
+
+        public void Run()
         {
             var prompt = "Hantera rum";
 
@@ -28,27 +30,26 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 
             switch (selectedIndex)
             {
-                case 0:
-                    // Create room.
-                    RoomCreateMenu.Run(dbContext);
+                case 0: // Create room.
+                    var roomCreateMenu = new RoomCreateMenu(DbContext);
+                    roomCreateMenu.Run();
                     break;
-                case 1:
-                    //RoomReadMenu.Run(dbContext);
-                    // Show rooms.
+
+                case 1: // Show rooms.
+                    var roomReadMenu = new RoomReadMenu(DbContext);
+                    roomReadMenu.ReadAllRooms();
                     break;
-                case 2:
-                    // Update room.
+
+                case 2: // Update room.
                     break;
-                case 3:
-                    // Delete room.
+
+                case 3: // Delete room.
                     break;
-                case 4:
-                    // Go back.
+
+                case 4: // Go back.
                     //MainMenu.Run(dbContext);
                     break;
             }
-
-
         }
     }
 }

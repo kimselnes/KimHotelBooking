@@ -1,17 +1,23 @@
 ﻿using KimHotelBooking.Data;
-using KimHotelBooking.Models;
 using KimHotelBooking.Tools;
 
 namespace KimHotelBooking.Navigation.RoomCRUDs
 {
     public class RoomReadMenu
     {
-        public static Room Room { get; set; } = new Room();
-        public static void Run(ApplicationDbContext context)
+        //public static Room Room { get; set; } = new Room();
+        public ApplicationDbContext DbContext { get; set; }
+
+        public RoomReadMenu(ApplicationDbContext context)
+        {
+            DbContext = context;
+        }
+
+        public void Run()
         {
             Console.WriteLine("Här är alla rum i hotellet.");
 
-            foreach (var room in context.Room.Select(r => r))
+            foreach (var room in DbContext.Room.Select(r => r))
             {
                 Console.WriteLine($"{room.Type} rum\n" +
                     $"{room.SquareMeters} kvadratmeter\n" +

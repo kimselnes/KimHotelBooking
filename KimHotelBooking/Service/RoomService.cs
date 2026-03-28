@@ -1,8 +1,5 @@
 ﻿using KimHotelBooking.Data;
 using KimHotelBooking.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace KimHotelBooking.Service
 {

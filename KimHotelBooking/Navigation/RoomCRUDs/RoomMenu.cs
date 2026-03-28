@@ -33,7 +33,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     RoomCreateMenu.Run(dbContext);
                     break;
                 case 1:
-                    RoomReadMenu.Run(dbContext);
+                    //RoomReadMenu.Run(dbContext);
                     // Show rooms.
                     break;
                 case 2:
@@ -44,7 +44,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     break;
                 case 4:
                     // Go back.
-                    MainMenu.Run(dbContext);
+                    //MainMenu.Run(dbContext);
                     break;
             }
 

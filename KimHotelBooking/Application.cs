@@ -40,8 +40,11 @@ namespace KimHotelBooking
             //    dataInitiaizer.MigrateAndSeed(dbContext);
             //}
 
+            var dataInitiaizer = new DataInitializer();
+            dataInitiaizer.MigrateAndSeed(dbContext);
 
-            MainMenu.Run(dbContext);
+            var mainMenu = new MainMenu(dbContext);
+            mainMenu.Run();
 
 
 

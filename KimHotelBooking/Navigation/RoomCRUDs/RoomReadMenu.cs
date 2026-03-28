@@ -1,10 +1,6 @@
 ﻿using KimHotelBooking.Data;
 using KimHotelBooking.Models;
 using KimHotelBooking.Tools;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace KimHotelBooking.Navigation.RoomCRUDs
 {
@@ -15,7 +11,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
         {
             Console.WriteLine("Här är alla rum i hotellet.");
 
-            foreach (var room in context.Room.Include(r => r))
+            foreach (var room in context.Room.Select(r => r))
             {
                 Console.WriteLine($"{room.Type} rum\n" +
                     $"{room.SquareMeters} kvadratmeter\n" +

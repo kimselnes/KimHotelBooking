@@ -41,6 +41,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     break;
 
                 case 2: // Update room.
+
                     break;
 
                 case 3: // Delete room.

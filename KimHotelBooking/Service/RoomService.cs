@@ -37,6 +37,27 @@ namespace KimHotelBooking.Service
             DbContext.SaveChanges();
         }
 
+        // Update Room
+        public void Update(Room room)
+        {
+            var price = DeterminePricePerNight(room);
+
+
+
+
+
+
+            //DbContext.Room.Update(new Room
+            //{
+            //    Type = room.Type,
+            //    SquareMeters = room.SquareMeters,
+            //    Beds = room.Beds,
+            //    isAvailable = true,
+            //    isActive = 1,
+            //    PricePerNight = price
+            //});
+        }
+
         public decimal DeterminePricePerNight(Room room)
         {
             var pricePerNight = 0m;

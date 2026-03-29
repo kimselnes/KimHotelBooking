@@ -1,0 +1,153 @@
+﻿using KimHotelBooking.Data;
+using KimHotelBooking.Models;
+using KimHotelBooking.Service;
+using KimHotelBooking.Tools;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace KimHotelBooking.Navigation.RoomCRUDs
+{
+    public class RoomUpdateMenu
+    {
+        public ApplicationDbContext DbContext { get; set; }
+        public static Room Room { get; set; } = new Room();
+
+        public RoomUpdateMenu(ApplicationDbContext context)
+        {
+            DbContext = context;
+        }
+
+        public void Run()
+        {
+            List<Room> roomsList = AllRoomsList();
+            var updateOptions = RoomsListToString(roomsList);
+            //updateOptions.Insert(0, "GÅ TILLBAKA UTAN ATT SPARA");
+
+            var updatePrompt = "Ändra rum";
+
+            Menu updateMenu = new Menu(updatePrompt, updateOptions);
+            int updateSelectedMenuIndex = updateMenu.Run();
+
+
+            //var roomToUpdate = DbContext.Room.ElementAt(updateSelectedMenuIndex);
+            Room = DbContext.Room.ElementAt(updateSelectedMenuIndex);
+
+            Updating();
+
+
+            // Gå till RoomService for att ändra rummet...
+
+
+
+            /*
+            //foreach (var room in roomsList)
+            //{
+            //    var updateSelectedRoom = roomsList.IndexOf(room, updateSelectedMenuIndex);
+
+            //    if (updateSelectedRoom != null)
+            //    {
+            //        // Gå till RoomService for att ändra...
+
+            //    }
+            //}
+            */
+        }
+
+        public List<Room> AllRoomsList()
+        {
+            List<Room> rooms = new List<Room>(DbContext.Room.Select(r => r));
+
+            //foreach (var room in DbContext.Room.Select(r => r))
+            //{
+            //    rooms.Add(room);
+            //}
+
+            return rooms;
+        }
+
+        public List<string> RoomsListToString(List<Room> roomsList)
+        {
+            List<string> roomsString = new List<string>();
+            foreach (var room in roomsList)
+            {
+                var tempString = $"{room.Id}. {room.Type}-rum " +
+                    $"({room.SquareMeters} kvadrat - {room.Beds} säng/sängar)";
+
+                roomsString.Add(tempString);
+            }
+
+            return roomsString;
+        }
+
+        public void Updating()
+        {    
+            var prompt = "Vad vill du ändra";
+            List<string> options =
+            [
+                $"Type: {Room.Type}",
+                $"KvadratMeter: {Room.SquareMeters}",
+                " -SPARA-",
+                " -GÅ TILLBAKA-"
+            ];
+
+            Menu menu = new Menu(prompt, options);
+            int selectedIndex = menu.Run();
+
+            switch (selectedIndex)
+            {
+                case 0: // Update Type.
+
+                    Room.Type = RoomCreateMenu.SetType();
+                    Updating();
+
+                    /*
+                    //var typePrompt = $"Välj den nya Rumstypen.\n" +
+                    //    $"Gamla: {room.Type}";
+
+                    //List<string> typeOptions =
+                    //[
+                    //    $"Single",
+                    //    $"Double"
+                    //];
+
+                    //Menu typeMenu = new Menu(typePrompt, typeOptions);
+                    //int typeSelectedIndex = typeMenu.Run();
+
+
+                    //switch (typeSelectedIndex)
+                    //{
+                    //    case 0:
+                    //        Room.Type = "Single";
+                    //        break;
+
+                    //    case 1:
+                    //        Room.Type = "Double";
+                    //        break;
+                    //}*/
+
+                    break;
+
+                case 1: // Update SquareMeters.
+
+                    Room.SquareMeters = RoomCreateMenu.SetSquareMeters();
+                    Updating();
+                    break;
+
+                case 2: // Save Changes.
+                    RoomCreateMenu.CheckCorrectBedsType(Room);
+                    RoomCreateMenu.CheckCorrectBedsSquareMeters(Room);
+
+                    var updateRoom = new RoomService(DbContext);
+                    updateRoom.Update(Room);
+
+                    break;
+
+                case 3: // Go back.
+                    Run();
+                    break;
+            }
+        }       
+
+    }
+}

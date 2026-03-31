@@ -20,21 +20,28 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 
         public void Run()
         {
-            // BEHÖVER ETT SÄTT ATT GÅ BAKÅT I DENNA MENY.
             List<Room> roomsList = AllRoomsList();
             var updateOptions = RoomsListToString(roomsList);
             //updateOptions.Insert(0, "GÅ TILLBAKA UTAN ATT SPARA");
 
-            var updatePrompt = "Ändra rum";
+            var updatePrompt = "\u001b[1mÄndra rum\u001b[0m\n" +
+                "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)";
 
             Menu updateMenu = new Menu(updatePrompt, updateOptions);
             int updateSelectedMenuIndex = updateMenu.Run();
 
+            if (updateSelectedMenuIndex == -1)
+            {
+                var roomMenu = new RoomMenu(DbContext);
+                roomMenu.Run();
+            }
+            else
+            {
+                //var roomToUpdate = DbContext.Room.ElementAt(updateSelectedMenuIndex);
+                Room = DbContext.Room.ElementAt(updateSelectedMenuIndex);
 
-            //var roomToUpdate = DbContext.Room.ElementAt(updateSelectedMenuIndex);
-            Room = DbContext.Room.ElementAt(updateSelectedMenuIndex);
-
-            Updating();
+                Updating();
+            }
         }
 
         public void Updating()

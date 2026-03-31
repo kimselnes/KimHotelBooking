@@ -1,4 +1,5 @@
 ﻿using KimHotelBooking.Data;
+using KimHotelBooking.Navigation.CustomerCRUDs;
 using KimHotelBooking.Navigation.RoomCRUDs;
 using KimHotelBooking.Tools;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +13,16 @@ namespace KimHotelBooking.Navigation
     {
         public ApplicationDbContext DbContext { get; set; }
 
+
+        public MainMenu()
+        {            
+        }
+
         public MainMenu(ApplicationDbContext context)
         {
             DbContext = context;
         }
+
         public void Run()
         {
             var prompt = "Välkommen till Kim's Hotel";
@@ -43,6 +50,8 @@ namespace KimHotelBooking.Navigation
                     break;
                 case 2:
                     // CRUD customers.
+                    var customerMenu = new CustomerMenu();
+                    customerMenu.Run();
                     break;
                 case 3:
                     // CRUD bookings.

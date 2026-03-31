@@ -45,7 +45,8 @@ namespace KimHotelBooking.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=.;Database=Invoice12345;Trusted_Connection=True;TrustServerCertificate=true;");
+                //optionsBuilder.UseSqlServer(@"Server=.;Database=Invoice12345;Trusted_Connection=True;TrustServerCertificate=true;");
+                optionsBuilder.UseSqlServer(@"Server=.;Database=KimHotelBooking;Trusted_Connection=True;TrustServerCertificate=true;");
             }
         }
     }

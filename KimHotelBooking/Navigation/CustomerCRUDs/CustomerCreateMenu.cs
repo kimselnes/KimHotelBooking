@@ -33,8 +33,12 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
             switch (createSelectedIndex)
             {
                 case 0: // Set Name
+                    Console.WriteLine("Välj kundens namn\n");
+                    Console.Write("Namn: ");
+                    var name = Console.ReadLine();
+
                     var customerService = new CustomerService();
-                    Customer.Name = customerService.SetName();
+                    Customer.Name = customerService.SetName(name);
 
                     Run();
                     break;
@@ -48,12 +52,13 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
                     Console.ResetColor();
                     Utility.WaitForKeyPress();
 
+                    CustomerMenu.Run();
                     //var customerMenu = new CustomerMenu();
-                    customerMenu.Run();
+                    //customerMenu.Run();
                     break;
 
                 case -1: // Exit                    
-                    customerMenu.Run();
+                    CustomerMenu.Run();
                     break;
             }
         }

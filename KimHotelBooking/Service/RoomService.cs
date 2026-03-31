@@ -260,14 +260,14 @@ namespace KimHotelBooking.Service
                     active = 1;
 
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"\nDu har anget Aktiv");
+                    Console.WriteLine($"\nDu har angett Aktiv");
                     Console.ResetColor();
                     Utility.WaitForKeyPress();
                     break;
                 case 1:
                     active = 0;
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"\nDu har anget INTE aktiv");
+                    Console.WriteLine($"\nDu har angett INTE aktiv");
                     Console.ResetColor();
                     Utility.WaitForKeyPress();
                     break;

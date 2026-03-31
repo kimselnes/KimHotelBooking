@@ -8,9 +8,9 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
 {
     public class CustomerMenu // Försöker att inte använda DbContext här.
     {
-        public Customer Customer { get; set; }
+        //public Customer Customer { get; set; }
 
-        public void Run()
+        public static void Run()
         {
             var customerPrompt = "\u001b[1mHANTERA KUNDER\u001b[0m\n" +
                 "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)";

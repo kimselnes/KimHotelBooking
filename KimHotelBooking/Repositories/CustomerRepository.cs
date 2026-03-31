@@ -1,5 +1,6 @@
 ﻿using KimHotelBooking.Data;
 using KimHotelBooking.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,16 +31,48 @@ namespace KimHotelBooking.Repositories
             }
         }
 
+        public void Update(Customer newCustomer)
+        {
+            using (DbContext)
+            {
+                var customerToUpdate = DbContext.Customer.FirstOrDefault(r => r.Id == newCustomer.Id);
+
+                customerToUpdate.Name = newCustomer.Name;
+                customerToUpdate.isActive = newCustomer.isActive;
+
+                DbContext.SaveChanges();
+            }
+            //using (DbContext)
+            //{
+            //    var customerToUpdate = DbContext.Customer.Where(r => r.Id == newCustomer.Id).FirstOrDefault();
+            //    customerToUpdate = newCustomer;
+
+            //    DbContext.SaveChanges();
+            //}
+        }
+
         public List<Customer> GetAllCustomers()
         {
             List<Customer> customers = new List<Customer>();
 
             using(DbContext)
             {
-                customers = DbContext.Customer.Select(x => x).ToList();
+                customers = DbContext.Customer.OrderBy(x => x.Id).ToList();
             }
 
             return customers;
         }
+
+        public Customer GetById(int id)
+        {
+            var customer = new Customer();
+
+            using (DbContext)
+            {
+                customer = DbContext.Customer.Where(c => c.Id == id).FirstOrDefault();
+            }
+            return customer;
+        }
+
     }
 }

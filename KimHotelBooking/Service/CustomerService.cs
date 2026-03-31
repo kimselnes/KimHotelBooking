@@ -20,23 +20,64 @@ namespace KimHotelBooking.Service
         //{
         //}
 
-        public string SetName()
+        public string SetName(string name)
         {
-            //var name = "";
-
-            Console.WriteLine("Välj kundens namn\n");
-            Console.Write("Namn: ");
-            var name = Console.ReadLine();
-
-            // CHECKA LÄNGD!!!!!
-
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Du valde namnet {name}!");
-            Console.ResetColor();
-            Utility.WaitForKeyPress();
+            // CHECKA DUPLICATE!!!!!
+            if (name.Length <= 50)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"\nDu valde namnet {name}!");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\nNamnet du valde är för långt");
+                Console.ResetColor();
+            }
 
             return name;
         }
+
+        public static int SetIsActive()
+        {
+            var active = 0;
+
+            var setActivePrompt = "Ska kunden vara AKTIV eller INTE";
+            List<string> setActiveOptions =
+            [
+                "Aktiv",
+                "INTE aktiv"
+            ];
+
+            Menu setActiveMenu = new Menu(setActivePrompt, setActiveOptions);
+            int setActiveSelectedIndex = setActiveMenu.Run();
+
+            switch (setActiveSelectedIndex)
+            {
+                case 0:
+                    active = 1;
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\nDu har angett 'Aktiv'");
+                    Console.ResetColor();
+                    break;
+                case 1:
+                    active = 0;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\nDu har angett 'INTE aktiv'");
+                    Console.ResetColor();
+                    break;
+            }
+
+            return active;
+        }
+
+        //public bool CheckDuplicateName()
+        //{
+        //    var check;
+        //    return check;
+        //}
 
         public List<Customer> GetAllCustomersList()
         {
@@ -44,6 +85,32 @@ namespace KimHotelBooking.Service
             var customers = customerRep.GetAllCustomers();
 
             return customers;
+        }
+
+        public List<string> CustomerListToStrings()
+        {
+            List<string> customersStrings = new List<string>();
+
+            var customersList = GetAllCustomersList();
+
+            foreach (var customer in customersList)
+            {
+                var tempString = $"{customer.Id}. " +
+                    $"{customer.Name} " +
+                    $"[{(customer.isActive == 1 ? "\u001b[32mAKTIV\u001b[0m" : "\u001b[31mOAKTIV\u001b[0m")}]";
+
+                customersStrings.Add(tempString);
+            }
+
+            return customersStrings;
+        }
+
+        public Customer GetCustomerById(int id)
+        {
+            var customerRep = new CustomerRepository();
+            var customer = customerRep.GetById(id);
+
+            return customer;
         }
     }
 }

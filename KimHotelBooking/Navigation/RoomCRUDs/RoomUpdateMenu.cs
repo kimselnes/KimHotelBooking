@@ -110,6 +110,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 
                 case 3: // Update isActive.
                     Room.isActive = RoomService.SetRoomIsActive();
+                    Utility.WaitForKeyPress();
                     Updating();
 
                     break;
@@ -160,7 +161,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
             {
                 var tempString = $"{room.Id}. {room.Type}-rum " +
                     $"({room.SquareMeters} kvadrat - {room.Beds} säng/sängar) " +
-                    $"[{(room.isActive == 1 ? "AKTIV" : "OAKTIV")}]";
+                    $"[{(room.isActive == 1 ? "\u001b[32mAKTIV\u001b[0m" : "\u001b[31mOAKTIV\u001b[0m")}]";
 
                 roomsString.Add(tempString);
             }

@@ -50,8 +50,9 @@ namespace KimHotelBooking.Navigation
                     break;
                 case 2:
                     // CRUD customers.
-                    var customerMenu = new CustomerMenu();
-                    customerMenu.Run();
+                    //var customerMenu = new CustomerMenu();
+                    //customerMenu.Run();
+                    CustomerMenu.Run();
                     break;
                 case 3:
                     // CRUD bookings.

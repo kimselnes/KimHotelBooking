@@ -41,7 +41,8 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     break;
 
                 case 2: // Update room.
-
+                    var roomUpdateMenu = new RoomUpdateMenu(DbContext);
+                    roomUpdateMenu.Run();
                     break;
 
                 case 3: // Delete room.

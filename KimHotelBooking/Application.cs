@@ -32,7 +32,6 @@ namespace KimHotelBooking
 
             var buildApp = new Build();
 
-            using var dbContext = buildApp.BuildApp();
 
             //using (dbContext)
             //{
@@ -40,11 +39,15 @@ namespace KimHotelBooking
             //    dataInitiaizer.MigrateAndSeed(dbContext);
             //}
 
-            var dataInitiaizer = new DataInitializer();
-            dataInitiaizer.MigrateAndSeed(dbContext);
+            using (var dbContext = buildApp.BuildApp())
+            {
+                var dataInitiaizer = new DataInitializer();
+                dataInitiaizer.MigrateAndSeed(dbContext);
 
-            var mainMenu = new MainMenu(dbContext);
-            mainMenu.Run();
+                var mainMenu = new MainMenu(dbContext);
+                mainMenu.Run();
+            }
+
 
 
 

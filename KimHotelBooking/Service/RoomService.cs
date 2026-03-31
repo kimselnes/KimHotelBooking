@@ -1,5 +1,6 @@
 ﻿using KimHotelBooking.Data;
 using KimHotelBooking.Models;
+using KimHotelBooking.Tools;
 
 namespace KimHotelBooking.Service
 {
@@ -19,7 +20,7 @@ namespace KimHotelBooking.Service
             DbContext = context;
         }
 
-        // Create Room
+        // Create Room (Kanske borde vara i någon typ av Repository eller liknande.)
         public void Create(Room room)
         {
             var price = DeterminePricePerNight(room);
@@ -28,7 +29,7 @@ namespace KimHotelBooking.Service
             {
                 Type = room.Type,
                 SquareMeters = room.SquareMeters,
-                Beds = room.Beds,
+                Beds = 1,
                 isAvailable = true,
                 isActive = 1,
                 PricePerNight = price
@@ -37,15 +38,16 @@ namespace KimHotelBooking.Service
             DbContext.SaveChanges();
         }
 
-        // Update Room
-        public void Update(Room room)
+        // Update Room (Kanske borde vara i någon typ av Repository eller liknande.)
+        public void Update(Room newRoom)
         {
-            var price = DeterminePricePerNight(room);
+            var price = DeterminePricePerNight(newRoom);
+            newRoom.PricePerNight = price;
 
+            var roomToUpdate = DbContext.Room.Where(r => r.Id == newRoom.Id).FirstOrDefault();
 
-
-
-
+            roomToUpdate = newRoom;
+            DbContext.SaveChanges();
 
             //DbContext.Room.Update(new Room
             //{
@@ -57,6 +59,223 @@ namespace KimHotelBooking.Service
             //    PricePerNight = price
             //});
         }
+
+        public static string SetRoomType()
+        {
+            var type = "";
+
+            var setTypePrompt = "Ska rummet vara Single eller Double";
+            List<string> setTypeOptions =
+            [
+                "Single",
+                "Double"
+            ];
+
+            Menu setTypeMenu = new Menu(setTypePrompt, setTypeOptions);
+            int setTypeSelectedIndex = setTypeMenu.Run();
+
+            switch (setTypeSelectedIndex)
+            {
+                case 0:
+                    type = "Single";
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\nDu har anget {type}");
+                    Console.ResetColor();
+                    Utility.WaitForKeyPress();
+                    break;
+                case 1:
+                    type = "Double";
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\nDu har anget {type}");
+                    Console.ResetColor();
+                    Utility.WaitForKeyPress();
+                    break;
+            }
+
+            return type;
+        }
+
+        public static int SetRoomSquareMeters()
+        {
+            Console.WriteLine("Välj hur många kvadratmeter rummer är (20-40)m2\n");
+            Console.Write("Kvadratmeter: ");
+
+            if (!Int32.TryParse(Console.ReadLine(), out var squareMeters))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nDu angav inte ett heltal");
+                Console.ResetColor();
+                Utility.WaitForKeyPress();
+            }
+            else
+            {
+                if (squareMeters < 20 || squareMeters > 40)
+                {
+                    Console.WriteLine(
+                        "\nKvadratmeter kan bara vara mellan 20 och 40");
+                    Console.ResetColor();
+                    Utility.WaitForKeyPress();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\nDu har anget {squareMeters} kvadratmeter");
+                    Console.ResetColor();
+                    Utility.WaitForKeyPress();
+                }
+            }
+
+            return squareMeters;
+        }
+
+
+        public static int SetRoomBeds() // Måste se till att Single inte kan ange 2 eller 3.
+        {
+            var beds = 0;
+
+            var setBedPrompt = "Hur många sängar ska rummet ha (Single '1'), (Double '1-3')";
+            List<string> setBedsOptions =
+            [
+                "1",
+                "2",
+                "3"
+            ];
+
+            Menu setBedsMenu = new Menu(setBedPrompt, setBedsOptions);
+            int setBedSelectedIndex = setBedsMenu.Run();
+
+            switch (setBedSelectedIndex)
+            {
+                case 0:
+                    beds = 1;
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\nDu har anget {beds}");
+                    Console.ResetColor();
+                    Utility.WaitForKeyPress();
+                    break;
+
+                case 1:
+                    beds = 2;
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\nDu har anget {beds}");
+                    Console.ResetColor();
+                    Utility.WaitForKeyPress();
+                    break;
+
+                case 2:
+                    beds = 3;
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\nDu har anget {beds}");
+                    Console.ResetColor();
+                    Utility.WaitForKeyPress();
+                    break;
+            }
+
+            return beds;
+        }
+
+        public static bool CheckCorrectBeds(Room room)
+        {
+            if (CheckCorrectBedsType(room))
+            {
+                if (CheckCorrectBedsSquareMeters(room))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool CheckCorrectBedsType(Room room)
+        {
+            if (room.Type == "Single" && room.Beds > 1)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\nDu kan inte ha mer än 1 säng i 'Single' rum.");
+                Console.ResetColor();
+                Utility.WaitForKeyPress();
+
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public static bool CheckCorrectBedsSquareMeters(Room room)
+        {
+            if (room.SquareMeters < 40 && room.Beds == 3)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\nDu kan inte ha mer än 2 sängar under 40 m2.");
+                Console.ResetColor();
+                Utility.WaitForKeyPress();
+
+                return false;
+            }
+            else if (room.SquareMeters < 30 && room.Beds == 2)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\nDu kan inte ha mer än 1 säng under 30 m2.");
+                Console.ResetColor();
+                Utility.WaitForKeyPress();
+
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public static int SetRoomIsActive()
+        {
+            var active = 0;
+
+            var setActivePrompt = "Ska rummet vara AKTIVT eller INTE";
+            List<string> setActiveOptions =
+            [
+                "Aktiv",
+                "INTE aktiv"
+            ];
+
+            Menu setActiveMenu = new Menu(setActivePrompt, setActiveOptions);
+            int setActiveSelectedIndex = setActiveMenu.Run();
+
+            switch (setActiveSelectedIndex)
+            {
+                case 0:
+                    active = 1;
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\nDu har anget Aktiv");
+                    Console.ResetColor();
+                    Utility.WaitForKeyPress();
+                    break;
+                case 1:
+                    active = 0;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\nDu har anget INTE aktiv");
+                    Console.ResetColor();
+                    Utility.WaitForKeyPress();
+                    break;
+            }
+
+            return active;
+        }
+
 
         public decimal DeterminePricePerNight(Room room)
         {

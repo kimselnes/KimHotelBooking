@@ -20,6 +20,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 
         public void Run()
         {
+            // BEHÖVER ETT SÄTT ATT GÅ BAKÅT I DENNA MENY.
             List<Room> roomsList = AllRoomsList();
             var updateOptions = RoomsListToString(roomsList);
             //updateOptions.Insert(0, "GÅ TILLBAKA UTAN ATT SPARA");
@@ -34,59 +35,17 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
             Room = DbContext.Room.ElementAt(updateSelectedMenuIndex);
 
             Updating();
-
-
-            // Gå till RoomService for att ändra rummet...
-
-
-
-            /*
-            //foreach (var room in roomsList)
-            //{
-            //    var updateSelectedRoom = roomsList.IndexOf(room, updateSelectedMenuIndex);
-
-            //    if (updateSelectedRoom != null)
-            //    {
-            //        // Gå till RoomService for att ändra...
-
-            //    }
-            //}
-            */
-        }
-
-        public List<Room> AllRoomsList()
-        {
-            List<Room> rooms = new List<Room>(DbContext.Room.Select(r => r));
-
-            //foreach (var room in DbContext.Room.Select(r => r))
-            //{
-            //    rooms.Add(room);
-            //}
-
-            return rooms;
-        }
-
-        public List<string> RoomsListToString(List<Room> roomsList)
-        {
-            List<string> roomsString = new List<string>();
-            foreach (var room in roomsList)
-            {
-                var tempString = $"{room.Id}. {room.Type}-rum " +
-                    $"({room.SquareMeters} kvadrat - {room.Beds} säng/sängar)";
-
-                roomsString.Add(tempString);
-            }
-
-            return roomsString;
         }
 
         public void Updating()
-        {    
+        {
             var prompt = "Vad vill du ändra";
             List<string> options =
             [
                 $"Type: {Room.Type}",
                 $"KvadratMeter: {Room.SquareMeters}",
+                $"Sängar: {Room.Beds}",
+                $"Aktiv: {(Room.isActive == 1 ? "Ja" : "Nej")}",
                 " -SPARA-",
                 " -GÅ TILLBAKA-"
             ];
@@ -94,11 +53,13 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
             Menu menu = new Menu(prompt, options);
             int selectedIndex = menu.Run();
 
+            Console.WriteLine();
+
             switch (selectedIndex)
             {
                 case 0: // Update Type.
 
-                    Room.Type = RoomCreateMenu.SetType();
+                    Room.Type = RoomService.SetRoomType();
                     Updating();
 
                     /*
@@ -130,24 +91,76 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 
                 case 1: // Update SquareMeters.
 
-                    Room.SquareMeters = RoomCreateMenu.SetSquareMeters();
+                    Room.SquareMeters = RoomService.SetRoomSquareMeters();
                     Updating();
                     break;
 
-                case 2: // Save Changes.
-                    RoomCreateMenu.CheckCorrectBedsType(Room);
-                    RoomCreateMenu.CheckCorrectBedsSquareMeters(Room);
-
-                    var updateRoom = new RoomService(DbContext);
-                    updateRoom.Update(Room);
+                case 2: // Update Beds.
+                    Room.Beds = RoomService.SetRoomBeds();
+                    Updating();
 
                     break;
 
-                case 3: // Go back.
+                case 3: // Update isActive.
+                    Room.isActive = RoomService.SetRoomIsActive();
+                    Updating();
+
+                    break;
+
+                case 4: // Save Changes.
+
+                    //RoomService.CheckCorrectBeds(Room);
+                    if (RoomService.CheckCorrectBeds(Room))
+                    {
+                        var updateRoom = new RoomService(DbContext);
+                        updateRoom.Update(Room);
+
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Du har ändrat rummet!");
+                        Console.ResetColor();
+                        Utility.WaitForKeyPress();
+
+                        Updating();
+                    }
+                    else
+                    {
+                        Updating();
+                    }
+                    break;
+
+                case 5: // Go back.
                     Run();
                     break;
             }
-        }       
+        }
+
+        public List<Room> AllRoomsList()
+        {
+            List<Room> rooms = new List<Room>(DbContext.Room.Select(r => r));
+
+            //foreach (var room in DbContext.Room.Select(r => r))
+            //{
+            //    rooms.Add(room);
+            //}
+
+            return rooms;
+        }
+
+        public List<string> RoomsListToString(List<Room> roomsList)
+        {
+            List<string> roomsString = new List<string>();
+            foreach (var room in roomsList)
+            {
+                var tempString = $"{room.Id}. {room.Type}-rum " +
+                    $"({room.SquareMeters} kvadrat - {room.Beds} säng/sängar) " +
+                    $"[{(room.isActive == 1 ? "AKTIV" : "OAKTIV")}]";
+
+                roomsString.Add(tempString);
+            }
+
+            return roomsString;
+        }
+
 
     }
 }

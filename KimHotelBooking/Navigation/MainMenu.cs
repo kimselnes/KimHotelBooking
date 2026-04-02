@@ -11,19 +11,7 @@ namespace KimHotelBooking.Navigation
 {
     public class MainMenu
     {
-        public ApplicationDbContext DbContext { get; set; }
-
-
-        public MainMenu()
-        {            
-        }
-
-        public MainMenu(ApplicationDbContext context)
-        {
-            DbContext = context;
-        }
-
-        public void Run()
+        public static void Run()
         {
             var prompt = "Välkommen till Kim's Hotel";
             
@@ -45,8 +33,7 @@ namespace KimHotelBooking.Navigation
                     break;
                 case 1:
                     // CRUD rooms.
-                    var roomMenu = new RoomMenu(DbContext);
-                    roomMenu.Run();
+                    RoomMenu.Run();
                     break;
                 case 2:
                     // CRUD customers.
@@ -66,8 +53,7 @@ namespace KimHotelBooking.Navigation
                     //var roomReadMenu = new RoomReadMenu(DbContext);
                     //roomReadMenu.Run();
                     // - - - - - -  - - - - - - 
-                    var roomCreateMenu = new RoomCreateMenu(DbContext);
-                    roomCreateMenu.Run();
+                    RoomCreateMenu.Run();
                     break;
             }
 

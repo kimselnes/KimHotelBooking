@@ -10,21 +10,18 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
     public class RoomCreateMenu
     {
         public static Room Room { get; set; } = new Room();
-        public ApplicationDbContext DbContext { get; set; }
-        public RoomCreateMenu(ApplicationDbContext context)
-        {
-            DbContext = context;
-        }
 
-        public void Run()
+        public static void Run()
         {
-            var createPrompt = "Skapa nytt rum";
+            var createPrompt = "\u001b[1mSKAPA NY KUND\u001b[0m\n" +
+                "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n\n" +
+                "Ange ny kund:";
+
             List<string> createOptions =
             [
-                "SPARA NYTT RUM",
-                "GÅ TILLBAKA UTAN ATT SPARA",
                 "Single eller Double",
-                "Kvadratmeter"
+                "Kvadratmeter",
+                "SPARA NYTT RUM"
             ];
 
             Menu createMenu = new Menu(createPrompt, createOptions);
@@ -32,26 +29,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 
             switch (createSelectedIndex)
             {
-                case 0: // Save changes.
-
-                    if (RoomService.CheckCorrectBeds(Room))
-                    {
-                        var roomService = new RoomService(DbContext);
-                        roomService.Create(Room);
-                    }
-                    else
-                    {
-                        Run();
-                    }
-
-                    break;
-
-                case 1: // Go back.
-                    var roomMenu = new RoomMenu(DbContext);
-                    roomMenu.Run();
-                    break;
-
-                case 2: // Type
+                case 0: // Type
                     Console.Clear();
                     //var newType = SetType();
                     //newRoom.Type = newType;
@@ -62,7 +40,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     Run();
                     break;
 
-                case 3: // SquareMeter
+                case 1: // SquareMeter
                     Console.Clear();
 
                     //newRoom.SquareMeters = SetSquareMeters();
@@ -72,16 +50,30 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     Run();
                     break;
 
-                    //case 4: // Beds
-                    //    Console.Clear();
+                case 2: // Save changes.
 
-                    //    //newRoom.Beds = SetBeds();
-                    //    // - - - - - - - - - - - -
-                    //    Room.Beds = 1;
+                    if (RoomService.CheckCorrectBeds(Room))
+                    {
+                        var roomService = new RoomService();
+                        roomService.Create(Room);
 
-                    //    Run();
-                    //    break;
+                        Console.WriteLine("\n\u001b[32mDu har lagt till ett nytt rum!\u001b[0m");
+                        Utility.WaitForKeyPress();
 
+                        RoomMenu.Run();
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n\u001b[31mDu angett fel antal sängar!\u001b[0m");
+                        Utility.WaitForKeyPress();
+                        Run();
+                    }
+
+                    break;
+
+                case -1: // Go back.
+                    RoomMenu.Run();
+                    break;
             }
 
             // Visa values som man angett ovan
@@ -238,8 +230,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
             Room.SquareMeters = 22;
             Room.Beds = 1;
 
-            var roomCreateMenu = new RoomCreateMenu(DbContext);
-            roomCreateMenu.Run();
+            Run();
         }
     }
 }

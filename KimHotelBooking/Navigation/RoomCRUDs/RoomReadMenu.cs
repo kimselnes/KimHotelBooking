@@ -1,4 +1,6 @@
 ﻿using KimHotelBooking.Data;
+using KimHotelBooking.Models;
+using KimHotelBooking.Service;
 using KimHotelBooking.Tools;
 
 namespace KimHotelBooking.Navigation.RoomCRUDs
@@ -6,38 +8,23 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
     public class RoomReadMenu
     {
         //public static Room Room { get; set; } = new Room();
-        public ApplicationDbContext DbContext { get; set; }
 
-        public RoomReadMenu(ApplicationDbContext context)
+        public static void Run()
         {
-            DbContext = context;
-        }
+            var rooms = RoomService.GetAllRoomsList();
 
-        public void Run()
-        {
-            //Console.WriteLine("Här är alla rum i hotellet.");
+            Console.Clear();
+            Console.WriteLine("Här är alla rum i hotellet.\n");
+            Console.WriteLine("- - - - - - - - - - - - - - -");
 
-            //foreach (var room in DbContext.Room.Select(r => r))
-            //{
-            //    Console.WriteLine($"{room.Type} rum\n" +
-            //        $"{room.SquareMeters} kvadratmeter\n" +
-            //        $"{room.Beds} sängar");
-            //    Console.WriteLine("- - - - - - - - - - - - - - -");
-            //}
-
-            //Utility.WaitForKeyPress();
-        }
-
-        public void ReadAllRooms()
-        {
-            Console.WriteLine("Här är alla rum i hotellet.");
-
-            foreach (var room in DbContext.Room.Select(r => r))
+            foreach (var room in rooms)
             {
                 Console.WriteLine($"{room.Type}-rum\n" +
-                    $"{room.SquareMeters} kvadratmeter\n" +
-                    $"{room.Beds} sängar");
-                Console.WriteLine("\n- - - - - - - - - - - - - - -\n");
+                    $"Kvadrat: {room.SquareMeters}\n" +
+                    $"Sängar: {room.Beds}\n" +
+                    $"SEK per natt: {room.PricePerNight}\n" +
+                    $"Aktiv: {(room.isActive == 1 ? "\u001b[32mJa\u001b[0m" : "\u001b[31mNej\u001b[0m")}");
+                Console.WriteLine("- - - - - - - - - - - - - - -");
             }
         }
     }

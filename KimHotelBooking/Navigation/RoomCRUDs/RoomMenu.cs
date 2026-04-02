@@ -5,24 +5,17 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 {
     public class RoomMenu
     {
-        public ApplicationDbContext DbContext { get; set; }
-
-        public RoomMenu(ApplicationDbContext context)
+        public static void Run()
         {
-            DbContext = context;
-        }
-
-        public void Run()
-        {
-            var prompt = "Hantera rum";
+            var prompt = "\u001b[1mHANTERA RUM\u001b[0m\n" +
+                "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)";
 
             List<string> roomOptions =
             [
                 "Skapa nytt rum",
                 "Visa alla rum",
                 "Ändra rum",
-                "Ta bort rum",
-                "Gå tillbaka"
+                "Ta bort rum"
             ];
 
             Menu roomMenu = new Menu(prompt, roomOptions);
@@ -31,25 +24,25 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
             switch (selectedIndex)
             {
                 case 0: // Create room.
-                    var roomCreateMenu = new RoomCreateMenu(DbContext);
-                    roomCreateMenu.Run();
+                    RoomCreateMenu.Run();
                     break;
 
                 case 1: // Show rooms.
-                    var roomReadMenu = new RoomReadMenu(DbContext);
-                    roomReadMenu.ReadAllRooms();
+                    RoomReadMenu.Run();
+                    Utility.WaitForKeyPress();
+                    MainMenu.Run();
+
                     break;
 
                 case 2: // Update room.
-                    var roomUpdateMenu = new RoomUpdateMenu(DbContext);
-                    roomUpdateMenu.Run();
+                    RoomUpdateMenu.Run();
                     break;
 
                 case 3: // Delete room.
                     break;
 
-                case 4: // Go back.
-                    //MainMenu.Run(dbContext);
+                case -1: // Go back.
+                    MainMenu.Run();
                     break;
             }
         }

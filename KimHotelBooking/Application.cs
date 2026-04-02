@@ -43,12 +43,12 @@ namespace KimHotelBooking
             {
                 var dataInitiaizer = new DataInitializer();
                 dataInitiaizer.MigrateAndSeed(dbContext);
-
-                var mainMenu = new MainMenu(dbContext);
-                mainMenu.Run();
             }
 
+            //var mainMenu = new MainMenu();
+            //mainMenu.Run();
 
+            MainMenu.Run();
 
 
             Console.WriteLine("Klart!");

@@ -1,5 +1,6 @@
 ﻿using KimHotelBooking.Data;
 using KimHotelBooking.Models;
+using KimHotelBooking.Repositories;
 using KimHotelBooking.Tools;
 
 namespace KimHotelBooking.Service
@@ -7,7 +8,6 @@ namespace KimHotelBooking.Service
     // Room CRUD
     public class RoomService
     {
-        public ApplicationDbContext DbContext { get; set; }
         //public Room Room { get; set; }
 
         //public RoomService(Room room)
@@ -15,50 +15,49 @@ namespace KimHotelBooking.Service
         //    Room = room;
         //}
 
-        public RoomService(ApplicationDbContext context)
-        {
-            DbContext = context;
-        }
-
-        // Create Room (Kanske borde vara i någon typ av Repository eller liknande.)
         public void Create(Room room)
         {
-            var price = DeterminePricePerNight(room);
+            room.PricePerNight = DeterminePricePerNight(room);
 
-            DbContext.Room.Add(new Room
-            {
-                Type = room.Type,
-                SquareMeters = room.SquareMeters,
-                Beds = 1,
-                isAvailable = true,
-                isActive = 1,
-                PricePerNight = price
-            });
+            var roomRep = new RoomRepository();
+            roomRep.AddToDatabase(room);
 
-            DbContext.SaveChanges();
-        }
 
-        // Update Room (Kanske borde vara i någon typ av Repository eller liknande.)
-        public void Update(Room newRoom)
-        {
-            var price = DeterminePricePerNight(newRoom);
-            newRoom.PricePerNight = price;
+            //var price = DeterminePricePerNight(room);
 
-            var roomToUpdate = DbContext.Room.Where(r => r.Id == newRoom.Id).FirstOrDefault();
-
-            roomToUpdate = newRoom;
-            DbContext.SaveChanges();
-
-            //DbContext.Room.Update(new Room
+            //DbContext.Room.Add(new Room
             //{
             //    Type = room.Type,
             //    SquareMeters = room.SquareMeters,
-            //    Beds = room.Beds,
+            //    Beds = 1,
             //    isAvailable = true,
             //    isActive = 1,
             //    PricePerNight = price
             //});
+
+            //DbContext.SaveChanges();
         }
+
+        //public void Update(Room newRoom)
+        //{
+        //    var price = DeterminePricePerNight(newRoom);
+        //    newRoom.PricePerNight = price;
+
+        //    var roomToUpdate = DbContext.Room.Where(r => r.Id == newRoom.Id).FirstOrDefault();
+
+        //    roomToUpdate = newRoom;
+        //    DbContext.SaveChanges();
+
+        //    //DbContext.Room.Update(new Room
+        //    //{
+        //    //    Type = room.Type,
+        //    //    SquareMeters = room.SquareMeters,
+        //    //    Beds = room.Beds,
+        //    //    isAvailable = true,
+        //    //    isActive = 1,
+        //    //    PricePerNight = price
+        //    //});
+        //}
 
         public static string SetRoomType()
         {
@@ -276,6 +275,38 @@ namespace KimHotelBooking.Service
             return active;
         }
 
+        public static List<Room> GetAllRoomsList()
+        {
+            var roomRep = new RoomRepository();
+            var room = roomRep.GetAllRooms();
+
+            return room;
+        }
+
+        public static List<string> RoomsListToString()
+        {
+            List<string> roomsString = new List<string>();
+            var roomsList = GetAllRoomsList();
+
+            foreach (var room in roomsList)
+            {
+                var tempString = $"{room.Id}. {room.Type}-rum " +
+                    $"({room.SquareMeters} kvadrat - {room.Beds} säng/sängar) " +
+                    $"[{(room.isActive == 1 ? "\u001b[32mAKTIV\u001b[0m" : "\u001b[31mOAKTIV\u001b[0m")}]";
+
+                roomsString.Add(tempString);
+            }
+
+            return roomsString;
+        }
+
+        public static Room GetRoomById(int id)
+        {
+            var roomRep = new RoomRepository();
+            var room = roomRep.GetById(id);
+
+            return room;
+        }
 
         public decimal DeterminePricePerNight(Room room)
         {

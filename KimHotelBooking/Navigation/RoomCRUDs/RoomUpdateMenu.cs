@@ -1,5 +1,6 @@
 ﻿using KimHotelBooking.Data;
 using KimHotelBooking.Models;
+using KimHotelBooking.Repositories;
 using KimHotelBooking.Service;
 using KimHotelBooking.Tools;
 using System;
@@ -10,18 +11,12 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 {
     public class RoomUpdateMenu
     {
-        public ApplicationDbContext DbContext { get; set; }
         public static Room Room { get; set; } = new Room();
 
-        public RoomUpdateMenu(ApplicationDbContext context)
+        public static void Run()
         {
-            DbContext = context;
-        }
-
-        public void Run()
-        {
-            List<Room> roomsList = AllRoomsList();
-            var updateOptions = RoomsListToString(roomsList);
+            //List<Room> roomsList = RoomService.GetAllRoomsList();
+            var updateOptions = RoomService.RoomsListToString();
             //updateOptions.Insert(0, "GÅ TILLBAKA UTAN ATT SPARA");
 
             var updatePrompt = "\u001b[1mÄndra rum\u001b[0m\n" +
@@ -32,29 +27,29 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 
             if (updateSelectedMenuIndex == -1)
             {
-                var roomMenu = new RoomMenu(DbContext);
-                roomMenu.Run();
+                RoomMenu.Run();
             }
             else
             {
                 //var roomToUpdate = DbContext.Room.ElementAt(updateSelectedMenuIndex);
-                Room = DbContext.Room.ElementAt(updateSelectedMenuIndex);
+                Room = RoomService.GetRoomById(updateSelectedMenuIndex + 1);
 
                 Updating();
             }
         }
 
-        public void Updating()
+        public static void Updating()
         {
-            var prompt = "Vad vill du ändra";
+            var prompt = "\u001b[1mUPPDATERA RUM\u001b[0m\n" +
+                "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n\n" +
+                "Vad vill du ändra?";
             List<string> options =
             [
                 $"Type: {Room.Type}",
                 $"KvadratMeter: {Room.SquareMeters}",
                 $"Sängar: {Room.Beds}",
-                $"Aktiv: {(Room.isActive == 1 ? "Ja" : "Nej")}",
-                " -SPARA-",
-                " -GÅ TILLBAKA-"
+                $"Aktiv: {(Room.isActive == 1 ? "\u001b[32mJa\u001b[0m" : "\u001b[31mNej\u001b[0m")}",
+                " -SPARA-"
             ];
 
             Menu menu = new Menu(prompt, options);
@@ -104,15 +99,14 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 
                 case 2: // Update Beds.
                     Room.Beds = RoomService.SetRoomBeds();
-                    Updating();
 
+                    Updating();
                     break;
 
                 case 3: // Update isActive.
                     Room.isActive = RoomService.SetRoomIsActive();
-                    Utility.WaitForKeyPress();
+                    //Utility.WaitForKeyPress();
                     Updating();
-
                     break;
 
                 case 4: // Save Changes.
@@ -120,55 +114,28 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     //RoomService.CheckCorrectBeds(Room);
                     if (RoomService.CheckCorrectBeds(Room))
                     {
-                        var updateRoom = new RoomService(DbContext);
-                        updateRoom.Update(Room);
+                        var roomRep = new RoomRepository();
+                        roomRep.Update(Room);
 
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Du har ändrat rummet!");
                         Console.ResetColor();
                         Utility.WaitForKeyPress();
 
-                        Updating();
+                        Run();
                     }
                     else
                     {
+                        Console.WriteLine("\n\u001b[31mDu angett fel antal sängar!\u001b[0m");
+                        Utility.WaitForKeyPress();
                         Updating();
                     }
                     break;
 
-                case 5: // Go back.
+                case -1: // Go back.
                     Run();
                     break;
             }
         }
-
-        public List<Room> AllRoomsList()
-        {
-            List<Room> rooms = new List<Room>(DbContext.Room.Select(r => r));
-
-            //foreach (var room in DbContext.Room.Select(r => r))
-            //{
-            //    rooms.Add(room);
-            //}
-
-            return rooms;
-        }
-
-        public List<string> RoomsListToString(List<Room> roomsList)
-        {
-            List<string> roomsString = new List<string>();
-            foreach (var room in roomsList)
-            {
-                var tempString = $"{room.Id}. {room.Type}-rum " +
-                    $"({room.SquareMeters} kvadrat - {room.Beds} säng/sängar) " +
-                    $"[{(room.isActive == 1 ? "\u001b[32mAKTIV\u001b[0m" : "\u001b[31mOAKTIV\u001b[0m")}]";
-
-                roomsString.Add(tempString);
-            }
-
-            return roomsString;
-        }
-
-
     }
 }

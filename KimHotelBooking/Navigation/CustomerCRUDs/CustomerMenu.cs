@@ -48,6 +48,8 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
                     break;
 
                 case 3: // Delete Customer
+                    var customerDeleteMenu = new CustomerDeleteMenu();
+                    customerDeleteMenu.Run();
                     break;
 
                 case -1:

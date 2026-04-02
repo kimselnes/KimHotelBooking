@@ -87,6 +87,16 @@ namespace KimHotelBooking.Service
             return customers;
         }
 
+        public List<Customer> GetAllActiveCustomersList()
+        {
+            var customerRep = new CustomerRepository();
+            var tempCustomers = customerRep.GetAllCustomers();
+
+            List<Customer> customers = tempCustomers.Where(c => c.isActive == 1).ToList();
+
+            return customers;
+        }
+
         public List<string> CustomerListToStrings()
         {
             List<string> customersStrings = new List<string>();
@@ -105,12 +115,36 @@ namespace KimHotelBooking.Service
             return customersStrings;
         }
 
+        public List<string> CustomerListToStringsOnlyActive()
+        {
+            List<string> customersStrings = new List<string>();
+
+            var customersList = GetAllCustomersList();
+
+            foreach (var customer in customersList.Where(c => c.isActive == 1))
+            {
+                var tempString = $"{customer.Id}. " +
+                    $"{customer.Name} " +
+                    $"[{(customer.isActive == 1 ? "\u001b[32mAKTIV\u001b[0m" : "\u001b[31mOAKTIV\u001b[0m")}]";
+
+                customersStrings.Add(tempString);
+            }
+
+            return customersStrings;
+        }
+
         public Customer GetCustomerById(int id)
         {
             var customerRep = new CustomerRepository();
             var customer = customerRep.GetById(id);
 
             return customer;
+        }
+
+        public void DeleteById(Customer customer)
+        {
+            var customerRep = new CustomerRepository();
+            customerRep.Delete(customer);
         }
     }
 }

@@ -8,7 +8,7 @@
             app.Run();
 
             // ÄNDRA 'Initial migration' till något bättre beskrivande
-            // När man uppdaterar strukturen på databasen.
+            // när man uppdaterar strukturen på databasen.
             // add-migration "Initial migration"
         }
     }

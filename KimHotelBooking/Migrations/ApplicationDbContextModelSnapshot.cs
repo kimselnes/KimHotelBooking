@@ -22,7 +22,7 @@ namespace KimHotelBooking.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("HotelBooking___Kim.Models.Booking", b =>
+            modelBuilder.Entity("KimHotelBooking.Models.Booking", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,10 +33,10 @@ namespace KimHotelBooking.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("EndTime")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("RoomId")
+                    b.Property<int>("RoomId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
@@ -54,7 +54,7 @@ namespace KimHotelBooking.Migrations
                     b.ToTable("Booking");
                 });
 
-            modelBuilder.Entity("HotelBooking___Kim.Models.Customer", b =>
+            modelBuilder.Entity("KimHotelBooking.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,7 +75,7 @@ namespace KimHotelBooking.Migrations
                     b.ToTable("Customer");
                 });
 
-            modelBuilder.Entity("HotelBooking___Kim.Models.Invoice", b =>
+            modelBuilder.Entity("KimHotelBooking.Models.Invoice", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -110,7 +110,7 @@ namespace KimHotelBooking.Migrations
                     b.ToTable("Invoice");
                 });
 
-            modelBuilder.Entity("HotelBooking___Kim.Models.Room", b =>
+            modelBuilder.Entity("KimHotelBooking.Models.Room", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -143,44 +143,46 @@ namespace KimHotelBooking.Migrations
                     b.ToTable("Room");
                 });
 
-            modelBuilder.Entity("HotelBooking___Kim.Models.Booking", b =>
+            modelBuilder.Entity("KimHotelBooking.Models.Booking", b =>
                 {
-                    b.HasOne("HotelBooking___Kim.Models.Customer", "Customer")
+                    b.HasOne("KimHotelBooking.Models.Customer", "Customer")
                         .WithMany("Bookings")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HotelBooking___Kim.Models.Room", null)
+                    b.HasOne("KimHotelBooking.Models.Room", null)
                         .WithMany("Bookings")
-                        .HasForeignKey("RoomId");
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("HotelBooking___Kim.Models.Invoice", b =>
+            modelBuilder.Entity("KimHotelBooking.Models.Invoice", b =>
                 {
-                    b.HasOne("HotelBooking___Kim.Models.Booking", "Booking")
+                    b.HasOne("KimHotelBooking.Models.Booking", "Booking")
                         .WithMany()
                         .HasForeignKey("BookingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HotelBooking___Kim.Models.Customer", null)
+                    b.HasOne("KimHotelBooking.Models.Customer", null)
                         .WithMany("Invoices")
                         .HasForeignKey("CustomerId");
 
                     b.Navigation("Booking");
                 });
 
-            modelBuilder.Entity("HotelBooking___Kim.Models.Customer", b =>
+            modelBuilder.Entity("KimHotelBooking.Models.Customer", b =>
                 {
                     b.Navigation("Bookings");
 
                     b.Navigation("Invoices");
                 });
 
-            modelBuilder.Entity("HotelBooking___Kim.Models.Room", b =>
+            modelBuilder.Entity("KimHotelBooking.Models.Room", b =>
                 {
                     b.Navigation("Bookings");
                 });

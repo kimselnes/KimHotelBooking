@@ -6,7 +6,7 @@ using System.Text;
 
 namespace KimHotelBooking.Repositories
 {
-    public class RoomRepository
+    public class RoomRepository : IRepository
     {
         public ApplicationDbContext DbContext { get; set; }
         public Build Build { get; set; } = new Build();
@@ -44,6 +44,18 @@ namespace KimHotelBooking.Repositories
                 roomToUpdate.SquareMeters = newRoom.SquareMeters;
                 roomToUpdate.Beds = newRoom.Beds;
                 roomToUpdate.isActive = newRoom.isActive;
+
+                DbContext.SaveChanges();
+            }
+        }
+
+        public void AddBooking(Room room, Booking booking)
+        {
+            using (DbContext)
+            {
+                var roomToUpdate = DbContext.Room.FirstOrDefault(r => r.Id == room.Id);
+
+                roomToUpdate.Bookings.Add(booking);                
 
                 DbContext.SaveChanges();
             }

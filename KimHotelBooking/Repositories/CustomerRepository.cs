@@ -7,7 +7,7 @@ using System.Text;
 
 namespace KimHotelBooking.Repositories
 {
-    public class CustomerRepository
+    public class CustomerRepository : IRepository
     {
         public ApplicationDbContext DbContext { get; set; }
         public Build Build { get; set; } = new Build();
@@ -75,6 +75,30 @@ namespace KimHotelBooking.Repositories
             return customers;
         }
 
+        public void AddBooking(Customer customer, Booking booking)
+        {
+            using (DbContext)
+            {
+                var customerToUpdate = DbContext.Customer.FirstOrDefault(c => c.Id == customer.Id);
+                customerToUpdate.Bookings.Add(booking);
+
+                DbContext.SaveChanges();
+            }
+        }
+
+        public void AddBookingInvoice(Customer customer, Booking booking, Invoice invoice)
+        {
+            using (DbContext)
+            {
+                var customerToUpdate = DbContext.Customer.FirstOrDefault(c => c.Id == customer.Id);
+
+                customerToUpdate.Bookings.Add(booking);
+                customerToUpdate.Invoices.Add(invoice);
+
+                DbContext.SaveChanges();
+            }
+        }
+
         public Customer GetById(int id)
         {
             var customer = new Customer();
@@ -83,6 +107,18 @@ namespace KimHotelBooking.Repositories
             {
                 customer = DbContext.Customer.Where(c => c.Id == id).FirstOrDefault();
             }
+            return customer;
+        }
+
+        public Customer GetByName(string name)
+        {
+            var customer = new Customer();
+
+            using (DbContext)
+            {
+                customer = DbContext.Customer.Where(c => c.Name == name).FirstOrDefault();
+            }
+
             return customer;
         }
 

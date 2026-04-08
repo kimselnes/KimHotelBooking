@@ -141,6 +141,14 @@ namespace KimHotelBooking.Service
             return customer;
         }
 
+        public Customer GetCustomerByName(string name)
+        {
+            var customerRep = new CustomerRepository();
+            var customer = customerRep.GetByName(name);
+
+            return customer;
+        }
+
         public void DeleteById(Customer customer)
         {
             var customerRep = new CustomerRepository();

@@ -300,6 +300,22 @@ namespace KimHotelBooking.Service
             return roomsString;
         }
 
+        public static List<string> RoomsListToStringForBooking(List<Room> roomsList)
+        {
+            List<string> roomsString = new List<string>();
+
+            foreach (var room in roomsList)
+            {
+                var tempString = $"{room.Type}-rum " +
+                    $"({room.SquareMeters} kvadrat) " +
+                    $"{room.PricePerNight} SEK/natt";
+
+                roomsString.Add(tempString);
+            }
+
+            return roomsString;
+        }
+
         public static Room GetRoomById(int id)
         {
             var roomRep = new RoomRepository();
@@ -329,6 +345,13 @@ namespace KimHotelBooking.Service
             pricePerNight += room.Beds * 100;
 
             return pricePerNight;
+        }
+
+        public void CheckAvailable(Booking booking)
+        {
+            var allRooms = GetAllRoomsList();
+
+            var availableRooms = allRooms.Select(r => r.Bookings);
         }
     }
 }

@@ -10,11 +10,15 @@ namespace KimHotelBooking.Models
         [Key]
         public int Id { get; set; }
 
+        public int CustomerId { get; set; }
+
+        public int RoomId { get; set; }
+
         [Required]
         public DateTime StartDate { get; set; }
 
         [Required]
-        public DateTime EndTime { get; set; }
+        public DateTime EndDate { get; set; }
 
         //public decimal TotalPrice { get; set; }
 

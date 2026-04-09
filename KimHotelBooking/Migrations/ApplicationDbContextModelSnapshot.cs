@@ -103,8 +103,6 @@ namespace KimHotelBooking.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookingId");
-
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Invoice");
@@ -145,7 +143,7 @@ namespace KimHotelBooking.Migrations
 
             modelBuilder.Entity("KimHotelBooking.Models.Booking", b =>
                 {
-                    b.HasOne("KimHotelBooking.Models.Customer", "Customer")
+                    b.HasOne("KimHotelBooking.Models.Customer", null)
                         .WithMany("Bookings")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -156,23 +154,13 @@ namespace KimHotelBooking.Migrations
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("KimHotelBooking.Models.Invoice", b =>
                 {
-                    b.HasOne("KimHotelBooking.Models.Booking", "Booking")
-                        .WithMany()
-                        .HasForeignKey("BookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("KimHotelBooking.Models.Customer", null)
                         .WithMany("Invoices")
                         .HasForeignKey("CustomerId");
-
-                    b.Navigation("Booking");
                 });
 
             modelBuilder.Entity("KimHotelBooking.Models.Customer", b =>

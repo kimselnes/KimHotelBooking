@@ -10,6 +10,8 @@ namespace KimHotelBooking.Models
         [Key]
         public int Id { get; set; }
 
+        public int BookingId { get; set; }
+
         [Required]
         public DateTime IssueDate { get; set; }
 
@@ -19,6 +21,6 @@ namespace KimHotelBooking.Models
 
         public bool isPaid { get; set; }
 
-        public Booking Booking { get; set; }
+        //public Booking Booking { get; set; }
     }
 }

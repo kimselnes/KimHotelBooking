@@ -268,7 +268,8 @@ namespace KimHotelBooking.Navigation.NewBooking
 
             // Jag behöver plocka aktuella Booking från databasen och lägga in den
             // i property:n Booking.
-            Booking = BookingService.GetBookingByRoomIdAndBookingDate(Room, Booking.StartDate);
+            //Booking = BookingService.GetBookingByRoomIdAndBookingDate(Room, Booking.StartDate);
+            Booking = BookingService.GetLastInserted();
 
             // - - - - - - - - - - - - - - - - - - - - - - - 
             // Update Room with new Booking
@@ -283,10 +284,15 @@ namespace KimHotelBooking.Navigation.NewBooking
             var roomService = new RoomService();
             Room.PricePerNight = roomService.DeterminePricePerNight(Room);
 
-            int bookingTimeLengthDays = BookingService.TimeDifference(Booking.StartDate, Booking.EndDate);
-            Invoice.TotalPrice = InvoiceService.DetermineFullInvoicePrice(Room, bookingTimeLengthDays);
-            // MÅSTE SKAPA INVOICE ORDENTLIGT HÄR NEDAN:
-            Invoice = InvoiceService.SetDatesPaidBooking(Booking);
+            //int bookingTimeLengthDays = BookingService.TimeDifference(Booking.StartDate, Booking.EndDate);
+            //Invoice.TotalPrice = InvoiceService.DetermineFullInvoicePrice(Room, bookingTimeLengthDays);
+            //// FÅR INTE MED MIG TOTALPRICE FÖR INVOICE
+            //Invoice = InvoiceService.SetDatesPaidBooking(Booking);
+
+            // De 3 kodraderna över kan jag sätta ihop i en och samma metod.
+            Invoice = InvoiceService.SetInvoiceValues(Booking, Room);
+
+            // - - - - - - - -  - - - - - - - - - - - - - - 
 
             InvoiceRepository invoiceRep = new InvoiceRepository();
             invoiceRep.Create(Invoice);

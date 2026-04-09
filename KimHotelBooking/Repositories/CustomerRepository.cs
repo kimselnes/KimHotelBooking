@@ -80,6 +80,11 @@ namespace KimHotelBooking.Repositories
             using (DbContext)
             {
                 var customerToUpdate = DbContext.Customer.FirstOrDefault(c => c.Id == customer.Id);
+                
+                if (customerToUpdate.Bookings == null)
+                {
+                    customerToUpdate.Bookings = new List<Booking>();
+                }
                 customerToUpdate.Bookings.Add(booking);
 
                 DbContext.SaveChanges();
@@ -92,7 +97,11 @@ namespace KimHotelBooking.Repositories
             {
                 var customerToUpdate = DbContext.Customer.FirstOrDefault(c => c.Id == customer.Id);
 
-                customerToUpdate.Bookings.Add(booking);
+                if (customerToUpdate.Invoices == null)
+                {
+                    customerToUpdate.Invoices = new List<Invoice>();
+                }
+                //customerToUpdate.Bookings.Add(booking);
                 customerToUpdate.Invoices.Add(invoice);
 
                 DbContext.SaveChanges();

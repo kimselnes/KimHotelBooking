@@ -24,7 +24,7 @@ namespace KimHotelBooking.Models
 
         public bool isCheckedIn { get; set; }
 
-        public Customer Customer { get; set; }
+        //public Customer Customer { get; set; }
 
     }
 }

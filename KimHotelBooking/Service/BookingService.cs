@@ -78,11 +78,19 @@ namespace KimHotelBooking.Service
         {
             booking.CustomerId = customer.Id;
             booking.RoomId = room.Id;
-            booking.Customer = customer;
+            //booking.Customer = customer;
 
             //room.Bookings.Add(booking);
 
             //customer.Bookings.Add(booking);
+
+            return booking;
+        }
+
+        public static Booking GetLastInserted()
+        {
+            var bookingRep = new BookingRepository();
+            var booking = bookingRep.GetLastInserted();
 
             return booking;
         }

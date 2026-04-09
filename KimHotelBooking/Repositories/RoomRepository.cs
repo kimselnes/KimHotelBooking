@@ -55,6 +55,11 @@ namespace KimHotelBooking.Repositories
             {
                 var roomToUpdate = DbContext.Room.FirstOrDefault(r => r.Id == room.Id);
 
+                if (roomToUpdate.Bookings == null)
+                {
+                    roomToUpdate.Bookings = new List<Booking>();
+                }
+
                 roomToUpdate.Bookings.Add(booking);                
 
                 DbContext.SaveChanges();

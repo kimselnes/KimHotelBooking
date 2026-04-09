@@ -20,13 +20,17 @@ namespace KimHotelBooking.Repositories
         {
             using (DbContext)
             {
+                // COPILOT KOD, VET INTE RIKTIGT VARFÖR ELLER VAD DEN GÖR.
+                // mark existing booking as unchanged (do not insert)
+                //DbContext.Booking.Attach(invoice.Booking);
+                // - - - - - -  - - - - - - - - - -- - - - - - -- - - - - -
                 DbContext.Invoice.Add(new Invoice
                 {
                     IssueDate = invoice.IssueDate,
                     DueDate = invoice.DueDate,
                     TotalPrice = invoice.TotalPrice,
                     isPaid = invoice.isPaid,
-                    Booking = invoice.Booking                    
+                    BookingId =  invoice.BookingId
                 });
 
                 DbContext.SaveChanges();

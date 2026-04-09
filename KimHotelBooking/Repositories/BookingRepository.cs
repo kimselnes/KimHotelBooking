@@ -54,6 +54,18 @@ namespace KimHotelBooking.Repositories
             //}
         }
 
+        public Booking GetLastInserted()
+        {
+            var booking = new Booking();
+
+            using (DbContext)
+            {
+                booking = DbContext.Booking.OrderByDescending(b => b.Id).FirstOrDefault();
+            }
+
+            return booking;
+        }
+
         public Booking GetBookingByRoomIdAndBookingDate(int roomId, DateTime startDate)
         {
             var booking = new Booking();

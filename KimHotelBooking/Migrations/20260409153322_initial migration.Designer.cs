@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KimHotelBooking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260408135654_Initial migration")]
-    partial class Initialmigration
+    [Migration("20260409153322_initial migration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,14 +39,17 @@ namespace KimHotelBooking.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsCheckedIn")
+                        .HasColumnType("bit");
+
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("isCheckedIn")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -65,13 +68,13 @@ namespace KimHotelBooking.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("isActive")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -89,20 +92,23 @@ namespace KimHotelBooking.Migrations
                     b.Property<int>("BookingId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("IssueDate")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("isPaid")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -122,6 +128,12 @@ namespace KimHotelBooking.Migrations
                     b.Property<int>("Beds")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("PricePerNight")
                         .HasColumnType("decimal(18,2)");
 
@@ -132,12 +144,6 @@ namespace KimHotelBooking.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("isActive")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("isAvailable")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -163,7 +169,9 @@ namespace KimHotelBooking.Migrations
                 {
                     b.HasOne("KimHotelBooking.Models.Customer", null)
                         .WithMany("Invoices")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("KimHotelBooking.Models.Customer", b =>

@@ -26,6 +26,7 @@ namespace KimHotelBooking.Repositories
                 // - - - - - -  - - - - - - - - - -- - - - - - -- - - - - -
                 DbContext.Invoice.Add(new Invoice
                 {
+                    CustomerId = invoice.CustomerId,
                     IssueDate = invoice.IssueDate,
                     DueDate = invoice.DueDate,
                     TotalPrice = invoice.TotalPrice,

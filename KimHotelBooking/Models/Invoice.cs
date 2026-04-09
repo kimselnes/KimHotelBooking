@@ -12,6 +12,8 @@ namespace KimHotelBooking.Models
 
         public int BookingId { get; set; }
 
+        public int CustomerId { get; set; }
+
         [Required]
         public DateTime IssueDate { get; set; }
 

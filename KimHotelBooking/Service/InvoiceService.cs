@@ -11,12 +11,13 @@ namespace KimHotelBooking.Service
         public static Invoice Invoice { get; set; } = new Invoice();
 
 
-        public static Invoice SetInvoiceValues(Booking booking, Room room)
+        public static Invoice SetInvoiceValues(Booking booking, Room room, Customer customer)
         {
             Invoice.IssueDate = DateTime.Now;
             Invoice.DueDate = Invoice.IssueDate.AddDays(7);
             Invoice.IsPaid = false;
             Invoice.BookingId = booking.Id;
+            Invoice.CustomerId = customer.Id;
 
             Invoice.TotalPrice = DetermineFullInvoicePrice(room, (booking.EndDate - booking.StartDate).Days + 1);
 

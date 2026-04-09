@@ -89,7 +89,7 @@ namespace KimHotelBooking.Migrations
                     b.Property<int>("BookingId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DueDate")
@@ -166,7 +166,9 @@ namespace KimHotelBooking.Migrations
                 {
                     b.HasOne("KimHotelBooking.Models.Customer", null)
                         .WithMany("Invoices")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("KimHotelBooking.Models.Customer", b =>

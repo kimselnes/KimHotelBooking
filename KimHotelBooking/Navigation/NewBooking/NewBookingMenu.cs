@@ -223,7 +223,7 @@ namespace KimHotelBooking.Navigation.NewBooking
             //Invoice = InvoiceService.SetDatesPaidBooking(Booking);
 
             // De 3 kodraderna över kan jag sätta ihop i en och samma metod.
-            Invoice = InvoiceService.SetInvoiceValues(Booking, Room);
+            Invoice = InvoiceService.SetInvoiceValues(Booking, Room, Customer);
 
             // - - - - - - - -  - - - - - - - - - - - - - - 
 

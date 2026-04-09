@@ -55,8 +55,8 @@ namespace KimHotelBooking.Service
             roomRep.AddBooking(room, booking);
 
             // Add Booking and Invoice to Customer
-            CustomerRepository customerRep = new CustomerRepository();
-            customerRep.AddBookingInvoice(customer, booking, invoice);
+            //CustomerRepository customerRep = new CustomerRepository();
+            //customerRep.AddBookingInvoice(customer, booking, invoice);
 
             // Add Booking to Invoice
             //InvoiceRepository invoiceRep = new InvoiceRepository();

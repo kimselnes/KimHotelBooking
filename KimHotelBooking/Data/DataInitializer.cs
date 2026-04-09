@@ -34,7 +34,7 @@ namespace KimHotelBooking.Data
                 dbContext.Customer.Add(new Customer
                 {
                     Name = "Marit",
-                    IsActive = true
+                    IsActive = true                   
                 });
             }
             // Seed 3
@@ -73,6 +73,7 @@ namespace KimHotelBooking.Data
                     SquareMeters = 20,
                     Beds = 1,
                     PricePerNight = 500m,
+                    IsAvailable = true,
                     IsActive = true
                 });
             }
@@ -89,6 +90,7 @@ namespace KimHotelBooking.Data
                     SquareMeters = 30,
                     Beds = 1,
                     PricePerNight = 600m,
+                    IsAvailable = true,
                     IsActive = true
                 });
             }
@@ -105,6 +107,7 @@ namespace KimHotelBooking.Data
                     SquareMeters = 30,
                     Beds = 1,
                     PricePerNight = 700m,
+                    IsAvailable = true,
                     IsActive = true
                 });
             }
@@ -121,6 +124,7 @@ namespace KimHotelBooking.Data
                     SquareMeters = 40,
                     Beds = 1,
                     PricePerNight = 800m,
+                    IsAvailable = true,
                     IsActive = true
                 });
             }

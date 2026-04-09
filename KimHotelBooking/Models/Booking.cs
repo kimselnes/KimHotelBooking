@@ -22,7 +22,9 @@ namespace KimHotelBooking.Models
 
         //public decimal TotalPrice { get; set; }
 
-        public bool isCheckedIn { get; set; }
+        public bool IsCheckedIn { get; set; }
+
+        public bool IsActive { get; set; }
 
         //public Customer Customer { get; set; }
 

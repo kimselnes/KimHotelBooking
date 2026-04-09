@@ -190,74 +190,7 @@ namespace KimHotelBooking.Navigation.NewBooking
             if (Room.Type == "Double")
             {
                 Console.Clear();
-                if (Room.SquareMeters >= 30 && Room.SquareMeters < 40)
-                {
-                    var bedsPrompt1 = "\u001b[1mNY RUMSBOKNING\u001b[0m\n" +
-                        "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n" +
-                        "Vill du lägga till extra sängar?";
-
-                    List<string> bedsOptions1 = [
-                        "Nej, ingen extra säng", 
-                        "Ja, 1 extra + 100 SEK/natt"];
-
-                    Menu bedsMenu1 = new Menu(bedsPrompt1, bedsOptions1);
-                    int bedsSelectedIndex1 = bedsMenu1.Run();
-
-                    switch (bedsSelectedIndex1)
-                    {
-                        case 0: // No extra beds
-
-                            break;
-
-                        case 1: // 1 extra bed
-                            Room.Beds = 2;
-                            Console.WriteLine("\n\u001b[32mDu har lagt till en säng\u001b[0m");
-                            Utility.WaitForKeyPress();
-                            break;
-
-                        case -1:
-                            NewBooking();
-                            break;
-                    }
-                }
-                else if (Room.SquareMeters >= 40)
-                {
-                    var bedsPrompt2 = "\u001b[1mNY RUMSBOKNING\u001b[0m\n" +
-                        "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n" +
-                        "Vill du lägga till extra sängar?";
-
-                    List<string> bedsOptions2 = [
-                        "Nej, ingen extra säng",
-                        "Ja, 1 extra + 100 SEK/natt",
-                        "Ja, 2 extra + 200 SEK/natt"];
-
-                    Menu bedsMenu2 = new Menu(bedsPrompt2, bedsOptions2);
-                    int bedsSelectedIndex2 = bedsMenu2.Run();
-
-                    switch (bedsSelectedIndex2)
-                    {
-                        case 0: // No extra beds
-
-                            break;
-
-                        case 1: // 1 extra bed
-                            Room.Beds = 2;
-                            Console.WriteLine("\n\u001b[32mDu har lagt till en säng\u001b[0m");
-                            Utility.WaitForKeyPress();
-                            break;
-
-                        case 2: // 2 extra beds
-                            Room.Beds = 3;
-                            Console.WriteLine("\n\u001b[32mDu har lagt till två sängar\u001b[0m");
-                            Utility.WaitForKeyPress();
-                            break;
-
-                        case -1:
-                            NewBooking();
-                            break;
-                    }
-                }
-
+                ExtraBed();
             }
 
             // Booking ska kopplas till Customer och till Room och allt ska läggas in i Databasen.
@@ -322,7 +255,7 @@ namespace KimHotelBooking.Navigation.NewBooking
                         DateTime currentDate = DateTime.Now;
                         DateTime startDate = new DateTime(yearInput, monthInput, dayInput);
 
-                        if (startDate >= currentDate)
+                        if (startDate.Date >= currentDate.Date)
                         {
                             try
                             {
@@ -453,6 +386,77 @@ namespace KimHotelBooking.Navigation.NewBooking
                 Utility.WaitForKeyPress();
                 Console.Clear();
                 NewEndDate();
+            }
+        }
+
+        public static void ExtraBed()
+        {
+            if (Room.SquareMeters >= 30 && Room.SquareMeters < 40)
+            {
+                var bedsPrompt1 = "\u001b[1mNY RUMSBOKNING\u001b[0m\n" +
+                    "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n" +
+                    "Vill du lägga till extra sängar?";
+
+                List<string> bedsOptions1 = [
+                    "Nej, ingen extra säng",
+                        "Ja, 1 extra + 100 SEK/natt"];
+
+                Menu bedsMenu1 = new Menu(bedsPrompt1, bedsOptions1);
+                int bedsSelectedIndex1 = bedsMenu1.Run();
+
+                switch (bedsSelectedIndex1)
+                {
+                    case 0: // No extra beds
+
+                        break;
+
+                    case 1: // 1 extra bed
+                        Room.Beds = 2;
+                        Console.WriteLine("\n\u001b[32mDu har lagt till en säng\u001b[0m");
+                        Utility.WaitForKeyPress();
+                        break;
+
+                    case -1:
+                        NewBooking();
+                        break;
+                }
+            }
+            else if (Room.SquareMeters >= 40)
+            {
+                var bedsPrompt2 = "\u001b[1mNY RUMSBOKNING\u001b[0m\n" +
+                    "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n" +
+                    "Vill du lägga till extra sängar?";
+
+                List<string> bedsOptions2 = [
+                    "Nej, ingen extra säng",
+                        "Ja, 1 extra + 100 SEK/natt",
+                        "Ja, 2 extra + 200 SEK/natt"];
+
+                Menu bedsMenu2 = new Menu(bedsPrompt2, bedsOptions2);
+                int bedsSelectedIndex2 = bedsMenu2.Run();
+
+                switch (bedsSelectedIndex2)
+                {
+                    case 0: // No extra beds
+
+                        break;
+
+                    case 1: // 1 extra bed
+                        Room.Beds = 2;
+                        Console.WriteLine("\n\u001b[32mDu har lagt till en säng\u001b[0m");
+                        Utility.WaitForKeyPress();
+                        break;
+
+                    case 2: // 2 extra beds
+                        Room.Beds = 3;
+                        Console.WriteLine("\n\u001b[32mDu har lagt till två sängar\u001b[0m");
+                        Utility.WaitForKeyPress();
+                        break;
+
+                    case -1:
+                        NewBooking();
+                        break;
+                }
             }
         }
     }

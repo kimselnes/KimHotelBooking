@@ -25,8 +25,8 @@ namespace KimHotelBooking.Repositories
                     Type = room.Type,
                     SquareMeters = room.SquareMeters,
                     Beds = 1,
-                    isAvailable = true,
-                    isActive = 1,
+                    IsAvailable = true,
+                    IsActive = true,
                     PricePerNight = room.PricePerNight
                 });
 
@@ -43,7 +43,7 @@ namespace KimHotelBooking.Repositories
                 roomToUpdate.Type = newRoom.Type;
                 roomToUpdate.SquareMeters = newRoom.SquareMeters;
                 roomToUpdate.Beds = newRoom.Beds;
-                roomToUpdate.isActive = newRoom.isActive;
+                roomToUpdate.IsActive = newRoom.IsActive;
 
                 DbContext.SaveChanges();
             }

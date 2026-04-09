@@ -239,9 +239,9 @@ namespace KimHotelBooking.Service
             }
         }
 
-        public static int SetRoomIsActive()
+        public static bool SetRoomIsActive()
         {
-            var active = 0;
+            var active = false;
 
             var setActivePrompt = "Ska rummet vara AKTIVT eller INTE";
             List<string> setActiveOptions =
@@ -256,7 +256,7 @@ namespace KimHotelBooking.Service
             switch (setActiveSelectedIndex)
             {
                 case 0:
-                    active = 1;
+                    active = true;
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"\nDu har angett Aktiv");
@@ -264,7 +264,7 @@ namespace KimHotelBooking.Service
                     Utility.WaitForKeyPress();
                     break;
                 case 1:
-                    active = 0;
+                    active = false;
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"\nDu har angett INTE aktiv");
                     Console.ResetColor();
@@ -292,7 +292,7 @@ namespace KimHotelBooking.Service
             {
                 var tempString = $"{room.Id}. {room.Type}-rum " +
                     $"({room.SquareMeters} kvadrat - {room.Beds} säng/sängar) " +
-                    $"[{(room.isActive == 1 ? "\u001b[32mAKTIV\u001b[0m" : "\u001b[31mOAKTIV\u001b[0m")}]";
+                    $"[{(room.IsActive == true ? "\u001b[32mAKTIV\u001b[0m" : "\u001b[31mOAKTIV\u001b[0m")}]";
 
                 roomsString.Add(tempString);
             }

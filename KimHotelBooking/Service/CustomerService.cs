@@ -39,9 +39,9 @@ namespace KimHotelBooking.Service
             return name;
         }
 
-        public static int SetIsActive()
+        public static bool SetIsActive()
         {
-            var active = 0;
+            var active = false;
 
             var setActivePrompt = "Ska kunden vara AKTIV eller INTE";
             List<string> setActiveOptions =
@@ -56,14 +56,14 @@ namespace KimHotelBooking.Service
             switch (setActiveSelectedIndex)
             {
                 case 0:
-                    active = 1;
+                    active = true;
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"\nDu har angett 'Aktiv'");
                     Console.ResetColor();
                     break;
                 case 1:
-                    active = 0;
+                    active = false;
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"\nDu har angett 'INTE aktiv'");
                     Console.ResetColor();
@@ -92,7 +92,7 @@ namespace KimHotelBooking.Service
             var customerRep = new CustomerRepository();
             var tempCustomers = customerRep.GetAllCustomers();
 
-            List<Customer> customers = tempCustomers.Where(c => c.isActive == 1).ToList();
+            List<Customer> customers = tempCustomers.Where(c => c.IsActive == true).ToList();
 
             return customers;
         }
@@ -107,7 +107,7 @@ namespace KimHotelBooking.Service
             {
                 var tempString = $"{customer.Id}. " +
                     $"{customer.Name} " +
-                    $"[{(customer.isActive == 1 ? "\u001b[32mAKTIV\u001b[0m" : "\u001b[31mOAKTIV\u001b[0m")}]";
+                    $"[{(customer.IsActive == true ? "\u001b[32mAKTIV\u001b[0m" : "\u001b[31mOAKTIV\u001b[0m")}]";
 
                 customersStrings.Add(tempString);
             }
@@ -121,11 +121,11 @@ namespace KimHotelBooking.Service
 
             var customersList = GetAllCustomersList();
 
-            foreach (var customer in customersList.Where(c => c.isActive == 1))
+            foreach (var customer in customersList.Where(c => c.IsActive == true))
             {
                 var tempString = $"{customer.Id}. " +
                     $"{customer.Name} " +
-                    $"[{(customer.isActive == 1 ? "\u001b[32mAKTIV\u001b[0m" : "\u001b[31mOAKTIV\u001b[0m")}]";
+                    $"[{(customer.IsActive == true ? "\u001b[32mAKTIV\u001b[0m" : "\u001b[31mOAKTIV\u001b[0m")}]";
 
                 customersStrings.Add(tempString);
             }

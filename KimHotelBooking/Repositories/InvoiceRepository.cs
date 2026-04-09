@@ -29,8 +29,9 @@ namespace KimHotelBooking.Repositories
                     IssueDate = invoice.IssueDate,
                     DueDate = invoice.DueDate,
                     TotalPrice = invoice.TotalPrice,
-                    isPaid = invoice.isPaid,
-                    BookingId =  invoice.BookingId
+                    IsPaid = invoice.IsPaid,
+                    BookingId =  invoice.BookingId,
+                    IsActive = true
                 });
 
                 DbContext.SaveChanges();

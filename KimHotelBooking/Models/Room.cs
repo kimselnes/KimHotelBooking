@@ -21,10 +21,12 @@ namespace KimHotelBooking.Models
 
         public decimal PricePerNight { get; set; } // Single = 200, Double = 300, 10/m2, 100/Beds.
 
-        public bool isAvailable { get; set; } // false = No, true = Yes.
+        public bool IsAvailable { get; set; } // false = No, true = Yes.
 
-        [Range(0,1)]
-        public int isActive { get; set; } // 0 = No, 1 = Yes
+        //[Range(0,1)]
+        //public int isActive { get; set; } // 0 = No, 1 = Yes
+
+        public bool IsActive { get; set; }
 
         public List<Booking> Bookings { get; set; }
     }

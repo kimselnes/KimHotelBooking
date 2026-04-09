@@ -23,7 +23,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     $"Kvadrat: {room.SquareMeters}\n" +
                     $"Sängar: {room.Beds}\n" +
                     $"SEK per natt: {room.PricePerNight}\n" +
-                    $"Aktiv: {(room.isActive == 1 ? "\u001b[32mJa\u001b[0m" : "\u001b[31mNej\u001b[0m")}");
+                    $"Aktiv: {(room.IsActive == true ? "\u001b[32mJa\u001b[0m" : "\u001b[31mNej\u001b[0m")}");
                 Console.WriteLine("- - - - - - - - - - - - - - -");
             }
         }

@@ -24,7 +24,7 @@ namespace KimHotelBooking.Repositories
                 DbContext.Customer.Add(new Customer
                 {
                     Name = customer.Name,
-                    isActive = 1
+                    IsActive = true
                 });
 
                 DbContext.SaveChanges();
@@ -38,7 +38,7 @@ namespace KimHotelBooking.Repositories
                 var customerToUpdate = DbContext.Customer.FirstOrDefault(c => c.Id == newCustomer.Id);
 
                 customerToUpdate.Name = newCustomer.Name;
-                customerToUpdate.isActive = newCustomer.isActive;
+                customerToUpdate.IsActive = newCustomer.IsActive;
 
                 DbContext.SaveChanges();
             }
@@ -57,7 +57,7 @@ namespace KimHotelBooking.Repositories
             {
                 var customerToDelete = DbContext.Customer.FirstOrDefault(r => r.Id == customer.Id);
 
-                customerToDelete.isActive = 0;
+                customerToDelete.IsActive = false;
 
                 DbContext.SaveChanges();
             }

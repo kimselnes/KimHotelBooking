@@ -28,7 +28,8 @@ namespace KimHotelBooking.Repositories
                     RoomId = room.Id,
                     StartDate = booking.StartDate,
                     EndDate = booking.EndDate,
-                    isCheckedIn = false
+                    IsCheckedIn = false,
+                    IsActive = true
                     //Customer = customer
                 });
 
@@ -60,7 +61,7 @@ namespace KimHotelBooking.Repositories
 
             using (DbContext)
             {
-                booking = DbContext.Booking.OrderByDescending(b => b.Id).FirstOrDefault();
+                booking = DbContext.Booking.OrderByDescending(b => b.Id).FirstOrDefault(); // Kanske måste hitta på något annat här.
             }
 
             return booking;

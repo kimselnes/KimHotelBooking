@@ -33,7 +33,7 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
             else
             {
                 List<Customer> customerActive = customerService.GetAllCustomersList()
-                    .Where(c => c.isActive == 1).ToList();
+                    .Where(c => c.IsActive == true).ToList();
 
                 var correctCustomerToDelete = customerActive.ElementAt(customerDeleteSelectedIndex);
                 Customer = customerService.GetCustomerById(correctCustomerToDelete.Id);

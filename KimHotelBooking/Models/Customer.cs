@@ -13,8 +13,8 @@ namespace KimHotelBooking.Models
         [MaxLength(50)]
         public string Name { get; set; }
 
-        [Range(0, 1)]
-        public int isActive { get; set; } // 0 = No, 1 = Yes
+        //[Range(0, 1)]
+        public bool IsActive { get; set; } // false = No, true = Yes
 
         public List<Booking> Bookings { get; set; }
 

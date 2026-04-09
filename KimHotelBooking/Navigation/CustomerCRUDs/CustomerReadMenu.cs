@@ -24,7 +24,7 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
             foreach (var customer in customers)
             {
                 Console.WriteLine($"Kundnamn: {customer.Name}\n" +
-                    $"Aktiv: {(customer.isActive == 1 ? "Ja" : "Nej")}");
+                    $"Aktiv: {(customer.IsActive == true ? "Ja" : "Nej")}");
                 Console.WriteLine("- - - - - - - - - - - - - - - - -");
             }            
         }

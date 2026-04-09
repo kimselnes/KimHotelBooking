@@ -25,7 +25,7 @@ namespace KimHotelBooking.Data
                 dbContext.Customer.Add(new Customer
                 {
                     Name = "Britt",
-                    isActive = 1
+                    IsActive = true
                 });
             }
             // Seed 2
@@ -34,7 +34,7 @@ namespace KimHotelBooking.Data
                 dbContext.Customer.Add(new Customer
                 {
                     Name = "Marit",
-                    isActive = 1
+                    IsActive = true
                 });
             }
             // Seed 3
@@ -43,7 +43,7 @@ namespace KimHotelBooking.Data
                 dbContext.Customer.Add(new Customer
                 {
                     Name = "Bosse",
-                    isActive = 1
+                    IsActive = true
                 });
             }
             // Seed 4
@@ -52,7 +52,7 @@ namespace KimHotelBooking.Data
                 dbContext.Customer.Add(new Customer
                 {
                     Name = "Karl",
-                    isActive = 1
+                    IsActive = true
                 });
             }
         }
@@ -73,7 +73,7 @@ namespace KimHotelBooking.Data
                     SquareMeters = 20,
                     Beds = 1,
                     PricePerNight = 500m,
-                    isActive = 1
+                    IsActive = true
                 });
             }
             // Seed 2
@@ -89,7 +89,7 @@ namespace KimHotelBooking.Data
                     SquareMeters = 30,
                     Beds = 1,
                     PricePerNight = 600m,
-                    isActive = 1
+                    IsActive = true
                 });
             }
             // Seed 3
@@ -105,7 +105,7 @@ namespace KimHotelBooking.Data
                     SquareMeters = 30,
                     Beds = 1,
                     PricePerNight = 700m,
-                    isActive = 1
+                    IsActive = true
                 });
             }
             // Seed 4
@@ -121,7 +121,7 @@ namespace KimHotelBooking.Data
                     SquareMeters = 40,
                     Beds = 1,
                     PricePerNight = 800m,
-                    isActive = 1
+                    IsActive = true
                 });
             }
         }

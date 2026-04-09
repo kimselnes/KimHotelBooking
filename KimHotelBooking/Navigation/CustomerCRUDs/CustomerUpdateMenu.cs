@@ -56,7 +56,7 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
             List<string> customerUpdateOptions =
             [
                 $"Namn: {Customer.Name}",
-                $"Aktiv: {(Customer.isActive == 1 ? "\u001b[32mJa\u001b[0m" : "\u001b[31mNej\u001b[0m")}",
+                $"Aktiv: {(Customer.IsActive == true ? "\u001b[32mJa\u001b[0m" : "\u001b[31mNej\u001b[0m")}",
                 $"-[ SPARA ÄNDRINGAR ]-"
             ];
 
@@ -81,7 +81,7 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
 
                 case 1: // isActive
 
-                    Customer.isActive = CustomerService.SetIsActive();
+                    Customer.IsActive = CustomerService.SetIsActive();
                     Utility.WaitForKeyPress();
                     Updating();
                     break;

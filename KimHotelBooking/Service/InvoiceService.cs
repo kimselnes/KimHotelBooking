@@ -15,7 +15,7 @@ namespace KimHotelBooking.Service
         {
             Invoice.IssueDate = DateTime.Now;
             Invoice.DueDate = Invoice.IssueDate.AddDays(7);
-            Invoice.isPaid = false;
+            Invoice.IsPaid = false;
             Invoice.BookingId = booking.Id;
 
             Invoice.TotalPrice = DetermineFullInvoicePrice(room, (booking.EndDate - booking.StartDate).Days + 1);

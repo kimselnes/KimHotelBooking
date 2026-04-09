@@ -19,7 +19,9 @@ namespace KimHotelBooking.Models
 
         public decimal TotalPrice { get; set; }
 
-        public bool isPaid { get; set; }
+        public bool IsPaid { get; set; }
+
+        public bool IsActive { get; set; }
 
         //public Booking Booking { get; set; }
     }

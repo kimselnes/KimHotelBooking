@@ -40,7 +40,8 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
             }
             else
             {
-                Customer = customerService.GetCustomerById(customerUpdateSelectedIndex + 1);
+                Customer = CustomerService.GetCustomerById(customerUpdateSelectedIndex + 1);
+                //Customer = customerService.GetCustomerById(customerUpdateSelectedIndex + 1);
                 Updating();
             }
         }

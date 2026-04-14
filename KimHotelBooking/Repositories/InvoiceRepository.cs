@@ -39,6 +39,57 @@ namespace KimHotelBooking.Repositories
             }
         }
 
+        public void Update(Invoice newInvoice)
+        {
+            using (DbContext)
+            {
+                var invoiceToUpdate = DbContext.Invoice.Where(i => i.Id == newInvoice.Id).FirstOrDefault();
+
+                invoiceToUpdate.IssueDate = newInvoice.IssueDate; // invoiceToUpdate was null.
+                invoiceToUpdate.DueDate = newInvoice.DueDate;
+                invoiceToUpdate.TotalPrice = newInvoice.TotalPrice;
+                invoiceToUpdate.IsPaid = newInvoice.IsPaid;
+
+                DbContext.SaveChanges();
+            }
+        }
+
+        public List<Invoice> GetAll()
+        {
+
+            List<Invoice> invoices = new List<Invoice>();
+
+            using (DbContext)
+            {
+                invoices = DbContext.Invoice.OrderBy(x => x.Id).ToList();
+            }
+
+            return invoices;
+        }
+
+        public void SetNotActive(Invoice invoice)
+        {
+            using (DbContext)
+            {
+                var invoiceToDelete = DbContext.Invoice.FirstOrDefault(i => i.Id == invoice.Id);
+
+                invoiceToDelete.IsActive = false;
+
+                DbContext.SaveChanges();
+            }
+        }
+
+        public Invoice GetInvoiceByBookingId(int bookingId)
+        {
+            var invoice = new Invoice();
+
+            using (DbContext)
+            {
+                invoice = DbContext.Invoice.Where(i => i.BookingId == bookingId).FirstOrDefault();
+            }
+            return invoice;
+        }
+
         public void AddBooking()
         {
 

@@ -1,4 +1,5 @@
 ﻿using KimHotelBooking.Models;
+using KimHotelBooking.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -10,11 +11,32 @@ namespace KimHotelBooking.Service
     {
         public static Invoice Invoice { get; set; } = new Invoice();
 
+        public static void Delete(Invoice invoice)
+        {
+            var invoiceRep = new InvoiceRepository();
+            invoiceRep.SetNotActive(invoice);
+        }
+
+        public static List<Invoice> GetAllInvoices()
+        {
+            var invoiceRep = new InvoiceRepository();
+            var invoices = invoiceRep.GetAll();
+
+            return invoices;
+        }
+
+        public static Invoice GetInvoiceByBookingId(int bookingId)
+        {
+            var invoiceRep = new InvoiceRepository();
+            var invoice = invoiceRep.GetInvoiceByBookingId(bookingId);
+
+            return invoice;
+        }
 
         public static Invoice SetInvoiceValues(Booking booking, Room room, Customer customer)
         {
             Invoice.IssueDate = DateTime.Now;
-            Invoice.DueDate = Invoice.IssueDate.AddDays(7);
+            Invoice.DueDate = Invoice.IssueDate.AddDays(10);
             Invoice.IsPaid = false;
             Invoice.BookingId = booking.Id;
             Invoice.CustomerId = customer.Id;
@@ -38,5 +60,10 @@ namespace KimHotelBooking.Service
         {
             return room.PricePerNight * amountOfDays;
         }
+
+        //public static decimal DetermineNewTotalPricePrice(Room room int beds, int amountOfDays)
+        //{
+        //    return room.PricePerNight * amountOfDays;
+        //}
     }
 }

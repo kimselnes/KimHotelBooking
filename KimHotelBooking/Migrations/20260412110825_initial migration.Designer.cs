@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KimHotelBooking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260409153322_initial migration")]
+    [Migration("20260412110825_initial migration")]
     partial class initialmigration
     {
         /// <inheritdoc />
@@ -44,6 +44,9 @@ namespace KimHotelBooking.Migrations
 
                     b.Property<bool>("IsCheckedIn")
                         .HasColumnType("bit");
+
+                    b.Property<int>("RoomBeds")
+                        .HasColumnType("int");
 
                     b.Property<int>("RoomId")
                         .HasColumnType("int");

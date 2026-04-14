@@ -42,6 +42,9 @@ namespace KimHotelBooking.Migrations
                     b.Property<bool>("IsCheckedIn")
                         .HasColumnType("bit");
 
+                    b.Property<int>("RoomBeds")
+                        .HasColumnType("int");
+
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 

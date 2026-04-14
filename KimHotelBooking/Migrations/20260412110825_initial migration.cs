@@ -78,6 +78,7 @@ namespace KimHotelBooking.Migrations
                     RoomId = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RoomBeds = table.Column<int>(type: "int", nullable: false),
                     IsCheckedIn = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },

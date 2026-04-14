@@ -1,5 +1,6 @@
 ﻿using KimHotelBooking.Data;
 using KimHotelBooking.Models;
+using KimHotelBooking.Service;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,6 +29,7 @@ namespace KimHotelBooking.Repositories
                     RoomId = room.Id,
                     StartDate = booking.StartDate,
                     EndDate = booking.EndDate,
+                    RoomBeds = room.Beds,
                     IsCheckedIn = false,
                     IsActive = true
                     //Customer = customer
@@ -53,6 +55,17 @@ namespace KimHotelBooking.Repositories
 
             //    DbContext.SaveChanges();
             //}
+        }
+
+        public Booking GetById(int id)
+        {
+            var booking = new Booking();
+
+            using (DbContext)
+            {
+                booking = DbContext.Booking.Where(b => b.Id == id).FirstOrDefault();
+            }
+            return booking;
         }
 
         public Booking GetLastInserted()
@@ -90,6 +103,74 @@ namespace KimHotelBooking.Repositories
 
             return bookings;
         }
+
+        public void SetIsCheckedIn(int bookingId)
+        {
+            using (DbContext)
+            {
+                var bookingToUpdate = DbContext.Booking.FirstOrDefault(b => b.Id == bookingId);
+
+                bookingToUpdate.IsCheckedIn = true;
+
+                DbContext.SaveChanges();
+            }
+        }
+
+        public void SetIsCheckedOut(int bookingId)
+        {
+            using (DbContext)
+            {
+                var bookingToUpdate = DbContext.Booking.FirstOrDefault(b => b.Id == bookingId);
+
+                bookingToUpdate.IsCheckedIn = false;
+
+                DbContext.SaveChanges();
+            }
+        }
+
+        public void SetNotActive(int bookingId)
+        {
+            using (DbContext)
+            {
+                var bookingToUpdate = DbContext.Booking.FirstOrDefault(b => b.Id == bookingId);
+                bookingToUpdate.IsActive = false;
+
+                DbContext.SaveChanges();
+            }
+        }
+
+        public void SetBookingBeds(Booking booking)
+        {
+            using (DbContext)
+            {
+                var bookingToUpdate = DbContext.Booking.FirstOrDefault(b => b.Id == booking.Id);
+                bookingToUpdate.RoomBeds = booking.RoomBeds;
+
+                DbContext.SaveChanges();
+            }
+        }
+
+        // VET INTE OM JAG VILL AH DEN HÄR METODEN I REPOSITORY, KANSKE BÖR DEN LIGGA I SERVICE ISTÄLLET?
+        //public List<string> BookingListToStringsOnlyCheckedOut()
+        //{
+        //    List<string> bookingsStrings = new List<string>();
+
+        //    var bookingsList = GetAllBookings();
+
+        //    foreach (var booking in bookingsList.Where(b => b.IsCheckedIn == false))
+        //    {
+        //        var customer = CustomerService.GetCustomerById(booking.CustomerId);
+
+        //        var tempString = $"{customer.Name} - " +
+        //            $"({booking.Id}. " +
+        //            $"{booking.StartDate.Date} - {booking.EndDate.Date})";
+        //        //$"[{(customer.IsActive == true ? "\u001b[32mAKTIV\u001b[0m" : "\u001b[31mOAKTIV\u001b[0m")}]";
+
+        //        bookingsStrings.Add(tempString);
+        //    }
+
+        //    return bookingsStrings;
+        //}
 
 
     }

@@ -133,7 +133,7 @@ namespace KimHotelBooking.Service
             return customersStrings;
         }
 
-        public Customer GetCustomerById(int id)
+        public static Customer GetCustomerById(int id)
         {
             var customerRep = new CustomerRepository();
             var customer = customerRep.GetById(id);
@@ -153,6 +153,24 @@ namespace KimHotelBooking.Service
         {
             var customerRep = new CustomerRepository();
             customerRep.Delete(customer);
+        }
+
+        public static bool CheckIfBooking(Customer customer)
+        {
+            // Jämnför bookings.CustomerId med customer.Id
+            var bookingRep = new BookingRepository();
+            var bookings = bookingRep.GetAllBookings();
+
+            List<Booking> customerBookings = bookings.Where(b => b.CustomerId == customer.Id).ToList();
+
+            if (customerBookings.Count == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

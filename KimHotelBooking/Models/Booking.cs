@@ -20,6 +20,9 @@ namespace KimHotelBooking.Models
         [Required]
         public DateTime EndDate { get; set; }
 
+        [Range(1, 5)]
+        public int RoomBeds { get; set; }
+
         //public decimal TotalPrice { get; set; }
 
         public bool IsCheckedIn { get; set; }

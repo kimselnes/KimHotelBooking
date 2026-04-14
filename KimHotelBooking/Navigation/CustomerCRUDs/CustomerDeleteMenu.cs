@@ -18,7 +18,7 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
                 "Vilken kund vill du ta bort?";
 
             var customerService = new CustomerService();
-            
+
 
             List<string> customerDeleteOptions = customerService.CustomerListToStringsOnlyActive();
 
@@ -36,8 +36,20 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
                     .Where(c => c.IsActive == true).ToList();
 
                 var correctCustomerToDelete = customerActive.ElementAt(customerDeleteSelectedIndex);
-                Customer = customerService.GetCustomerById(correctCustomerToDelete.Id);
-                Deleting();
+                Customer = CustomerService.GetCustomerById(correctCustomerToDelete.Id);
+                //Customer = customerService.GetCustomerById(correctCustomerToDelete.Id);
+
+                if (CustomerService.CheckIfBooking(Customer) == true)
+                {
+                    Console.WriteLine("Kunden har aktiva bokningar och kan därför inte tas bort.");
+                    Utility.WaitForKeyPress();
+                    Run();
+                }
+                else
+                {
+                    Deleting();
+                }
+
             }
         }
 

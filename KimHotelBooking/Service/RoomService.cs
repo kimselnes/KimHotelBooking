@@ -95,9 +95,9 @@ namespace KimHotelBooking.Service
             return type;
         }
 
-        public static int SetRoomSquareMeters()
+        public static int SetRoomSquareMeters(int currentSquareMeters)
         {
-            Console.WriteLine("Välj hur många kvadratmeter rummer är (20-40)m2\n");
+            Console.WriteLine("Välj hur många kvadratmeter rummet är (20-40)m2\n");
             Console.Write("Kvadratmeter: ");
 
             if (!Int32.TryParse(Console.ReadLine(), out var squareMeters))
@@ -106,6 +106,8 @@ namespace KimHotelBooking.Service
                 Console.WriteLine("\nDu angav inte ett heltal");
                 Console.ResetColor();
                 Utility.WaitForKeyPress();
+
+                return currentSquareMeters;
             }
             else
             {
@@ -115,6 +117,8 @@ namespace KimHotelBooking.Service
                         "\nKvadratmeter kan bara vara mellan 20 och 40");
                     Console.ResetColor();
                     Utility.WaitForKeyPress();
+
+                    return currentSquareMeters;
                 }
                 else
                 {

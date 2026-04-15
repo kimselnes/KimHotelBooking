@@ -30,7 +30,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                 case 1: // Show rooms.
                     RoomReadMenu.Run();
                     Utility.WaitForKeyPress();
-                    MainMenu.Run();
+                    MainMenu.GuestMenu();
 
                     break;
 
@@ -42,7 +42,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     break;
 
                 case -1: // Go back.
-                    MainMenu.Run();
+                    MainMenu.AdminMenu();
                     break;
             }
         }

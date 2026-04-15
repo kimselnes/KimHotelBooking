@@ -9,7 +9,6 @@ namespace KimHotelBooking.Navigation.CheckInOut
 {
     public class CheckInOutMenu
     {
-
         public static void Run()
         {
             var prompt = "\u001b[1mCHECK IN/OUT\u001b[0m\n" +
@@ -39,7 +38,7 @@ namespace KimHotelBooking.Navigation.CheckInOut
 
                 case -1:
                     // Back to main menu.
-                    MainMenu.Run();
+                    MainMenu.AdminMenu();
                     break;
             }
         }
@@ -57,7 +56,10 @@ namespace KimHotelBooking.Navigation.CheckInOut
                     booking.StartDate < currentDate &&
                     booking.EndDate > currentDate)
                 {
-                    bookingsToCheckIn.Add(booking);
+                    if (booking.IsCheckedIn == false)
+                    {
+                        bookingsToCheckIn.Add(booking);
+                    }
                 }
             }
 
@@ -70,6 +72,7 @@ namespace KimHotelBooking.Navigation.CheckInOut
             }
             else
             {
+                // Måste göra List<Booking> där det bara finns CheckedOut och sedan göra dem till en List<string>.
                 var checkInOptions = BookingService.BookingListToStringsOnlyCheckedOut(bookingsToCheckIn);
 
                 var checkInPrompt = "\u001b[1mCHECKA IN\u001b[0m\n" +
@@ -104,10 +107,12 @@ namespace KimHotelBooking.Navigation.CheckInOut
 
             foreach (var booking in checkedInBookings)
             {
-                if (booking.EndDate == currentDate || booking.EndDate > currentDate)
-                {
-                    bookingsToCheckOut.Add(booking);
-                }
+                bookingsToCheckOut.Add(booking);
+
+                //if (booking.EndDate == currentDate || booking.EndDate > currentDate) // Kanske ska kunna checka ut även innan EndDate?
+                //{
+                //    bookingsToCheckOut.Add(booking);
+                //}
             }
 
             if (bookingsToCheckOut.Count == 0)
@@ -133,8 +138,11 @@ namespace KimHotelBooking.Navigation.CheckInOut
                 }
                 else
                 {
-                    var correctId = bookingsToCheckOut[checkOutSelectedIndex].Id;
-                    BookingService.CheckOutCustomer(correctId);
+                    var correctBookingId = bookingsToCheckOut[checkOutSelectedIndex].Id;
+                    BookingService.CheckOutCustomer(correctBookingId);
+                    BookingService.SetNotActive(correctBookingId);
+
+                    InvoiceService.SetIsActiveFalseByBookingId(correctBookingId);
 
                     Console.WriteLine("\n\u001b[32mKunden är utcheckad!\u001b[0m");
                     Utility.WaitForKeyPress();

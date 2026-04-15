@@ -13,15 +13,15 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 
         public static void Run()
         {
-            var createPrompt = "\u001b[1mSKAPA NY KUND\u001b[0m\n" +
+            var createPrompt = "\u001b[1mSKAPA NYTT RUM\u001b[0m\n" +
                 "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n\n" +
                 "Ange ny kund:";
 
             List<string> createOptions =
             [
-                "Single eller Double",
-                "Kvadratmeter",
-                "SPARA NYTT RUM"
+                $"Single eller Double: {Room.Type}",
+                $"Kvadratmeter: {Room.SquareMeters}",
+                "-[SPARA NYTT RUM]-"
             ];
 
             Menu createMenu = new Menu(createPrompt, createOptions);
@@ -45,7 +45,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 
                     //newRoom.SquareMeters = SetSquareMeters();
                     // - - - - - - - - - - - -
-                    Room.SquareMeters = RoomService.SetRoomSquareMeters();
+                    Room.SquareMeters = RoomService.SetRoomSquareMeters(Room.SquareMeters);
 
                     Run();
                     break;

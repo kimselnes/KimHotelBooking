@@ -37,6 +37,19 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
                     Console.Write("Namn: ");
                     var name = Console.ReadLine();
 
+                    if (name.ToUpper() == "BACK")
+                    {
+                        Console.WriteLine("\n\u001b[31mBack är inte ett tillåtet namn.\u001b[0m");
+                        Utility.WaitForKeyPress();
+                        Run();
+                    }
+                    else if (string.IsNullOrWhiteSpace(name))
+                    {
+                        Console.WriteLine("\n\u001b[31mNamnet kan inte vara tomt.\u001b[0m");
+                        Utility.WaitForKeyPress();
+                        Run();
+                    }
+
                     var customerService = new CustomerService();
                     Customer.Name = customerService.SetName(name);
 

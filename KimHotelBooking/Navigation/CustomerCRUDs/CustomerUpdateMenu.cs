@@ -22,6 +22,7 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
                 "Vilken kund vill du uppdatera?";
 
             var customerService = new CustomerService();
+            var customersList = customerService.GetAllCustomersList();
             List<string> customerUpdateOptions = customerService.CustomerListToStrings();
 
             Menu customerUpdateMenu = new Menu(customerUpdatePrompt, customerUpdateOptions);
@@ -40,7 +41,8 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
             }
             else
             {
-                Customer = CustomerService.GetCustomerById(customerUpdateSelectedIndex + 1);
+                var correctId = customersList[customerUpdateSelectedIndex].Id;
+                Customer = CustomerService.GetCustomerById(correctId);
                 //Customer = customerService.GetCustomerById(customerUpdateSelectedIndex + 1);
                 Updating();
             }

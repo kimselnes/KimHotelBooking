@@ -93,7 +93,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 
                 case 1: // Update SquareMeters.
 
-                    Room.SquareMeters = RoomService.SetRoomSquareMeters();
+                    Room.SquareMeters = RoomService.SetRoomSquareMeters(Room.SquareMeters);
                     Updating();
                     break;
 

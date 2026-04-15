@@ -147,13 +147,19 @@ namespace KimHotelBooking.Navigation.BookingCRUDs
 
                 if (Booking.RoomBeds > OriginalBeds)
                 {
-                    Console.WriteLine($"\nPriset har ökat med {((Booking.RoomBeds - OriginalBeds) * 100) * ((Booking.EndDate - Booking.StartDate).Days + 1)} SEK på grund av extra sängar.");
+                    var priceIncrease = ((Booking.RoomBeds - OriginalBeds) * 100) * ((Booking.EndDate - Booking.StartDate).Days + 1);
+                    Console.WriteLine($"\nFakturan har ökat med {priceIncrease} SEK på grund av extra sängar.");
                     Utility.WaitForKeyPress();
                     Run(Customer);
                 }
                 else if (Booking.RoomBeds < OriginalBeds)
                 {
-                    Console.WriteLine($"\nPriset har sänkts med {((OriginalBeds - Booking.RoomBeds) * 100) * ((Booking.EndDate - Booking.StartDate).Days + 1)} SEK på grund av färre sängar.");
+                    var priceReduction = ((OriginalBeds - Booking.RoomBeds) * 100) * ((Booking.EndDate - Booking.StartDate).Days + 1);
+                    Console.WriteLine($"\nFakturan har sänkts med {priceReduction} SEK på grund av färre sängar.");
+                    if (Invoice.IsPaid == true)
+                    {
+                        Console.WriteLine($"Eftersom fakturan redan är betald får du tillbaka {priceReduction} SEK till ditt konto.");
+                    }
                     Utility.WaitForKeyPress();
                     Run(Customer);
                 }

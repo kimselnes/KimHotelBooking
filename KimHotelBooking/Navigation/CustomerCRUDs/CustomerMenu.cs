@@ -53,7 +53,7 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
                     break;
 
                 case -1:
-                    MainMenu.Run();
+                    MainMenu.AdminMenu();
                     break;
             }
         }

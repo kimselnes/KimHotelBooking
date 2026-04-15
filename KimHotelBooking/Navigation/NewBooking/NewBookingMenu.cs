@@ -46,7 +46,7 @@ namespace KimHotelBooking.Navigation.NewBooking
                     break;
 
                 case -1: // Exit
-                    MainMenu.Run();
+                    MainMenu.GuestMenu();
                     break;
             }
         }
@@ -58,7 +58,7 @@ namespace KimHotelBooking.Navigation.NewBooking
 
             List<string> createOptions =
             [
-                "Namn",
+                $"Namn: {Customer.Name}",
                 "-[ SPARA NYA KUNDEN ]-"
             ];
 
@@ -72,7 +72,13 @@ namespace KimHotelBooking.Navigation.NewBooking
                     Console.Write("Namn: ");
                     var name = Console.ReadLine();
 
-                    if (name != null)
+                    if (name.ToUpper() == "BACK")
+                    {
+                        Console.WriteLine("\n\u001b[31mBack är inte ett tillåtet namn.\u001b[0m");
+                        Utility.WaitForKeyPress();
+                        Run();
+                    }
+                    else if (!string.IsNullOrWhiteSpace(name))
                     {
                         var customerService = new CustomerService();
                         Customer.Name = customerService.SetName(name);

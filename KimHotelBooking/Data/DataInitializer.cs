@@ -57,7 +57,6 @@ namespace KimHotelBooking.Data
             }
         }
 
-        // OM JAG ÄNDRAR PÅ HUR MAN RÄKNAR UT PricePerNight MÅSTE JAG ÄNDRA I MIN SEED.
         private void SeedRooms(ApplicationDbContext dbContext)
         {
             // Seed 1

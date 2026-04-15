@@ -16,8 +16,6 @@ namespace KimHotelBooking.Navigation.BookingCRUDs
             SelectCustomer();
 
             SelectDeleteOrUpdate();
-
-
         }
 
         public static void SelectCustomer()
@@ -35,9 +33,9 @@ namespace KimHotelBooking.Navigation.BookingCRUDs
                 Console.WriteLine("\u001b[31mDu måste ange ett giltigt kundnamn.\u001b[0m");
                 SelectCustomer();
             }
-            else if (customerName.ToUpper() == "BACK") // VILL ÄNDRA ANNARS KAN JAG INTE HA KUND SOM HETER BACK.
+            else if (customerName.ToUpper() == "BACK")
             {
-                MainMenu.Run();
+                MainMenu.GuestMenu();
             }
             else
             {
@@ -48,12 +46,10 @@ namespace KimHotelBooking.Navigation.BookingCRUDs
                 {
                     Console.WriteLine($"\nDu har loggat in med \u001b[32m{Customer.Name}.\u001b[0m");
                     Utility.WaitForKeyPress();
-
-                    //NewBooking();
                 }
                 else
                 {
-                    Console.WriteLine("\u001b[31mDu har angivit fel namn.\u001b[0m");
+                    Console.WriteLine("\n\u001b[31mDu har angivit fel namn.\u001b[0m");
                     Utility.WaitForKeyPress();
 
                     SelectCustomer();
@@ -87,7 +83,7 @@ namespace KimHotelBooking.Navigation.BookingCRUDs
                     break;
                 case -1:
                     // Back to main menu.
-                    MainMenu.Run();
+                    MainMenu.GuestMenu();
                     break;
             }
         }

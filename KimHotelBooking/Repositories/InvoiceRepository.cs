@@ -79,6 +79,16 @@ namespace KimHotelBooking.Repositories
             }
         }
 
+        public List<Invoice> GetAllInvoicesForCustomer(int customerId)
+        {
+            List<Invoice> invoices = new List<Invoice>();
+            using (DbContext)
+            {
+                invoices = DbContext.Invoice.Where(i => i.CustomerId == customerId).ToList();
+            }
+            return invoices;
+        }
+
         public Invoice GetInvoiceByBookingId(int bookingId)
         {
             var invoice = new Invoice();

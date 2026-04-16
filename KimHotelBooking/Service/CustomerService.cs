@@ -172,5 +172,19 @@ namespace KimHotelBooking.Service
                 return true;
             }
         }
+
+        public static List<Customer> CustomersOver2Bookings()
+        {
+            var customerService = new CustomerService();
+            var customers = customerService.GetAllCustomersList();
+
+            var bookings = BookingService.GetAllBookingsList();
+
+            var customersOver3Bookings = customers
+                .Where(c => bookings.Count(b => b.CustomerId == c.Id) > 2)
+                .ToList();
+
+            return customersOver3Bookings;
+        }
     }
 }

@@ -41,7 +41,7 @@ namespace KimHotelBooking.Navigation.NewBooking
                     break;
 
                 case 1: // Select Customer
-                    Console.Clear();
+                    Utility.FullClearConsole();
                     SelectCustomer();
                     break;
 
@@ -121,15 +121,15 @@ namespace KimHotelBooking.Navigation.NewBooking
 
         public static void SelectCustomer()
         {
-            Console.Clear();
+            Utility.FullClearConsole();
             Console.WriteLine("\u001b[1mNY RUMSBOKNING\u001b[0m\n" +
-                "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n" + // Kan inte använda ESC.
-                "Ange ditt kund-konto:");
+                "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n\n" + // Kan inte använda ESC.
+                "Ange ditt kund-konto");
 
-            Console.Write("Ange namn: ");
+            Console.Write("\nAnge namn: ");
             var nameInput = Console.ReadLine();
 
-            if (nameInput != null)
+            if (!string.IsNullOrWhiteSpace(nameInput))
             {
                 var customerService = new CustomerService();
                 Customer = customerService.GetCustomerByName(nameInput);
@@ -161,13 +161,13 @@ namespace KimHotelBooking.Navigation.NewBooking
 
         public static void NewBooking()
         {
-            Console.Clear();
+            Utility.FullClearConsole();
             // ANGE DATUM
             NewStartDate();
-            Console.Clear();
+            Utility.FullClearConsole();
 
             NewEndDate();
-            Console.Clear();
+            Utility.FullClearConsole();
 
             // KOLLA VILKA RUM SOM ÄR LEDIGA OCH LISTA DEM
 
@@ -197,7 +197,7 @@ namespace KimHotelBooking.Navigation.NewBooking
             // OM MAN VÄLJER DUBBELRUM FRÅGAS DET IFALL MAN VILL LÄGGA TILL SÄNGAR
             if (Room.Type == "Double")
             {
-                Console.Clear();
+                Utility.FullClearConsole();
                 ExtraBed();
             }
 
@@ -295,7 +295,7 @@ namespace KimHotelBooking.Navigation.NewBooking
                             {
                                 Console.WriteLine("\n\u001b[31mDatumet måste vara dagens eller framtida.\u001b[0m");
                                 Utility.WaitForKeyPress();
-                                Console.Clear();
+                                Utility.FullClearConsole();
                                 NewStartDate();
                             }
 
@@ -304,7 +304,7 @@ namespace KimHotelBooking.Navigation.NewBooking
                         {
                             Console.WriteLine("\n\u001b[31mFelaktigt format på datumet.\u001b[0m");
                             Utility.WaitForKeyPress();
-                            Console.Clear();
+                            Utility.FullClearConsole();
                             NewStartDate();
                             //throw;
                         }
@@ -338,7 +338,7 @@ namespace KimHotelBooking.Navigation.NewBooking
                     {
                         Console.WriteLine("\n\u001b[31mAngav fel format på dag.\u001b[0m");
                         Utility.WaitForKeyPress();
-                        Console.Clear();
+                        Utility.FullClearConsole();
                         NewStartDate();
                     }
                 }
@@ -346,7 +346,7 @@ namespace KimHotelBooking.Navigation.NewBooking
                 {
                     Console.WriteLine("\n\u001b[31mAngav fel format på månad.\u001b[0m");
                     Utility.WaitForKeyPress();
-                    Console.Clear();
+                    Utility.FullClearConsole();
                     NewStartDate();
                 }
             }
@@ -354,7 +354,7 @@ namespace KimHotelBooking.Navigation.NewBooking
             {
                 Console.WriteLine("\n\u001b[31mAngav fel format på år.\u001b[0m");
                 Utility.WaitForKeyPress();
-                Console.Clear();
+                Utility.FullClearConsole();
                 NewStartDate();
             }
         }
@@ -403,7 +403,7 @@ namespace KimHotelBooking.Navigation.NewBooking
                             {
                                 Console.WriteLine("\n\u001b[31mDu måste ange ett slut-datum som kommer efter ditt angivna start-datum\u001b[0m");
                                 Utility.WaitForKeyPress();
-                                Console.Clear();
+                                Utility.FullClearConsole();
                                 NewEndDate();
                             }
                         }
@@ -412,7 +412,7 @@ namespace KimHotelBooking.Navigation.NewBooking
 
                             Console.WriteLine("\n\u001b[31mFelaktigt format på datumet.\u001b[0m");
                             Utility.WaitForKeyPress();
-                            Console.Clear();
+                            Utility.FullClearConsole();
                             NewEndDate();
                         }
 
@@ -421,7 +421,7 @@ namespace KimHotelBooking.Navigation.NewBooking
                     {
                         Console.WriteLine("\n\u001b[31mAngav fel format på dag.\u001b[0m");
                         Utility.WaitForKeyPress();
-                        Console.Clear();
+                        Utility.FullClearConsole();
                         NewEndDate();
                     }
                 }
@@ -429,7 +429,7 @@ namespace KimHotelBooking.Navigation.NewBooking
                 {
                     Console.WriteLine("\n\u001b[31mAngav fel format på månad.\u001b[0m");
                     Utility.WaitForKeyPress();
-                    Console.Clear();
+                    Utility.FullClearConsole();
                     NewEndDate();
                 }
             }
@@ -437,7 +437,7 @@ namespace KimHotelBooking.Navigation.NewBooking
             {
                 Console.WriteLine("\n\u001b[31mAngav fel format på år.\u001b[0m");
                 Utility.WaitForKeyPress();
-                Console.Clear();
+                Utility.FullClearConsole();
                 NewEndDate();
             }
         }

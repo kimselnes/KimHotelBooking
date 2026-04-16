@@ -125,7 +125,7 @@ namespace KimHotelBooking.Repositories
 
             using (DbContext)
             {
-                customer = DbContext.Customer.Where(c => c.Name == name).FirstOrDefault();
+                customer = DbContext.Customer.Where(c => c.Name == name && c.IsActive == true).FirstOrDefault();
             }
 
             return customer;

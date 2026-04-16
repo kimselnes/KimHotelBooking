@@ -19,6 +19,7 @@ namespace KimHotelBooking.Navigation
     {
         public static void Run()
         {
+            Utility.FullClearConsole();
             var mainPrompt = "Välkommen till Kim's Hotel";
 
             List<string> mainOptions =
@@ -54,9 +55,9 @@ namespace KimHotelBooking.Navigation
                     break;
 
                 case 4: // [TEST] - TA BORT EFTER ATT APPEN ÄR KLAR!!! 
-                    // -----------------------------------------------------------------------
-                    //var oldBooking = new Booking() { StartDate = new DateTime(2026, 01, 10), EndDate = new DateTime(2026, 01, 20) };
-                    //var newBooking = new Booking() { StartDate = new DateTime(2026, 01, 19), EndDate = new DateTime(2026, 01, 21) };
+                        // -----------------------------------------------------------------------
+                        //var oldBooking = new Booking() { StartDate = new DateTime(2026, 01, 10), EndDate = new DateTime(2026, 01, 20) };
+                        //var newBooking = new Booking() { StartDate = new DateTime(2026, 01, 19), EndDate = new DateTime(2026, 01, 21) };
 
                     ////var bookingService = new BookingService();
                     //var isAvaiable = BookingService.IsDateOverlap(newBooking, oldBooking);
@@ -65,26 +66,27 @@ namespace KimHotelBooking.Navigation
                     //Console.ReadLine();
                     //Environment.Exit(0);
                     // - - - - - - - - - - - - - - - - - - - - - - - - - - - --------------------------------------------
-                    List<string> bookingsStrings = new List<string>();
-                    var bookingsList = BookingService.GetAllBookingsList().Where(b => b.CustomerId == 3 && b.IsActive == true).ToList();
-                    var roomsList = RoomService.GetAllRoomsList().Where(r => r.IsActive == true).ToList();
-                    var invoiceList = InvoiceService.GetAllInvoices().Where(i => i.IsActive == true).ToList();
+                    //List<string> bookingsStrings = new List<string>();
+                    //var bookingsList = BookingService.GetAllBookingsList().Where(b => b.CustomerId == 3 && b.IsActive == true).ToList();
+                    //var roomsList = RoomService.GetAllRoomsList().Where(r => r.IsActive == true).ToList();
+                    //var invoiceList = InvoiceService.GetAllInvoices().Where(i => i.IsActive == true).ToList();
 
+                    //foreach (var booking in bookingsList)
+                    //{
+                    //    var room = roomsList.FirstOrDefault(r => r.Id == booking.RoomId);
+                    //    var invoice = invoiceList.FirstOrDefault(i => i.BookingId == booking.Id);
 
+                    //    var tempString = $"Datum: {booking.StartDate.ToString("yyyy-MM-dd")} - {booking.EndDate.ToString("yyyy-MM-dd")}\n" +
+                    //        $"{room.Type}-rum med {booking.RoomBeds} sängar.\n" +
+                    //        $"Faktura: {invoice.TotalPrice} ({(invoice.IsPaid == true ? "\u001b[32mBetald\u001b[0m" : "\u001b[31mEj betald\u001b[0m")})";
 
-                    foreach (var booking in bookingsList)
-                    {
-                        var room = roomsList.FirstOrDefault(r => r.Id == booking.RoomId);
-                        var invoice = invoiceList.FirstOrDefault(i => i.BookingId == booking.Id);
+                    //    bookingsStrings.Add(tempString);
+                    //    Console.WriteLine(tempString);
+                    //}
+                    //Utility.WaitForKeyPress();
+                    // - - - - - - - - - - - - - - - - - - - - - - - - - - - --------------------------------------------
 
-                        var tempString = $"Datum: {booking.StartDate.ToString("yyyy-MM-dd")} - {booking.EndDate.ToString("yyyy-MM-dd")}\n" +
-                            $"{room.Type}-rum med {booking.RoomBeds} sängar.\n" +
-                            $"Faktura: {invoice.TotalPrice} ({(invoice.IsPaid == true ? "\u001b[32mBetald\u001b[0m" : "\u001b[31mEj betald\u001b[0m")})";
-
-                        bookingsStrings.Add(tempString);
-                        Console.WriteLine(tempString);
-                    }
-                    Utility.WaitForKeyPress();
+                    BookingReadMenu.Run();
                     break;
             }
 
@@ -93,6 +95,7 @@ namespace KimHotelBooking.Navigation
 
         public static void GuestMenu()
         {
+            Utility.FullClearConsole();
             var guestPrompt = "\u001b[1mGÄST MENY\u001b[0m\n" +
                 "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n\n" +
                 "Vad vill du göra?";
@@ -101,8 +104,7 @@ namespace KimHotelBooking.Navigation
             [
                 "Boka rum",
                 "Avboka rum/Ändra bokning",
-                "Betala faktura",
-                "Gå tillbaka"
+                "Betala faktura"
             ];
 
             Menu guestMenu = new Menu(guestPrompt, guestOptions);
@@ -130,6 +132,7 @@ namespace KimHotelBooking.Navigation
 
         public static void AdminMenu()
         {
+            Utility.FullClearConsole();
             var adminPrompt = "\u001b[1mADMIN MENY\u001b[0m\n" +
                 "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n\n" +
                 "Vad vill du göra?";
@@ -137,10 +140,9 @@ namespace KimHotelBooking.Navigation
             List<string> adminOptions =
             [
                 "Checka in/ut",
+                "Visa alla bokningar",
                 "Hantera rum",
-                "Hantera kunder",
-                "Hantera bokningar",
-                "Gå tillbaka"
+                "Hantera kunder"
             ];
 
             Menu adminMenu = new Menu(adminPrompt, adminOptions);
@@ -152,16 +154,16 @@ namespace KimHotelBooking.Navigation
                     CheckInOutMenu.Run();
                     break;
 
-                case 1:
-                    RoomMenu.Run();
+                case 1: 
+                    BookingReadMenu.Run();
                     break;
 
                 case 2:
-                    CustomerMenu.Run();
+                    RoomMenu.Run();
                     break;
 
-                case 3: 
-
+                case 3:
+                    CustomerMenu.Run();
                     break;
 
                 case -1:

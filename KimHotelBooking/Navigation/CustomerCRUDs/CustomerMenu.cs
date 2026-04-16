@@ -12,6 +12,7 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
 
         public static void Run()
         {
+            Utility.FullClearConsole();
             var customerPrompt = "\u001b[1mHANTERA KUNDER\u001b[0m\n" +
                 "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)";
 
@@ -20,7 +21,8 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
                 "Skapa ny kund",
                 "Visa alla kunder",
                 "Ändra kund",
-                "Ta bort kund"
+                "Ta bort kund",
+                "Visa alla VIP-kunder"
             ];
 
             Menu customerMenu = new Menu(customerPrompt, customerOptions);
@@ -50,6 +52,12 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
                 case 3: // Delete Customer
                     var customerDeleteMenu = new CustomerDeleteMenu();
                     customerDeleteMenu.Run();
+                    break;
+
+                case 4:
+                    CustomerReadMenu.VIP();
+                    Utility.WaitForKeyPress();
+                    Run();
                     break;
 
                 case -1:

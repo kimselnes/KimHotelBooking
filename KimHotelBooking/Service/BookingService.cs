@@ -139,6 +139,105 @@ namespace KimHotelBooking.Service
             return bookings;
         }
 
+        public static List<(Room Room, List<Booking> Bookings)> GetBookingsGroupedByRoom()
+        {
+            var rooms = RoomService.GetAllRoomsList();
+            var bookings = GetAllBookingsList().Where(b => b.IsActive == true).OrderBy(b => b.StartDate).ToList();
+
+            var grouped = bookings
+                .GroupBy(b => b.RoomId)
+                .Select(g => (
+                    Room: rooms.FirstOrDefault(r => r.Id == g.Key),
+                    Bookings: g.ToList()
+                ))
+                .OrderBy(x => x.Room?.Id) // .OrderBy(x => x.Bookings.FirstOrDefault()?.StartDate)
+                .ToList();
+
+            return grouped;
+        }
+
+        public static List<string> GetBookingsGroupedDisplay()
+        {
+            var grouped = GetBookingsGroupedByRoom(); // List<(Room Room, List<Booking> Bookings)>
+            var invoices = InvoiceService.GetAllInvoices(); // cache once
+            var lines = new List<string>();
+
+            foreach (var group in grouped)
+            {
+                var room = group.Room;
+
+                lines.Add(room != null
+                    ? $"Rum {room.Id} — {room.Type} | {group.Bookings.Count} Aktiva bokningar"
+                    : $"Rum {group.Bookings.FirstOrDefault()?.RoomId ?? 0} — [saknas]");
+
+                foreach (var booking in group.Bookings)
+                {
+                    var customer = CustomerService.GetCustomerById(booking.CustomerId);
+                    var invoice = invoices.FirstOrDefault(i => i.BookingId == booking.Id);
+
+                    var invoiceInfo = $"{invoice.TotalPrice} {(invoice.IsPaid ? "[\u001b[32mBetalad\u001b[0m]" : "[\u001b[31mObetald\u001b[0m]")}";
+
+                    //var invoiceInfo = invoice != null
+                    //    ? $"{invoice.TotalPrice} {(invoice.IsPaid ? "Betalad" : "Obetald")}"
+                    //    : "Ingen faktura";
+
+                    lines.Add($"  {booking.Id}: {booking.StartDate.ToString("yyyy-MM-dd")} - {booking.EndDate.ToString("yyyy-MM-dd")} | {customer.Name} | {invoiceInfo}");
+                }
+
+                lines.Add("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
+                //lines.Add(string.Empty); // spacing between rooms
+            }
+
+            return lines;
+        }
+
+        //public static List<string> GetAllBookingsForDisplay()
+        //{
+        //    // Vill använda join för att hämta den info jag vill ha från Booking, Room, Customer och Invoice.
+        //    // Sedan vill jag använda GroupBy för att gruppera ihop bokningar enligt Rum och sedan bara visa dem på ett snyggt sätt.
+
+
+
+
+
+
+
+
+        //    /*
+        //    //var customerRep = new CustomerRepository();
+        //    //var customers = customerRep.GetAllCustomers();
+
+        //    //var roomRep = new RoomRepository();
+        //    //var rooms = roomRep.GetAllRooms();
+
+        //    //var bookingRep = new BookingRepository();
+        //    //var bookings = bookingRep.GetAllBookings();
+
+        //    //var invoiceRep = new InvoiceRepository();
+        //    //var invoices = invoiceRep.GetAll();
+
+
+        //    //var bookingRoomCustomerInvoice = invoices
+        //    //    .Join(customers, invoice => invoice.CustomerId, customer => customer.Id,
+        //    //        (invoice, customer) => new { Invoice = invoice, Customer = customer })
+        //    //    .Join(bookings, ic => ic.Invoice.BookingId, booking => booking.Id,
+        //    //        (ic, booking) => new { ic.Invoice, ic.Customer, Booking = booking })
+        //    //    .Join(rooms, icb => icb.Booking.RoomId, room => room.Id,
+        //    //        (icb, room) => new { icb.Invoice, icb.Customer, icb.Booking, Room = room })
+        //    //    .GroupBy(x => x.Room.Id);
+
+        //    //List<string> bookingDisplayStrings = new List<string>();
+        //    //foreach (var item in bookingRoomCustomerInvoice)
+        //    //{
+        //    //    bookingDisplayStrings.Add($"Kund: {item.Customer.Name}, Sista betalningsdatum: {item.Invoice.DueDate.ToString("yyyy-MM-dd")}\n" +
+        //    //        $"Rum: {item.Room.Id}. '{item.Room.Type}' ({item.Booking.StartDate.ToString("yyyy-MM-dd")} - {item.Booking.EndDate.ToString("yyyy-MM-dd")})\n" +
+        //    //        $"Faktura: {item.Invoice.TotalPrice} " +
+        //    //        $"[{(item.Invoice.IsPaid == false ? "\u001b[31mEj Betald\u001b[0m" : "\u001b[32mBetald\u001b[0m")}]");
+        //    //}
+        //    //return bookingDisplayStrings;
+        //    */
+        //}
+
         public static List<string> BookingsWithListToString(List<Booking> bookingsList)
         {
             List<string> bookingsStrings = new List<string>();
@@ -179,7 +278,7 @@ namespace KimHotelBooking.Service
             }
 
             return bookingsInfoStrings;
-        }
+        }        
 
         public static List<Booking> GetAllIsCheckedIn()
         {

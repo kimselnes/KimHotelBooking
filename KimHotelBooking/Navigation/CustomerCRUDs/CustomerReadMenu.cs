@@ -15,6 +15,7 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
 
         public void Run()
         {
+            Utility.FullClearConsole();
             Console.WriteLine("Lista på alla Kunder\n");
 
             var customerService = new CustomerService();
@@ -24,9 +25,23 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
             foreach (var customer in customers)
             {
                 Console.WriteLine($"Kundnamn: {customer.Name}\n" +
-                    $"Aktiv: {(customer.IsActive == true ? "Ja" : "Nej")}");
+                    $"Aktiv: {(customer.IsActive == true ? "\u001b[32mJa\u001b[0m" : "\u001b[31mNej\u001b[0m")}");
                 Console.WriteLine("- - - - - - - - - - - - - - - - -");
             }            
+        }
+
+        public static void VIP()
+        {
+            Utility.FullClearConsole();
+            Console.WriteLine("Alla kunder som har fler än 2 bokningar totalt\n" +
+                "\u001b[32mGe dem VIP-Treatment!\u001b[0m\n\n");
+
+            var vipCustomers = CustomerService.CustomersOver2Bookings().Where(c => c.IsActive == true);
+
+            foreach (var customer in vipCustomers)
+            {
+                Console.WriteLine($"Kundnamn: {customer.Name}\n");
+            }
         }
     }
 }

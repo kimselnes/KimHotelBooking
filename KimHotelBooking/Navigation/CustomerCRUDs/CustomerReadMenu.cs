@@ -20,14 +20,26 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
 
             var customerService = new CustomerService();
             var customers = customerService.GetAllCustomersList();
+            var customerStatus = customers.Select(c => new
+            {
+                FullStatus = $"Kundnamn: {c.Name}\n" +
+                    $"Aktiv: {(c.IsActive == true ? "\u001b[32mJa\u001b[0m" : "\u001b[31mNej\u001b[0m")}"
+            }).ToList();
 
             Console.WriteLine("- - - - - - - - - - - - - - - - -");
-            foreach (var customer in customers)
+
+            foreach (var customer in customerStatus )
             {
-                Console.WriteLine($"Kundnamn: {customer.Name}\n" +
-                    $"Aktiv: {(customer.IsActive == true ? "\u001b[32mJa\u001b[0m" : "\u001b[31mNej\u001b[0m")}");
+                Console.WriteLine(customer.FullStatus);
                 Console.WriteLine("- - - - - - - - - - - - - - - - -");
-            }            
+            }
+
+            //foreach (var customer in customers)
+            //{
+            //    Console.WriteLine($"Kundnamn: {customer.Name}\n" +
+            //        $"Aktiv: {(customer.IsActive == true ? "\u001b[32mJa\u001b[0m" : "\u001b[31mNej\u001b[0m")}");
+            //    Console.WriteLine("- - - - - - - - - - - - - - - - -");
+            //}            
         }
 
         public static void VIP()

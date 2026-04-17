@@ -43,14 +43,9 @@ namespace KimHotelBooking.Navigation.BookingCRUDs
 
                 Console.WriteLine("\n\u001b[32mRummet är avbokat!\u001b[0m");
             }
-
-            // DELETE THE INVOICE CONNECTED TO THIS BOOKING.
-
-            // Use CustomerId to identify the correct invoice. (And DELETE it right away?)
             Invoice = InvoiceService.GetInvoiceByBookingId(correctId);
             InvoiceService.Delete(Invoice);
 
-            // If the 'Invoice.IsPaid == true' inform the Customer they're getting a refund.
             if (Invoice.IsPaid == true)
             {
                 Console.WriteLine("\u001b[1mDu kommer att få en återbetalning eftersom fakturan redan är betald.\u001b[0m");

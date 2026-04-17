@@ -17,17 +17,6 @@ namespace KimHotelBooking.Navigation.BookingCRUDs
         public static int CorrectBookingId { get; set; }
         public static int OriginalBeds { get; set; }
 
-
-        //public BookingUpdateMenu(Customer customer)
-        //{
-        //    Customer = customer;
-
-        //    Booking = ;
-
-        //    Room = ;
-
-        //    Invoice = ;
-        //}
         public static void Run(Customer customer)
         {
             Customer = customer;
@@ -69,13 +58,6 @@ namespace KimHotelBooking.Navigation.BookingCRUDs
             var updatePrompt = "\u001b[1mUPPDATERA BOKNING\u001b[0m\n" +
                 "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n\n" +
                 "Vad vill du ändra?";
-            //List<string> options =
-            //[
-            //    $"Start datum: {Booking.StartDate}",
-            //    $"Slut datum: {Booking.EndDate}",
-            //    $"Sängar: {Booking.RoomBeds}",
-            //    " -SPARA-"
-            //];
 
             List<string> options =
             [
@@ -90,20 +72,6 @@ namespace KimHotelBooking.Navigation.BookingCRUDs
 
             switch (selectedIndex)
             {
-                //case 0: // Update StartDate.
-
-                //    NewStartDate();
-                //    Updating();
-
-                //    break;
-
-                //case 1: // Update EndDate.
-
-                //    NewEndDate();
-                //    Updating();
-
-                //    break;
-
                 case 0: // Update Beds.
                     ExtraBed();
                     Updating();
@@ -128,21 +96,15 @@ namespace KimHotelBooking.Navigation.BookingCRUDs
         {
             if (Booking.RoomBeds != OriginalBeds)
             {
-                // Updatera Invoice priset baserat på nya antalet sängar.
-                //Invoice = InvoiceService.SetInvoiceValues(Booking, Room, Customer);
-
-                // Måste uppdatera Invoice på nytt sätt då jag inte vill använda Room.Beds.
                 Room.Beds = Booking.RoomBeds;
                 var roomService = new RoomService();
                 Room.PricePerNight = roomService.DeterminePricePerNight(Room);
 
                 Invoice = InvoiceService.GetInvoiceByBookingId(Booking.Id);
-                //Invoice = InvoiceService.SetInvoiceValues(Booking, Room, Customer);
                 Invoice.TotalPrice = InvoiceService.DetermineFullInvoicePrice(Room, (Booking.EndDate - Booking.StartDate).Days + 1);
 
                 var invoiceRep = new InvoiceRepository();
                 invoiceRep.Update(Invoice);
-                //var bookingRep = new BookingRepository();
 
 
                 if (Booking.RoomBeds > OriginalBeds)
@@ -296,160 +258,6 @@ namespace KimHotelBooking.Navigation.BookingCRUDs
 
                 }
             }
-        }
-
-        //public static void NewStartDate()
-        //{
-        //    Console.WriteLine("\u001b[1mUPPDATERA BOKNING\u001b[0m\n" +
-        //        "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n\n" + // Kan inte använda ESC.
-        //        "Ange nytt önskat start-datum som du vill boka rum på:");
-
-        //    Console.Write("\nÅrtal (YYYY): ");
-
-        //    if (Int32.TryParse(Console.ReadLine(), out var yearInput))
-        //    {
-        //        Console.Write("\nMånad (MM): ");
-
-        //        if (Int32.TryParse(Console.ReadLine(), out var monthInput))
-        //        {
-        //            Console.Write("\nDag (DD): ");
-
-        //            if (Int32.TryParse(Console.ReadLine(), out var dayInput))
-        //            {
-        //                DateTime currentDate = DateTime.Now;
-        //                DateTime startDate = new DateTime(yearInput, monthInput, dayInput);
-
-        //                if (startDate.Date >= currentDate.Date)
-        //                {
-        //                    try
-        //                    {
-        //                        Booking.StartDate = startDate;
-        //                        Console.WriteLine("\n\u001b[32mDitt start-datum är giltigt.\u001b[0m");
-        //                        Utility.WaitForKeyPress();
-        //                    }
-        //                    catch (Exception e)
-        //                    {
-        //                        Console.WriteLine("\n\u001b[31mFelaktigt format på datumet.\u001b[0m");
-        //                        Utility.WaitForKeyPress();
-        //                        Console.Clear();
-        //                        NewStartDate();
-        //                        throw;
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    Console.WriteLine("\n\u001b[31mDatumet måste vara dagens eller framtida.\u001b[0m");
-        //                    Utility.WaitForKeyPress();
-        //                    Console.Clear();
-        //                    NewStartDate();
-        //                }
-        //            }
-        //            else
-        //            {
-        //                Console.WriteLine("\n\u001b[31mAngav fel format på dag.\u001b[0m");
-        //                Utility.WaitForKeyPress();
-        //                Console.Clear();
-        //                NewStartDate();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("\n\u001b[31mAngav fel format på månad.\u001b[0m");
-        //            Utility.WaitForKeyPress();
-        //            Console.Clear();
-        //            NewStartDate();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("\n\u001b[31mAngav fel format på år.\u001b[0m");
-        //        Utility.WaitForKeyPress();
-        //        Console.Clear();
-        //        NewStartDate();
-        //    }
-        //}
-
-        //public static void NewEndDate()
-        //{
-        //    Console.WriteLine("\u001b[1mUPPDATERA BOKNING\u001b[0m\n" +
-        //        "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n\n" + // Kan inte använda ESC.
-        //        "Ange nytt önskat slut-datum som du vill boka rum på:");
-
-        //    Console.Write("\nÅrtal (YYYY): ");
-
-        //    if (Int32.TryParse(Console.ReadLine(), out var yearInput))
-        //    {
-        //        Console.Write("\nMånad (MM): ");
-
-        //        if (Int32.TryParse(Console.ReadLine(), out var monthInput))
-        //        {
-        //            Console.Write("\nDag (DD): ");
-
-        //            if (Int32.TryParse(Console.ReadLine(), out var dayInput))
-        //            {
-        //                try
-        //                {
-        //                    DateTime endDate = new DateTime(yearInput, monthInput, dayInput);
-
-        //                    if (endDate >= Booking.StartDate)
-        //                    {
-        //                        try
-        //                        {
-        //                            Booking.EndDate = endDate;
-        //                            Console.WriteLine("\n\u001b[32mDitt slut-datum är giltigt.\u001b[0m");
-        //                            Utility.WaitForKeyPress();
-        //                        }
-        //                        catch (Exception e)
-        //                        {
-        //                            Console.WriteLine("\n\u001b[31mFelaktigt format på datumet.\u001b[0m");
-        //                            Utility.WaitForKeyPress();
-        //                            Console.Clear();
-        //                            NewEndDate();
-        //                            throw;
-        //                        }
-
-        //                    }
-        //                    else
-        //                    {
-        //                        Console.WriteLine("\n\u001b[31mDu måste ange ett slut-datum som kommer efter ditt angivna start-datum\u001b[0m");
-        //                        Utility.WaitForKeyPress();
-        //                        Console.Clear();
-        //                        NewEndDate();
-        //                    }
-        //                }
-        //                catch (Exception)
-        //                {
-
-        //                    Console.WriteLine("\n\u001b[31mDu måste ange ett giltigt datum.\u001b[0m");
-        //                    Utility.WaitForKeyPress();
-        //                    Console.Clear();
-        //                    NewStartDate();
-        //                }
-
-        //            }
-        //            else
-        //            {
-        //                Console.WriteLine("\n\u001b[31mAngav fel format på dag.\u001b[0m");
-        //                Utility.WaitForKeyPress();
-        //                Console.Clear();
-        //                NewEndDate();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("\n\u001b[31mAngav fel format på månad.\u001b[0m");
-        //            Utility.WaitForKeyPress();
-        //            Console.Clear();
-        //            NewEndDate();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("\n\u001b[31mAngav fel format på år.\u001b[0m");
-        //        Utility.WaitForKeyPress();
-        //        Console.Clear();
-        //        NewEndDate();
-        //    }
-        //}
+        }                
     }
 }

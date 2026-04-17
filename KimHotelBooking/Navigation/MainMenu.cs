@@ -27,8 +27,7 @@ namespace KimHotelBooking.Navigation
                 "Gäster",
                 "Admin",                
                 "Kontrollera fakturor",
-                "Avsluta",
-                "TEST" // TA BORT TEST NÄR APPEN ÄR KLAR!!!
+                "Avsluta"
             ];
 
             Menu mainMenu = new Menu(mainPrompt, mainOptions);
@@ -52,41 +51,6 @@ namespace KimHotelBooking.Navigation
 
                 case 3:
                     Environment.Exit(0);
-                    break;
-
-                case 4: // [TEST] - TA BORT EFTER ATT APPEN ÄR KLAR!!! 
-                        // -----------------------------------------------------------------------
-                        //var oldBooking = new Booking() { StartDate = new DateTime(2026, 01, 10), EndDate = new DateTime(2026, 01, 20) };
-                        //var newBooking = new Booking() { StartDate = new DateTime(2026, 01, 19), EndDate = new DateTime(2026, 01, 21) };
-
-                    ////var bookingService = new BookingService();
-                    //var isAvaiable = BookingService.IsDateOverlap(newBooking, oldBooking);
-
-                    //Console.WriteLine($"{(isAvaiable == true ? "Overlap" : "INTE overlap")}");
-                    //Console.ReadLine();
-                    //Environment.Exit(0);
-                    // - - - - - - - - - - - - - - - - - - - - - - - - - - - --------------------------------------------
-                    //List<string> bookingsStrings = new List<string>();
-                    //var bookingsList = BookingService.GetAllBookingsList().Where(b => b.CustomerId == 3 && b.IsActive == true).ToList();
-                    //var roomsList = RoomService.GetAllRoomsList().Where(r => r.IsActive == true).ToList();
-                    //var invoiceList = InvoiceService.GetAllInvoices().Where(i => i.IsActive == true).ToList();
-
-                    //foreach (var booking in bookingsList)
-                    //{
-                    //    var room = roomsList.FirstOrDefault(r => r.Id == booking.RoomId);
-                    //    var invoice = invoiceList.FirstOrDefault(i => i.BookingId == booking.Id);
-
-                    //    var tempString = $"Datum: {booking.StartDate.ToString("yyyy-MM-dd")} - {booking.EndDate.ToString("yyyy-MM-dd")}\n" +
-                    //        $"{room.Type}-rum med {booking.RoomBeds} sängar.\n" +
-                    //        $"Faktura: {invoice.TotalPrice} ({(invoice.IsPaid == true ? "\u001b[32mBetald\u001b[0m" : "\u001b[31mEj betald\u001b[0m")})";
-
-                    //    bookingsStrings.Add(tempString);
-                    //    Console.WriteLine(tempString);
-                    //}
-                    //Utility.WaitForKeyPress();
-                    // - - - - - - - - - - - - - - - - - - - - - - - - - - - --------------------------------------------
-
-                    BookingReadMenu.Run();
                     break;
             }
         }

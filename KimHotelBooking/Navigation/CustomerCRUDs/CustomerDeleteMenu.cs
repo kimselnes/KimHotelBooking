@@ -19,12 +19,10 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
 
             var customerService = new CustomerService();
 
-
             List<string> customerDeleteOptions = customerService.CustomerListToStringsOnlyActive();
 
             Menu customerDeleteMenu = new Menu(customerDeletePrompt, customerDeleteOptions);
             int customerDeleteSelectedIndex = customerDeleteMenu.Run();
-
 
             if (customerDeleteSelectedIndex == -1)
             {
@@ -37,7 +35,6 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
 
                 var correctCustomerToDelete = customerActive.ElementAt(customerDeleteSelectedIndex);
                 Customer = CustomerService.GetCustomerById(correctCustomerToDelete.Id);
-                //Customer = customerService.GetCustomerById(correctCustomerToDelete.Id);
 
                 if (CustomerService.CheckIfBooking(Customer) == true)
                 {

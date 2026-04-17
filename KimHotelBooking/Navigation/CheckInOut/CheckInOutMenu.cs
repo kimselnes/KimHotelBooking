@@ -63,7 +63,6 @@ namespace KimHotelBooking.Navigation.CheckInOut
                 }
             }
 
-            // Listan blir inte tom om det finns bokningar som är CHECKEDIN. (Gör samma som i CheckedOut)
             if (bookingsToCheckIn.Count == 0)
             {
                 Console.WriteLine("\nInga bokningar att checka in.");
@@ -72,7 +71,6 @@ namespace KimHotelBooking.Navigation.CheckInOut
             }
             else
             {
-                // Måste göra List<Booking> där det bara finns CheckedOut och sedan göra dem till en List<string>.
                 var checkInOptions = BookingService.BookingListToStringsOnlyCheckedOut(bookingsToCheckIn);
 
                 var checkInPrompt = "\u001b[1mCHECKA IN\u001b[0m\n" +
@@ -108,11 +106,6 @@ namespace KimHotelBooking.Navigation.CheckInOut
             foreach (var booking in checkedInBookings)
             {
                 bookingsToCheckOut.Add(booking);
-
-                //if (booking.EndDate == currentDate || booking.EndDate > currentDate) // Kanske ska kunna checka ut även innan EndDate?
-                //{
-                //    bookingsToCheckOut.Add(booking);
-                //}
             }
 
             if (bookingsToCheckOut.Count == 0)

@@ -32,8 +32,6 @@ namespace KimHotelBooking.Navigation.NewBooking
             Menu customerMenu = new Menu(customerPrompt, customerOptions);
             int customerSelectedIndex = customerMenu.Run();
 
-            //var newMenu = new NewBookingMenu();
-
             switch (customerSelectedIndex)
             {
                 case 0: // Create new Customer
@@ -111,23 +109,18 @@ namespace KimHotelBooking.Navigation.NewBooking
                     Run();
                     break;
             }
-
-
-
-
-            //var customerCreateMenu = new CustomerCreateMenu();
-            //customerCreateMenu.Run();
         }
 
         public static void SelectCustomer()
         {
             Utility.FullClearConsole();
             Console.WriteLine("\u001b[1mNY RUMSBOKNING\u001b[0m\n" +
-                "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n\n" + // Kan inte använda ESC.
+                "(Skriv \u001b[31mBack\u001b[0m för att gå bakåt)\n\n" +
                 "Ange ditt kund-konto");
 
             Console.Write("\nAnge namn: ");
             var nameInput = Console.ReadLine();
+
 
             if (!string.IsNullOrWhiteSpace(nameInput))
             {
@@ -141,6 +134,10 @@ namespace KimHotelBooking.Navigation.NewBooking
 
                     NewBooking();
                 }
+                else if (nameInput.ToUpper() == "BACK")
+                {
+                    Run();
+                }
                 else
                 {
                     Console.WriteLine("\n\u001b[31mDu har angivit fel namn.\u001b[0m");
@@ -148,12 +145,11 @@ namespace KimHotelBooking.Navigation.NewBooking
 
                     SelectCustomer();
                 }
-            }
+            }            
             else
             {
                 Console.WriteLine("\n\u001b[31mDu har angivit fel namn.\u001b[0m");
                 Utility.WaitForKeyPress();
-
                 SelectCustomer();
             }
 
@@ -162,58 +158,46 @@ namespace KimHotelBooking.Navigation.NewBooking
         public static void NewBooking()
         {
             Utility.FullClearConsole();
-            // ANGE DATUM
+
             NewStartDate();
             Utility.FullClearConsole();
 
             NewEndDate();
             Utility.FullClearConsole();
 
-            // KOLLA VILKA RUM SOM ÄR LEDIGA OCH LISTA DEM
-
             var availableRooms = BookingService.GetAllAvailableRooms(Booking);
             var availableRoomsOptions = RoomService.RoomsListToStringForBooking(availableRooms);
 
             var availablePrompt = "\u001b[1mNY RUMSBOKNING\u001b[0m\n" +
-                "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n" + // Kan inte använda ESC.
+                "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n" +
                 $"Tillgängliga rum under perioden {Booking.StartDate.ToString("yyyy-MM-dd")} - {Booking.EndDate.ToString("yyyy-MM-dd")}";
 
             Menu availableMenu = new Menu(availablePrompt, availableRoomsOptions);
             int availableSelectedIndex = availableMenu.Run();
 
-
-
-            // ANGE VILKET RUM MAN VILL ANVÄNDA
             if (availableSelectedIndex == -1)
             {
                 NewBooking();
             }
             else
             {
-                // Need to make sure i get the correct Room ID here, because the index of the menu options is not the same as the Room ID.
                 var correctId = availableRooms[availableSelectedIndex].Id;
                 Room = RoomService.GetRoomById(correctId);
             }
-            // OM MAN VÄLJER DUBBELRUM FRÅGAS DET IFALL MAN VILL LÄGGA TILL SÄNGAR
+
             if (Room.Type == "Double")
             {
                 Utility.FullClearConsole();
                 ExtraBed();
             }
 
-            // Booking ska kopplas till Customer och till Room och allt ska läggas in i Databasen.
             Booking = BookingService.ConnectBookingWithRoomCustomer(Booking, Room, Customer);
 
             var bookingRep = new BookingRepository();
             bookingRep.Create(Booking, Room, Customer);
 
-            // Jag behöver plocka aktuella Booking från databasen och lägga in den
-            // i property:n Booking.
-            //Booking = BookingService.GetBookingByRoomIdAndBookingDate(Room, Booking.StartDate);
             Booking = BookingService.GetLastInserted();
 
-            // - - - - - - - - - - - - - - - - - - - - - - - 
-            // Update Room with new Booking
             var roomRep = new RoomRepository();
             roomRep.AddBooking(Room, Booking);
 
@@ -221,24 +205,15 @@ namespace KimHotelBooking.Navigation.NewBooking
             var customerRep = new CustomerRepository();
             customerRep.AddBooking(Customer, Booking);
 
-            // Skapa Invoice som ska kopplas till Customer
+            // Créate Invoice and connect to Customer
             var roomService = new RoomService();
             Room.PricePerNight = roomService.DeterminePricePerNight(Room);
 
-            //int bookingTimeLengthDays = BookingService.TimeDifference(Booking.StartDate, Booking.EndDate);
-            //Invoice.TotalPrice = InvoiceService.DetermineFullInvoicePrice(Room, bookingTimeLengthDays);
-            //// FÅR INTE MED MIG TOTALPRICE FÖR INVOICE
-            //Invoice = InvoiceService.SetDatesPaidBooking(Booking);
-
-            // De 3 kodraderna över kan jag sätta ihop i en och samma metod.
             Invoice = InvoiceService.SetInvoiceValues(Booking, Room, Customer);
-
-            // - - - - - - - -  - - - - - - - - - - - - - - 
 
             InvoiceRepository invoiceRep = new InvoiceRepository();
             invoiceRep.Create(Invoice);
 
-            // MSÅTE GÖRA KLART DATABAS KONNECTIONIAZION
             BookingService.CompleteBookingDb(Booking, Room, Customer, Invoice);
 
             Console.WriteLine("\n\u001b[32mBokningen har slutförts och fakturan har skapats.\u001b[0m");
@@ -249,7 +224,6 @@ namespace KimHotelBooking.Navigation.NewBooking
         public static void NewStartDate()
         {
             Console.WriteLine("\u001b[1mNY RUMSBOKNING\u001b[0m\n" +
-                "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n\n" + // Kan inte använda ESC.
                 "Ange önskat start-datum som du vill boka rum på:");
 
             Console.Write("\nÅrtal (YYYY): ");
@@ -265,31 +239,16 @@ namespace KimHotelBooking.Navigation.NewBooking
                     if (Int32.TryParse(Console.ReadLine(), out var dayInput))
                     {
                         DateTime currentDate = DateTime.Now;
-                        //DateTime startDate;
-                        //DateTime startDate = new DateTime();
 
-                        //startDate = new DateTime(yearInput, monthInput, dayInput);
-                        
                         try
                         {
                             DateTime startDate = new DateTime(yearInput, monthInput, dayInput);
 
                             if (startDate.Date >= currentDate.Date)
                             {
-                                //try
-                                //{
                                 Booking.StartDate = startDate;
                                 Console.WriteLine("\n\u001b[32mDitt start-datum är giltigt.\u001b[0m");
                                 Utility.WaitForKeyPress();
-                                //}
-                                //catch (Exception e)
-                                //{
-                                //    Console.WriteLine("\n\u001b[31mFelaktigt format på datumet.\u001b[0m");
-                                //    Utility.WaitForKeyPress();
-                                //    Console.Clear();
-                                //    NewStartDate();
-                                //    throw;
-                                //}
                             }
                             else
                             {
@@ -306,33 +265,7 @@ namespace KimHotelBooking.Navigation.NewBooking
                             Utility.WaitForKeyPress();
                             Utility.FullClearConsole();
                             NewStartDate();
-                            //throw;
                         }
-
-                        //if (startDate.Date >= currentDate.Date)
-                        //{
-                        //    //try
-                        //    //{
-                        //        Booking.StartDate = startDate;
-                        //        Console.WriteLine("\n\u001b[32mDitt start-datum är giltigt.\u001b[0m");
-                        //        Utility.WaitForKeyPress();
-                        //    //}
-                        //    //catch (Exception e)
-                        //    //{
-                        //    //    Console.WriteLine("\n\u001b[31mFelaktigt format på datumet.\u001b[0m");
-                        //    //    Utility.WaitForKeyPress();
-                        //    //    Console.Clear();
-                        //    //    NewStartDate();
-                        //    //    throw;
-                        //    //}
-                        //}
-                        //else
-                        //{
-                        //    Console.WriteLine("\n\u001b[31mDatumet måste vara dagens eller framtida.\u001b[0m");
-                        //    Utility.WaitForKeyPress();
-                        //    Console.Clear();
-                        //    NewStartDate();                            
-                        //}
                     }
                     else
                     {
@@ -362,7 +295,6 @@ namespace KimHotelBooking.Navigation.NewBooking
         public static void NewEndDate()
         {
             Console.WriteLine("\u001b[1mNY RUMSBOKNING\u001b[0m\n" +
-                "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n\n" + // Kan inte använda ESC.
                 "Ange önskat slut-datum som du vill boka rum på:");
 
             Console.Write("\nÅrtal (YYYY): ");
@@ -384,20 +316,9 @@ namespace KimHotelBooking.Navigation.NewBooking
 
                             if (endDate >= Booking.StartDate)
                             {
-                                    Booking.EndDate = endDate;
-                                    Console.WriteLine("\n\u001b[32mDitt slut-datum är giltigt.\u001b[0m");
-                                    Utility.WaitForKeyPress();
-                                //try
-                                //{
-                                //}
-                                //catch (Exception)
-                                //{
-                                //    Console.WriteLine("\n\u001b[31mFelaktigt format på datumet.\u001b[0m");
-                                //    Utility.WaitForKeyPress();
-                                //    Console.Clear();
-                                //    NewEndDate();
-                                //    //throw;
-                                //}
+                                Booking.EndDate = endDate;
+                                Console.WriteLine("\n\u001b[32mDitt slut-datum är giltigt.\u001b[0m");
+                                Utility.WaitForKeyPress();
                             }
                             else
                             {

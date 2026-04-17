@@ -9,20 +9,8 @@ namespace KimHotelBooking.Service
 {
     public class CustomerService
     {
-        //public Customer Customer { get; set; }
-
-        //public CustomerService(Customer customer)
-        //{
-        //    Customer = customer;
-        //}
-
-        //public void Create()
-        //{
-        //}
-
         public string SetName(string name)
         {
-            // CHECKA DUPLICATE!!!!!
             if (name.Length <= 50)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -72,12 +60,6 @@ namespace KimHotelBooking.Service
 
             return active;
         }
-
-        //public bool CheckDuplicateName()
-        //{
-        //    var check;
-        //    return check;
-        //}
 
         public List<Customer> GetAllCustomersList()
         {
@@ -157,7 +139,6 @@ namespace KimHotelBooking.Service
 
         public static bool CheckIfBooking(Customer customer)
         {
-            // Jämnför bookings.CustomerId med customer.Id
             var bookingRep = new BookingRepository();
             var bookings = bookingRep.GetAllBookings();
 

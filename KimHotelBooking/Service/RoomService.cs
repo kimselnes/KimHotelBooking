@@ -5,15 +5,8 @@ using KimHotelBooking.Tools;
 
 namespace KimHotelBooking.Service
 {
-    // Room CRUD
     public class RoomService
     {
-        //public Room Room { get; set; }
-
-        //public RoomService(Room room)
-        //{
-        //    Room = room;
-        //}
 
         public void Create(Room room)
         {
@@ -21,43 +14,7 @@ namespace KimHotelBooking.Service
 
             var roomRep = new RoomRepository();
             roomRep.AddToDatabase(room);
-
-
-            //var price = DeterminePricePerNight(room);
-
-            //DbContext.Room.Add(new Room
-            //{
-            //    Type = room.Type,
-            //    SquareMeters = room.SquareMeters,
-            //    Beds = 1,
-            //    isAvailable = true,
-            //    isActive = 1,
-            //    PricePerNight = price
-            //});
-
-            //DbContext.SaveChanges();
         }
-
-        //public void Update(Room newRoom)
-        //{
-        //    var price = DeterminePricePerNight(newRoom);
-        //    newRoom.PricePerNight = price;
-
-        //    var roomToUpdate = DbContext.Room.Where(r => r.Id == newRoom.Id).FirstOrDefault();
-
-        //    roomToUpdate = newRoom;
-        //    DbContext.SaveChanges();
-
-        //    //DbContext.Room.Update(new Room
-        //    //{
-        //    //    Type = room.Type,
-        //    //    SquareMeters = room.SquareMeters,
-        //    //    Beds = room.Beds,
-        //    //    isAvailable = true,
-        //    //    isActive = 1,
-        //    //    PricePerNight = price
-        //    //});
-        //}
 
         public static string SetRoomType()
         {
@@ -131,55 +88,6 @@ namespace KimHotelBooking.Service
 
             return squareMeters;
         }
-
-
-        //public static int SetRoomBeds() // Måste se till att Single inte kan ange 2 eller 3.
-        //{
-        //    var beds = 0;
-
-        //    var setBedPrompt = "Hur många sängar ska rummet ha (Single '1'), (Double '1-3')";
-        //    List<string> setBedsOptions =
-        //    [
-        //        "1",
-        //        "2",
-        //        "3"
-        //    ];
-
-        //    Menu setBedsMenu = new Menu(setBedPrompt, setBedsOptions);
-        //    int setBedSelectedIndex = setBedsMenu.Run();
-
-        //    switch (setBedSelectedIndex)
-        //    {
-        //        case 0:
-        //            beds = 1;
-
-        //            Console.ForegroundColor = ConsoleColor.Green;
-        //            Console.WriteLine($"\nDu har anget {beds}");
-        //            Console.ResetColor();
-        //            Utility.WaitForKeyPress();
-        //            break;
-
-        //        case 1:
-        //            beds = 2;
-
-        //            Console.ForegroundColor = ConsoleColor.Green;
-        //            Console.WriteLine($"\nDu har anget {beds}");
-        //            Console.ResetColor();
-        //            Utility.WaitForKeyPress();
-        //            break;
-
-        //        case 2:
-        //            beds = 3;
-
-        //            Console.ForegroundColor = ConsoleColor.Green;
-        //            Console.WriteLine($"\nDu har anget {beds}");
-        //            Console.ResetColor();
-        //            Utility.WaitForKeyPress();
-        //            break;
-        //    }
-
-        //    return beds;
-        //}
 
         public static bool CheckCorrectBeds(Room room)
         {

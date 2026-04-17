@@ -13,40 +13,15 @@ namespace KimHotelBooking
     {
         public void Run()
         {
-            /*
-            var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", true, true);
-            var config = builder.Build();
-
-
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>();
-            var connectionString = config.GetConnectionString("DefaultConnection");
-            options.UseSqlServer(connectionString);
-
-            using (var dbContext = new ApplicationDbContext(options.Options))
-            {
-                dbContext.Database.Migrate();
-            }
-            */
-
             Console.Title = "Kim's Hotel";
 
             var buildApp = new Build();
-
-
-            //using (dbContext)
-            //{
-            //    var dataInitiaizer = new DataInitializer();
-            //    dataInitiaizer.MigrateAndSeed(dbContext);
-            //}
 
             using (var dbContext = buildApp.BuildApp())
             {
                 var dataInitiaizer = new DataInitializer();
                 dataInitiaizer.MigrateAndSeed(dbContext);
             }
-
-            //var mainMenu = new MainMenu();
-            //mainMenu.Run();
 
             MainMenu.Run();
         }

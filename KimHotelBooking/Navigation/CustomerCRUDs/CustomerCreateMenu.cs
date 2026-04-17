@@ -66,8 +66,6 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
                     Utility.WaitForKeyPress();
 
                     CustomerMenu.Run();
-                    //var customerMenu = new CustomerMenu();
-                    //customerMenu.Run();
                     break;
 
                 case -1: // Exit                    

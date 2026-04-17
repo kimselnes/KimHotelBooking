@@ -42,13 +42,6 @@ namespace KimHotelBooking.Repositories
 
                 DbContext.SaveChanges();
             }
-            //using (DbContext)
-            //{
-            //    var customerToUpdate = DbContext.Customer.Where(r => r.Id == newCustomer.Id).FirstOrDefault();
-            //    customerToUpdate = newCustomer;
-
-            //    DbContext.SaveChanges();
-            //}
         }
 
         public void Delete(Customer customer)
@@ -101,7 +94,6 @@ namespace KimHotelBooking.Repositories
                 {
                     customerToUpdate.Invoices = new List<Invoice>();
                 }
-                //customerToUpdate.Bookings.Add(booking);
                 customerToUpdate.Invoices.Add(invoice);
 
                 DbContext.SaveChanges();

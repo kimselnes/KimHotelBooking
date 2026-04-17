@@ -28,30 +28,20 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
             Menu customerUpdateMenu = new Menu(customerUpdatePrompt, customerUpdateOptions);
             int customerUpdateSelectedIndex = customerUpdateMenu.Run();
 
-
-            //var customersList = customerService.GetAllCustomersList();
-            ////var customerToUpdate = customersList.Where(c => c.Id == customerUpdateSelectedIndex);
-            //Customer = customersList.Where(c => c.Id == customerUpdateSelectedIndex).FirstOrDefault();
-
             if (customerUpdateSelectedIndex == -1)
             {
-                //var customerMenu = new CustomerMenu();
-                //customerMenu.Run();
                 CustomerMenu.Run();
             }
             else
             {
                 var correctId = customersList[customerUpdateSelectedIndex].Id;
                 Customer = CustomerService.GetCustomerById(correctId);
-                //Customer = customerService.GetCustomerById(customerUpdateSelectedIndex + 1);
                 Updating();
             }
         }
 
         public void Updating()
         {
-            //var oldName = Customer.Name;
-
             var customerUpdatePrompt = "\u001b[1mUPPDATERA KUND\u001b[0m\n" +
                 "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n\n" +
                 "Vad vill du ändra?";
@@ -109,12 +99,9 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
 
                         CustomerMenu.Run();
                     }
-                    //var customerMenu = new CustomerMenu();
-                    //customerMenu.Run();
                     break;
 
                 case -1: // Exit
-                    //customerMenu.Run();
                     Run();
                     break;
             }

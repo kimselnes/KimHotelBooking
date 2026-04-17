@@ -20,10 +20,6 @@ namespace KimHotelBooking.Repositories
         {
             using (DbContext)
             {
-                // COPILOT KOD, VET INTE RIKTIGT VARFÖR ELLER VAD DEN GÖR.
-                // mark existing booking as unchanged (do not insert)
-                //DbContext.Booking.Attach(invoice.Booking);
-                // - - - - - -  - - - - - - - - - -- - - - - - -- - - - - -
                 DbContext.Invoice.Add(new Invoice
                 {
                     CustomerId = invoice.CustomerId,
@@ -45,7 +41,7 @@ namespace KimHotelBooking.Repositories
             {
                 var invoiceToUpdate = DbContext.Invoice.Where(i => i.Id == newInvoice.Id).FirstOrDefault();
 
-                invoiceToUpdate.IssueDate = newInvoice.IssueDate; // invoiceToUpdate was null.
+                invoiceToUpdate.IssueDate = newInvoice.IssueDate;
                 invoiceToUpdate.DueDate = newInvoice.DueDate;
                 invoiceToUpdate.TotalPrice = newInvoice.TotalPrice;
                 invoiceToUpdate.IsPaid = newInvoice.IsPaid;
@@ -98,11 +94,6 @@ namespace KimHotelBooking.Repositories
                 invoice = DbContext.Invoice.Where(i => i.BookingId == bookingId).FirstOrDefault();
             }
             return invoice;
-        }
-
-        public void AddBooking()
-        {
-
         }
     }
 }

@@ -15,10 +15,8 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 
         public static void Run()
         {
-            //List<Room> roomsList = RoomService.GetAllRoomsList();
             var rooms = RoomService.GetAllRoomsList();
             var updateOptions = RoomService.RoomsListToString();
-            //updateOptions.Insert(0, "GÅ TILLBAKA UTAN ATT SPARA");
 
             var updatePrompt = "\u001b[1mÄndra rum\u001b[0m\n" +
                 "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)";
@@ -32,7 +30,6 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
             }
             else
             {
-                //var roomToUpdate = DbContext.Room.ElementAt(updateSelectedMenuIndex);
                 var correctId = rooms[updateSelectedMenuIndex].Id;
                 Room = RoomService.GetRoomById(correctId);
 
@@ -49,7 +46,6 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
             [
                 $"Type: {Room.Type}",
                 $"KvadratMeter: {Room.SquareMeters}",
-                //$"Sängar: {Room.Beds}",
                 $"Aktiv: {(Room.IsActive == true ? "\u001b[32mJa\u001b[0m" : "\u001b[31mNej\u001b[0m")}",
                 " -SPARA-"
             ];
@@ -99,21 +95,12 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     Updating();
                     break;
 
-                //case 2: // Update Beds.
-                //    Room.Beds = RoomService.SetRoomBeds();
-
-                //    Updating();
-                //    break;
-
                 case 2: // Update isActive.
                     Room.IsActive = RoomService.SetRoomIsActive();
-                    //Utility.WaitForKeyPress();
                     Updating();
                     break;
 
                 case 3: // Save Changes.
-
-                    //RoomService.CheckCorrectBeds(Room);
                     if (RoomService.CheckCorrectBeds(Room))
                     {
                         var roomService = new RoomService();

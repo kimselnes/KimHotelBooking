@@ -11,59 +11,10 @@ namespace KimHotelBooking.Service
         public Room Room { get; set; } = new Room();
         public Customer Customer { get; set; } = new Customer();
 
-        /*//public static List<Room> GetAllAvailableRooms(Booking checkBooking) // Ske i RoomService??
-        //{
-
-        //    var allBookings = GetAllBookingsList();
-        //    List<Booking> availableRoomsBookings = new List<Booking>();
-
-        //    foreach (var booking in allBookings)
-        //    {
-        //        if (!IsDateOverlap(checkBooking, booking))
-        //        {
-        //            availableRoomsBookings.Add(booking);
-        //        }
-        //    }
-
-        //    var allAvailableRooms = new List<Room>();
-
-        //    var rooms = RoomService.GetAllRoomsList();
-
-        //    foreach (var booking in availableRoomsBookings)
-        //    {
-        //        var room = rooms.FirstOrDefault(r => r.Id == booking.RoomId); // Jämnför jag endast rum som har bokningar?
-
-        //        if (room != null)
-        //        {
-        //            allAvailableRooms.Add(room);
-        //            allAvailableRooms.OrderBy(r => r.Id);
-        //        }
-        //    }
-
-        //    // - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-
-
-        //    return allAvailableRooms;
-        //}*/
-
-
         public static void CompleteBookingDb(Booking booking, Room room, Customer customer, Invoice invoice)
         {
-            // Add Booking to Room
             RoomRepository roomRep = new RoomRepository();
             roomRep.AddBooking(room, booking);
-
-            // Add Booking and Invoice to Customer
-            //CustomerRepository customerRep = new CustomerRepository();
-            //customerRep.AddBookingInvoice(customer, booking, invoice);
-
-            // Add Booking to Invoice
-            //InvoiceRepository invoiceRep = new InvoiceRepository();
-            //invoiceRep.AddBooking(invoice, booking);
-
-            // Booking får sin Room och Customer tidigare.
-
         }
 
         public static int TimeDifference(DateTime start, DateTime end)
@@ -76,11 +27,6 @@ namespace KimHotelBooking.Service
         {
             booking.CustomerId = customer.Id;
             booking.RoomId = room.Id;
-            //booking.Customer = customer;
-
-            //room.Bookings.Add(booking);
-
-            //customer.Bookings.Add(booking);
 
             return booking;
         }
@@ -111,7 +57,7 @@ namespace KimHotelBooking.Service
             return booking;
         }
 
-        public static List<Room> GetAllAvailableRooms(Booking checkBooking) // Ske i RoomService??
+        public static List<Room> GetAllAvailableRooms(Booking checkBooking)
         {
 
             var allRooms = RoomService.GetAllRoomsList();
@@ -124,7 +70,7 @@ namespace KimHotelBooking.Service
                 .ToList();
 
             var availableRooms = allRooms
-                .Where(room => !bookedRoomsIds.Contains(room.Id) && room.IsActive == true) // existingBooking.IsActive == true lades till senare. Mer Error Testing kan krävas.
+                .Where(room => !bookedRoomsIds.Contains(room.Id) && room.IsActive == true)
                 .OrderBy(room => room.Id)
                 .ToList();
 
@@ -150,7 +96,7 @@ namespace KimHotelBooking.Service
                     Room: rooms.FirstOrDefault(r => r.Id == g.Key),
                     Bookings: g.ToList()
                 ))
-                .OrderBy(x => x.Room?.Id) // .OrderBy(x => x.Bookings.FirstOrDefault()?.StartDate)
+                .OrderBy(x => x.Room?.Id)
                 .ToList();
 
             return grouped;
@@ -158,8 +104,8 @@ namespace KimHotelBooking.Service
 
         public static List<string> GetBookingsGroupedDisplay()
         {
-            var grouped = GetBookingsGroupedByRoom(); // List<(Room Room, List<Booking> Bookings)>
-            var invoices = InvoiceService.GetAllInvoices(); // cache once
+            var grouped = GetBookingsGroupedByRoom();
+            var invoices = InvoiceService.GetAllInvoices();
             var lines = new List<string>();
 
             foreach (var group in grouped)
@@ -177,66 +123,14 @@ namespace KimHotelBooking.Service
 
                     var invoiceInfo = $"{invoice.TotalPrice} {(invoice.IsPaid ? "[\u001b[32mBetalad\u001b[0m]" : "[\u001b[31mObetald\u001b[0m]")}";
 
-                    //var invoiceInfo = invoice != null
-                    //    ? $"{invoice.TotalPrice} {(invoice.IsPaid ? "Betalad" : "Obetald")}"
-                    //    : "Ingen faktura";
-
                     lines.Add($"  {booking.Id}: {booking.StartDate.ToString("yyyy-MM-dd")} - {booking.EndDate.ToString("yyyy-MM-dd")} | {customer.Name} | {invoiceInfo}");
                 }
 
                 lines.Add("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
-                //lines.Add(string.Empty); // spacing between rooms
             }
 
             return lines;
         }
-
-        //public static List<string> GetAllBookingsForDisplay()
-        //{
-        //    // Vill använda join för att hämta den info jag vill ha från Booking, Room, Customer och Invoice.
-        //    // Sedan vill jag använda GroupBy för att gruppera ihop bokningar enligt Rum och sedan bara visa dem på ett snyggt sätt.
-
-
-
-
-
-
-
-
-        //    /*
-        //    //var customerRep = new CustomerRepository();
-        //    //var customers = customerRep.GetAllCustomers();
-
-        //    //var roomRep = new RoomRepository();
-        //    //var rooms = roomRep.GetAllRooms();
-
-        //    //var bookingRep = new BookingRepository();
-        //    //var bookings = bookingRep.GetAllBookings();
-
-        //    //var invoiceRep = new InvoiceRepository();
-        //    //var invoices = invoiceRep.GetAll();
-
-
-        //    //var bookingRoomCustomerInvoice = invoices
-        //    //    .Join(customers, invoice => invoice.CustomerId, customer => customer.Id,
-        //    //        (invoice, customer) => new { Invoice = invoice, Customer = customer })
-        //    //    .Join(bookings, ic => ic.Invoice.BookingId, booking => booking.Id,
-        //    //        (ic, booking) => new { ic.Invoice, ic.Customer, Booking = booking })
-        //    //    .Join(rooms, icb => icb.Booking.RoomId, room => room.Id,
-        //    //        (icb, room) => new { icb.Invoice, icb.Customer, icb.Booking, Room = room })
-        //    //    .GroupBy(x => x.Room.Id);
-
-        //    //List<string> bookingDisplayStrings = new List<string>();
-        //    //foreach (var item in bookingRoomCustomerInvoice)
-        //    //{
-        //    //    bookingDisplayStrings.Add($"Kund: {item.Customer.Name}, Sista betalningsdatum: {item.Invoice.DueDate.ToString("yyyy-MM-dd")}\n" +
-        //    //        $"Rum: {item.Room.Id}. '{item.Room.Type}' ({item.Booking.StartDate.ToString("yyyy-MM-dd")} - {item.Booking.EndDate.ToString("yyyy-MM-dd")})\n" +
-        //    //        $"Faktura: {item.Invoice.TotalPrice} " +
-        //    //        $"[{(item.Invoice.IsPaid == false ? "\u001b[31mEj Betald\u001b[0m" : "\u001b[32mBetald\u001b[0m")}]");
-        //    //}
-        //    //return bookingDisplayStrings;
-        //    */
-        //}
 
         public static List<string> BookingsWithListToString(List<Booking> bookingsList)
         {
@@ -293,8 +187,6 @@ namespace KimHotelBooking.Service
         {
             List<string> bookingsStrings = new List<string>();
 
-            //var bookingsList = GetAllBookingsList();
-
             foreach (var booking in bookingsList.Where(b => b.IsCheckedIn == false))
             {
                 var customer = CustomerService.GetCustomerById(booking.CustomerId);
@@ -302,7 +194,6 @@ namespace KimHotelBooking.Service
                 var tempString = $"{customer.Name} - " +
                     $"({booking.Id}. " +
                     $"{booking.StartDate.ToString("yyyy-MM-dd")} - {booking.EndDate.ToString("yyyy-MM-dd")})";
-                //$"[{(customer.IsActive == true ? "\u001b[32mAKTIV\u001b[0m" : "\u001b[31mOAKTIV\u001b[0m")}]";
 
                 bookingsStrings.Add(tempString);
             }
@@ -310,10 +201,8 @@ namespace KimHotelBooking.Service
             return bookingsStrings;
         }
 
-        public static List<Booking> GetAllIsActiveCheckedOut(Customer customer) // And future.
+        public static List<Booking> GetAllIsActiveCheckedOut(Customer customer)
         {
-            // HÄMTA ALLA BOKNINGAR SOM ÄR AKTIVA, INTE ÄR CHECKEDIN OCH ÄR NÅGONGÅNG I FRAMTIDEN.
-            // Maybe add a TIME condition like : && b.EndDate >= DateTime.Now.Date to the LINQ below?
             var bookingsToDelete = GetAllBookingsList().Where(b => b.IsCheckedIn == false && b.IsActive == true && b.CustomerId == customer.Id).ToList();
 
             return bookingsToDelete;
@@ -350,29 +239,6 @@ namespace KimHotelBooking.Service
             anyDoubleRooms = bookingsList.Any(b => roomsList.FirstOrDefault(r => r.Id == b.RoomId).Type == "Double");
             return anyDoubleRooms;
         }
-
-        //public static List<string> BookingsListToString()
-        //{
-        //    List<string> bookingsString = new List<string>();
-        //    var bookingsList = GetAllBookingsList();
-
-        //    foreach (var booking in bookingsList)
-        //    {
-        //        var tempString = $"{booking.Id}. {room.Type}-rum " +
-        //            $"({room.SquareMeters} kvadrat - {room.Beds} säng/sängar) " +
-        //            $"[{(room.isActive == 1 ? "\u001b[32mAKTIV\u001b[0m" : "\u001b[31mOAKTIV\u001b[0m")}]";
-
-        //        bookingsString.Add(tempString);
-        //    }
-
-        //    return bookingsString;
-        //}
-
-        //public void DateRange(DateTime start, DateTime end)
-        //{
-        //    var dateTime = new DateTime();
-        //    dateTime.
-        //}
 
         public static bool IsDateOverlap(Booking newBooking, Booking oldBooking)
         {

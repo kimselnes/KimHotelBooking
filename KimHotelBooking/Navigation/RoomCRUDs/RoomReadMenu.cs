@@ -7,8 +7,6 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
 {
     public class RoomReadMenu
     {
-        //public static Room Room { get; set; } = new Room();
-
         public static void Run()
         {
             var rooms = RoomService.GetAllRoomsList();

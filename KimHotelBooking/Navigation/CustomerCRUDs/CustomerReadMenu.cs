@@ -9,10 +9,6 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
 {
     public class CustomerReadMenu
     {
-        //public List<Customer> Customers { get; set; } = new List<Customer>();
-
-        //public Customer Customer { get; set; } = new Customer();
-
         public void Run()
         {
             Utility.FullClearConsole();
@@ -32,14 +28,7 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
             {
                 Console.WriteLine(customer.FullStatus);
                 Console.WriteLine("- - - - - - - - - - - - - - - - -");
-            }
-
-            //foreach (var customer in customers)
-            //{
-            //    Console.WriteLine($"Kundnamn: {customer.Name}\n" +
-            //        $"Aktiv: {(customer.IsActive == true ? "\u001b[32mJa\u001b[0m" : "\u001b[31mNej\u001b[0m")}");
-            //    Console.WriteLine("- - - - - - - - - - - - - - - - -");
-            //}            
+            }          
         }
 
         public static void VIP()

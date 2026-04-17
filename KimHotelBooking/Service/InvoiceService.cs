@@ -104,16 +104,6 @@ namespace KimHotelBooking.Service
             return invoiceStrings;
         }
 
-        //public static Invoice SetDatesPaidBooking(Booking booking)
-        //{
-        //    Invoice.IssueDate = DateTime.Now;
-        //    Invoice.DueDate = Invoice.IssueDate.AddDays(7);
-        //    Invoice.isPaid = false;
-        //    Invoice.BookingId = booking.Id;
-
-        //    return Invoice;
-        //}
-
         public static decimal DetermineFullInvoicePrice(Room room, int amountOfDays)
         {
             return room.PricePerNight * amountOfDays;
@@ -127,9 +117,5 @@ namespace KimHotelBooking.Service
             var invoicesPastDue = invoices.Where(invoice => invoice.DueDate < DateTime.Now && invoice.IsPaid == false && invoice.IsActive == true).ToList();
             return invoicesPastDue;
         }
-        //public static decimal DetermineNewTotalPricePrice(Room room int beds, int amountOfDays)
-        //{
-        //    return room.PricePerNight * amountOfDays;
-        //}
     }
 }

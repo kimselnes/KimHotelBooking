@@ -2,7 +2,7 @@
 {
     public class Menu
     {
-        // USER TEMPLATE
+        // USER TEMPLATE -------------------------------------------------------
 
         //var prompt = "prompt";
         //List<string> options = ["option1", "option2", "option3"];
@@ -14,7 +14,6 @@
         // ---------------------------------------------------------------------
 
         private int SelectedIndex { get; set; }
-        //private string[] Options { get; set; }
         private List<string> Options { get; set; }
         private string Prompt { get; set; }
 

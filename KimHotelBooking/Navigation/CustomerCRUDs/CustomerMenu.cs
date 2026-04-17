@@ -6,10 +6,8 @@ using System.Text;
 
 namespace KimHotelBooking.Navigation.CustomerCRUDs
 {
-    public class CustomerMenu // Försöker att inte använda DbContext här.
+    public class CustomerMenu
     {
-        //public Customer Customer { get; set; }
-
         public static void Run()
         {
             Utility.FullClearConsole();

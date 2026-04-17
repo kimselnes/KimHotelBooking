@@ -57,7 +57,6 @@ namespace KimHotelBooking.Navigation.InvoiceCRUDs
 
         public static void PayInvoice()
         {
-            // Get all invoices for the customer.
             var invoices = InvoiceService.GetAllInvoicesForCustomer(Customer.Id);
             var unpaidInvoices = invoices.Where(i => i.IsPaid == false).ToList();
 
@@ -69,7 +68,6 @@ namespace KimHotelBooking.Navigation.InvoiceCRUDs
             }
             else
             {
-                // List all invoices and let the user select which one to pay.
                 var invoiceOptions = InvoiceService.InvoicesToStringList(unpaidInvoices);
 
                 var prompt = "\u001b[1mBETALA FAKTUROR\u001b[0m\n" +

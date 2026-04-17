@@ -14,8 +14,7 @@ namespace KimHotelBooking.Navigation.BookingCRUDs
             Console.WriteLine("\u001b[1mVISA ALLA BOKNINGAR\u001b[0m\n");
             var bookingsGroupedByRoom = BookingService.GetBookingsGroupedDisplay();
 
-            // inside GetAllBookingsForDisplay() after GroupBy(...)
-            foreach (var line in bookingsGroupedByRoom) // group is IGrouping<int, <anonymous>>
+            foreach (var line in bookingsGroupedByRoom)
             {
                 Console.WriteLine(line);
             }

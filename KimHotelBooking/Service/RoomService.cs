@@ -133,53 +133,53 @@ namespace KimHotelBooking.Service
         }
 
 
-        public static int SetRoomBeds() // Måste se till att Single inte kan ange 2 eller 3.
-        {
-            var beds = 0;
+        //public static int SetRoomBeds() // Måste se till att Single inte kan ange 2 eller 3.
+        //{
+        //    var beds = 0;
 
-            var setBedPrompt = "Hur många sängar ska rummet ha (Single '1'), (Double '1-3')";
-            List<string> setBedsOptions =
-            [
-                "1",
-                "2",
-                "3"
-            ];
+        //    var setBedPrompt = "Hur många sängar ska rummet ha (Single '1'), (Double '1-3')";
+        //    List<string> setBedsOptions =
+        //    [
+        //        "1",
+        //        "2",
+        //        "3"
+        //    ];
 
-            Menu setBedsMenu = new Menu(setBedPrompt, setBedsOptions);
-            int setBedSelectedIndex = setBedsMenu.Run();
+        //    Menu setBedsMenu = new Menu(setBedPrompt, setBedsOptions);
+        //    int setBedSelectedIndex = setBedsMenu.Run();
 
-            switch (setBedSelectedIndex)
-            {
-                case 0:
-                    beds = 1;
+        //    switch (setBedSelectedIndex)
+        //    {
+        //        case 0:
+        //            beds = 1;
 
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"\nDu har anget {beds}");
-                    Console.ResetColor();
-                    Utility.WaitForKeyPress();
-                    break;
+        //            Console.ForegroundColor = ConsoleColor.Green;
+        //            Console.WriteLine($"\nDu har anget {beds}");
+        //            Console.ResetColor();
+        //            Utility.WaitForKeyPress();
+        //            break;
 
-                case 1:
-                    beds = 2;
+        //        case 1:
+        //            beds = 2;
 
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"\nDu har anget {beds}");
-                    Console.ResetColor();
-                    Utility.WaitForKeyPress();
-                    break;
+        //            Console.ForegroundColor = ConsoleColor.Green;
+        //            Console.WriteLine($"\nDu har anget {beds}");
+        //            Console.ResetColor();
+        //            Utility.WaitForKeyPress();
+        //            break;
 
-                case 2:
-                    beds = 3;
+        //        case 2:
+        //            beds = 3;
 
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"\nDu har anget {beds}");
-                    Console.ResetColor();
-                    Utility.WaitForKeyPress();
-                    break;
-            }
+        //            Console.ForegroundColor = ConsoleColor.Green;
+        //            Console.WriteLine($"\nDu har anget {beds}");
+        //            Console.ResetColor();
+        //            Utility.WaitForKeyPress();
+        //            break;
+        //    }
 
-            return beds;
-        }
+        //    return beds;
+        //}
 
         public static bool CheckCorrectBeds(Room room)
         {

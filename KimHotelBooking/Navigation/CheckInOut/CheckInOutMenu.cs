@@ -56,7 +56,7 @@ namespace KimHotelBooking.Navigation.CheckInOut
                     booking.StartDate < currentDate &&
                     booking.EndDate > currentDate)
                 {
-                    if (booking.IsCheckedIn == false)
+                    if (booking.IsCheckedIn == false && booking.IsActive == true)
                     {
                         bookingsToCheckIn.Add(booking);
                     }

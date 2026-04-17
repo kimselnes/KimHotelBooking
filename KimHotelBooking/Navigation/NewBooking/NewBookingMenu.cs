@@ -176,7 +176,7 @@ namespace KimHotelBooking.Navigation.NewBooking
 
             var availablePrompt = "\u001b[1mNY RUMSBOKNING\u001b[0m\n" +
                 "(Tryck \u001b[31mESC\u001b[0m för att gå bakåt)\n" + // Kan inte använda ESC.
-                $"Tillgängliga rum under perioden {Booking.StartDate} - {Booking.EndDate}";
+                $"Tillgängliga rum under perioden {Booking.StartDate.ToString("yyyy-MM-dd")} - {Booking.EndDate.ToString("yyyy-MM-dd")}";
 
             Menu availableMenu = new Menu(availablePrompt, availableRoomsOptions);
             int availableSelectedIndex = availableMenu.Run();

@@ -89,8 +89,6 @@ namespace KimHotelBooking.Navigation
                     BookingReadMenu.Run();
                     break;
             }
-
-            Utility.WaitForKeyPress();
         }
 
         public static void GuestMenu()

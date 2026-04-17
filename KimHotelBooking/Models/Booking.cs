@@ -23,13 +23,8 @@ namespace KimHotelBooking.Models
         [Range(1, 5)]
         public int RoomBeds { get; set; }
 
-        //public decimal TotalPrice { get; set; }
-
         public bool IsCheckedIn { get; set; }
 
         public bool IsActive { get; set; }
-
-        //public Customer Customer { get; set; }
-
     }
 }

@@ -43,6 +43,7 @@ namespace KimHotelBooking.Repositories
                 roomToUpdate.Type = newRoom.Type;
                 roomToUpdate.SquareMeters = newRoom.SquareMeters;
                 roomToUpdate.Beds = newRoom.Beds;
+                roomToUpdate.PricePerNight = newRoom.PricePerNight;
                 roomToUpdate.IsActive = newRoom.IsActive;
 
                 DbContext.SaveChanges();

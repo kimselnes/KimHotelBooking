@@ -16,6 +16,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
         public static void Run()
         {
             //List<Room> roomsList = RoomService.GetAllRoomsList();
+            var rooms = RoomService.GetAllRoomsList();
             var updateOptions = RoomService.RoomsListToString();
             //updateOptions.Insert(0, "GÅ TILLBAKA UTAN ATT SPARA");
 
@@ -32,7 +33,8 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
             else
             {
                 //var roomToUpdate = DbContext.Room.ElementAt(updateSelectedMenuIndex);
-                Room = RoomService.GetRoomById(updateSelectedMenuIndex + 1);
+                var correctId = rooms[updateSelectedMenuIndex].Id;
+                Room = RoomService.GetRoomById(correctId);
 
                 Updating();
             }
@@ -47,7 +49,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
             [
                 $"Type: {Room.Type}",
                 $"KvadratMeter: {Room.SquareMeters}",
-                $"Sängar: {Room.Beds}",
+                //$"Sängar: {Room.Beds}",
                 $"Aktiv: {(Room.IsActive == true ? "\u001b[32mJa\u001b[0m" : "\u001b[31mNej\u001b[0m")}",
                 " -SPARA-"
             ];
@@ -97,23 +99,26 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                     Updating();
                     break;
 
-                case 2: // Update Beds.
-                    Room.Beds = RoomService.SetRoomBeds();
+                //case 2: // Update Beds.
+                //    Room.Beds = RoomService.SetRoomBeds();
 
-                    Updating();
-                    break;
+                //    Updating();
+                //    break;
 
-                case 3: // Update isActive.
+                case 2: // Update isActive.
                     Room.IsActive = RoomService.SetRoomIsActive();
                     //Utility.WaitForKeyPress();
                     Updating();
                     break;
 
-                case 4: // Save Changes.
+                case 3: // Save Changes.
 
                     //RoomService.CheckCorrectBeds(Room);
                     if (RoomService.CheckCorrectBeds(Room))
                     {
+                        var roomService = new RoomService();
+                        Room.PricePerNight = roomService.DeterminePricePerNight(Room);
+
                         var roomRep = new RoomRepository();
                         roomRep.Update(Room);
 

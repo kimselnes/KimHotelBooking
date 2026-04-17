@@ -118,7 +118,7 @@ namespace KimHotelBooking.Service
             var allBookings = GetAllBookingsList();
 
             var bookedRoomsIds = allBookings
-                .Where(existingBooking => IsDateOverlap(checkBooking, existingBooking)) 
+                .Where(existingBooking => IsDateOverlap(checkBooking, existingBooking) && existingBooking.IsActive == true) 
                 .Select(existingBooking => existingBooking.RoomId)
                 .Distinct()
                 .ToList();

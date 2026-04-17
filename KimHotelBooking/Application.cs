@@ -49,10 +49,6 @@ namespace KimHotelBooking
             //mainMenu.Run();
 
             MainMenu.Run();
-
-
-            Console.WriteLine("Klart!");
-            Console.ReadLine();
         }
     }
 }

@@ -14,8 +14,7 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
             [
                 "Skapa nytt rum",
                 "Visa alla rum",
-                "Ändra rum",
-                "Ta bort rum"
+                "Ändra/Ta bort rum"
             ];
 
             Menu roomMenu = new Menu(prompt, roomOptions);
@@ -30,15 +29,12 @@ namespace KimHotelBooking.Navigation.RoomCRUDs
                 case 1: // Show rooms.
                     RoomReadMenu.Run();
                     Utility.WaitForKeyPress();
-                    MainMenu.GuestMenu();
+                    Run();
 
                     break;
 
                 case 2: // Update room.
                     RoomUpdateMenu.Run();
-                    break;
-
-                case 3: // Delete room.
                     break;
 
                 case -1: // Go back.

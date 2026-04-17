@@ -38,18 +38,6 @@ namespace KimHotelBooking.Navigation.BookingCRUDs
             }
             else
             {
-                //try
-                //{
-                //    correctId = bookingsToDelete[selectedIndex].Id;
-                //}
-                //catch (Exception)
-                //{
-                //    Console.WriteLine("\n\u001b[31mDu har inga bokningar att avboka.\u001b[0m");
-                //    Utility.WaitForKeyPress();
-                //    BookingMenu.Run();
-                //    throw;
-                //}
-
                 correctId = bookingsToDelete[selectedIndex].Id;
                 BookingService.SetNotActive(correctId);
 

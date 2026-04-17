@@ -90,15 +90,25 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
                     break;
 
                 case 2: // Save to Database
-                    var customerRep = new CustomerRepository();
-                    customerRep.Update(Customer);
+                    if (CustomerService.CheckIfBooking(Customer) == true && Customer.IsActive == false)
+                    {
+                        Console.WriteLine("Kunden har aktiva bokningar och kan därför inte ändras till \u001b[31mOAKTIV\u001b[0m");
+                        Customer.IsActive = true;
+                        Utility.WaitForKeyPress();
+                        Updating();
+                    }
+                    else
+                    {
+                        var customerRep = new CustomerRepository();
+                        customerRep.Update(Customer);
 
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("\nKunden är uppdaterad!");
-                    Console.ResetColor();
-                    Utility.WaitForKeyPress();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("\nKunden är uppdaterad!");
+                        Console.ResetColor();
+                        Utility.WaitForKeyPress();
 
-                    CustomerMenu.Run();
+                        CustomerMenu.Run();
+                    }
                     //var customerMenu = new CustomerMenu();
                     //customerMenu.Run();
                     break;

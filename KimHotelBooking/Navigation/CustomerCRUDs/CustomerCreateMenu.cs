@@ -20,7 +20,7 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
 
             List<string> createOptions =
             [
-                "Namn",
+                $"Namn: {Customer.Name}",
                 "-[ SPARA NYA KUNDEN ]-"
             ];
 
@@ -61,7 +61,7 @@ namespace KimHotelBooking.Navigation.CustomerCRUDs
                     customerRep.Create(Customer);
 
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Du har sparat nya kunden!");
+                    Console.WriteLine($"\nDu har sparat nya kunden: {Customer.Name}!");
                     Console.ResetColor();
                     Utility.WaitForKeyPress();
 
